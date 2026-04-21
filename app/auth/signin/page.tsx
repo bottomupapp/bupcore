@@ -1,5 +1,16 @@
-import { signIn } from "@/lib/auth";
 import Link from "next/link";
+import { headers } from "next/headers";
+
+async function getCsrfToken(baseUrl: string): Promise<string> {
+  try {
+    const res = await fetch(`${baseUrl}/api/auth/csrf`, { cache: "no-store" });
+    if (!res.ok) return "";
+    const data = await res.json();
+    return data.csrfToken ?? "";
+  } catch {
+    return "";
+  }
+}
 
 export default async function SignInPage({
   searchParams,
@@ -12,6 +23,12 @@ export default async function SignInPage({
   const hasGoogle = !!process.env.GOOGLE_CLIENT_ID;
   const hasEmail =
     !!process.env.RESEND_API_KEY || !!process.env.EMAIL_SERVER_HOST;
+
+  const h = await headers();
+  const host = h.get("x-forwarded-host") ?? h.get("host") ?? "localhost:3000";
+  const proto = h.get("x-forwarded-proto") ?? "https";
+  const baseUrl = `${proto}://${host}`;
+  const csrfToken = await getCsrfToken(baseUrl);
 
   return (
     <main className="min-h-screen grid place-items-center px-6">
@@ -34,13 +51,13 @@ export default async function SignInPage({
 
         <div className="mt-6 space-y-3">
           {hasGoogle && (
-            <form
-              action={async () => {
-                "use server";
-                await signIn("google", { redirectTo: callbackUrl });
-              }}
-            >
-              <button className="btn-outline w-full justify-center h-10">
+            <form action="/api/auth/signin/google" method="POST">
+              <input type="hidden" name="csrfToken" value={csrfToken} />
+              <input type="hidden" name="callbackUrl" value={callbackUrl} />
+              <button
+                type="submit"
+                className="btn-outline w-full justify-center h-10"
+              >
                 <GoogleIcon />
                 Google ile devam et
               </button>
@@ -49,17 +66,16 @@ export default async function SignInPage({
 
           {hasEmail && (
             <form
-              action={async (formData) => {
-                "use server";
-                const email = String(formData.get("email") ?? "").trim();
-                if (!email) return;
-                await signIn(
-                  process.env.RESEND_API_KEY ? "resend" : "nodemailer",
-                  { email, redirectTo: callbackUrl },
-                );
-              }}
+              action={
+                process.env.RESEND_API_KEY
+                  ? "/api/auth/signin/resend"
+                  : "/api/auth/signin/nodemailer"
+              }
+              method="POST"
               className="space-y-2"
             >
+              <input type="hidden" name="csrfToken" value={csrfToken} />
+              <input type="hidden" name="callbackUrl" value={callbackUrl} />
               <input
                 type="email"
                 name="email"
@@ -67,7 +83,10 @@ export default async function SignInPage({
                 placeholder="ornek@sirket.com"
                 className="input h-10"
               />
-              <button className="btn-primary w-full justify-center h-10">
+              <button
+                type="submit"
+                className="btn-primary w-full justify-center h-10"
+              >
                 Magic link gönder
               </button>
             </form>

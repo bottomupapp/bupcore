@@ -1,6 +1,6 @@
 import Link from "next/link";
+import { headers } from "next/headers";
 import { requireWorkspace } from "@/lib/workspace";
-import { signOut } from "@/lib/auth";
 import {
   Lightbulb,
   KanbanSquare,
@@ -11,12 +11,28 @@ import {
   LogOut,
 } from "lucide-react";
 
+async function getCsrfToken(baseUrl: string): Promise<string> {
+  try {
+    const res = await fetch(`${baseUrl}/api/auth/csrf`, { cache: "no-store" });
+    if (!res.ok) return "";
+    const data = await res.json();
+    return data.csrfToken ?? "";
+  } catch {
+    return "";
+  }
+}
+
 export default async function AppLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const { session, workspace } = await requireWorkspace();
+
+  const h = await headers();
+  const host = h.get("x-forwarded-host") ?? h.get("host") ?? "localhost:3000";
+  const proto = h.get("x-forwarded-proto") ?? "https";
+  const csrfToken = await getCsrfToken(`${proto}://${host}`);
 
   const nav = [
     { href: "/app", label: "Pano", icon: Home },
@@ -52,12 +68,12 @@ export default async function AppLayout({
         </nav>
 
         <form
-          action={async () => {
-            "use server";
-            await signOut({ redirectTo: "/" });
-          }}
+          action="/api/auth/signout"
+          method="POST"
           className="p-2 border-t border-border"
         >
+          <input type="hidden" name="csrfToken" value={csrfToken} />
+          <input type="hidden" name="callbackUrl" value="/" />
           <div className="flex items-center gap-2 px-3 py-2 text-sm">
             <div className="h-6 w-6 rounded-full bg-accent/20 grid place-items-center text-xs font-medium">
               {session.user?.name?.[0]?.toUpperCase() ??
