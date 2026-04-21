@@ -48,8 +48,11 @@ if (process.env.RESEND_API_KEY) {
   );
 }
 
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "/product";
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(db),
+  basePath: `${BASE_PATH}/api/auth`,
   session: { strategy: "database" },
   pages: {
     signIn: "/auth/signin",
