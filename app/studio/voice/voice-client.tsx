@@ -17,6 +17,7 @@ type Recording = {
 };
 
 const BAR_COUNT = 24;
+const MIC_STORAGE_KEY = "voice.mic.deviceId";
 
 export default function VoiceClient({ initial }: { initial: Recording[] }) {
   const [recs, setRecs] = useState<Recording[]>(initial);
@@ -29,6 +30,13 @@ export default function VoiceClient({ initial }: { initial: Recording[] }) {
   const [levels, setLevels] = useState<number[]>(() => Array(BAR_COUNT).fill(0));
   const [peakHeard, setPeakHeard] = useState(false);
 
+  const [mics, setMics] = useState<MediaDeviceInfo[]>([]);
+  const [deviceId, setDeviceId] = useState<string>("");
+  const [permissionState, setPermissionState] = useState<
+    "unknown" | "granted" | "denied" | "needs-request"
+  >("unknown");
+  const [deviceLost, setDeviceLost] = useState(false);
+
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const chunks = useRef<Blob[]>([]);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -38,7 +46,83 @@ export default function VoiceClient({ initial }: { initial: Recording[] }) {
   const sourceStream = useRef<MediaStream | null>(null);
   const router = useRouter();
 
-  useEffect(() => () => cleanupAudio(), []);
+  useEffect(() => {
+    const saved = localStorage.getItem(MIC_STORAGE_KEY);
+    if (saved) setDeviceId(saved);
+
+    refreshDevices();
+
+    const onChange = () => refreshDevices();
+    navigator.mediaDevices?.addEventListener?.("devicechange", onChange);
+
+    // If permissions API is available, watch live
+    let permStatus: PermissionStatus | null = null;
+    (async () => {
+      try {
+        const ps = await (navigator as any).permissions?.query?.({
+          name: "microphone",
+        });
+        if (ps) {
+          permStatus = ps;
+          const map = (s: string) =>
+            s === "granted"
+              ? "granted"
+              : s === "denied"
+                ? "denied"
+                : "needs-request";
+          setPermissionState(map(ps.state) as any);
+          ps.onchange = () => {
+            setPermissionState(map(ps.state) as any);
+            if (ps.state === "granted") refreshDevices();
+          };
+        } else {
+          setPermissionState("needs-request");
+        }
+      } catch {
+        setPermissionState("needs-request");
+      }
+    })();
+
+    return () => {
+      navigator.mediaDevices?.removeEventListener?.("devicechange", onChange);
+      if (permStatus) permStatus.onchange = null;
+      cleanupAudio();
+      if (timer.current) clearInterval(timer.current);
+    };
+  }, []);
+
+  async function refreshDevices() {
+    try {
+      const list = await navigator.mediaDevices.enumerateDevices();
+      const audioIn = list.filter((d) => d.kind === "audioinput");
+      setMics(audioIn);
+      // if stored deviceId missing, fall back
+      setDeviceId((prev) => {
+        if (prev && audioIn.some((d) => d.deviceId === prev)) return prev;
+        const def = audioIn.find((d) => d.deviceId === "default") ?? audioIn[0];
+        return def?.deviceId ?? "";
+      });
+    } catch {}
+  }
+
+  async function requestPermission() {
+    try {
+      const s = await navigator.mediaDevices.getUserMedia({ audio: true });
+      s.getTracks().forEach((t) => t.stop());
+      setPermissionState("granted");
+      await refreshDevices();
+    } catch (e: any) {
+      setPermissionState("denied");
+      alert("Mikrofon izni reddedildi: " + (e?.message ?? e));
+    }
+  }
+
+  function onPickMic(id: string) {
+    setDeviceId(id);
+    try {
+      localStorage.setItem(MIC_STORAGE_KEY, id);
+    } catch {}
+  }
 
   function cleanupAudio() {
     if (rafId.current) cancelAnimationFrame(rafId.current);
@@ -85,20 +169,45 @@ export default function VoiceClient({ initial }: { initial: Recording[] }) {
   }
 
   async function start() {
+    if (!deviceId) {
+      alert("Önce bir mikrofon seç.");
+      return;
+    }
     setIsStarting(true);
+    setDeviceLost(false);
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        audio: { echoCancellation: true, noiseSuppression: true },
+        audio: {
+          deviceId: { exact: deviceId },
+          echoCancellation: true,
+          noiseSuppression: true,
+        },
       });
       sourceStream.current = stream;
+
+      // Detect mid-recording device disconnect
+      stream.getAudioTracks().forEach((t) => {
+        t.addEventListener("ended", () => {
+          if (mediaRecorder.current?.state === "recording") {
+            setDeviceLost(true);
+            try {
+              mediaRecorder.current.stop();
+            } catch {}
+            if (timer.current) clearInterval(timer.current);
+            setIsRecording(false);
+          }
+        });
+      });
+
       const rec = new MediaRecorder(stream, { mimeType: "audio/webm" });
       mediaRecorder.current = rec;
       chunks.current = [];
-      rec.ondataavailable = (e) => e.data.size > 0 && chunks.current.push(e.data);
+      rec.ondataavailable = (e) =>
+        e.data.size > 0 && chunks.current.push(e.data);
       rec.onstop = async () => {
         cleanupAudio();
         const blob = new Blob(chunks.current, { type: "audio/webm" });
-        if (blob.size > 0) await upload(blob);
+        if (blob.size > 0 && !deviceLost) await upload(blob);
       };
       rec.start(250);
       setIsRecording(true);
@@ -136,7 +245,9 @@ export default function VoiceClient({ initial }: { initial: Recording[] }) {
   }
 
   async function convertToArticle(id: string) {
-    const res = await apiFetch(`/api/voice/${id}/to-article`, { method: "POST" });
+    const res = await apiFetch(`/api/voice/${id}/to-article`, {
+      method: "POST",
+    });
     if (res.ok) {
       const { article } = await res.json();
       router.push(`/studio/articles/${article.slug}`);
@@ -146,9 +257,15 @@ export default function VoiceClient({ initial }: { initial: Recording[] }) {
   }
 
   const prd = selected?.prdDraft;
+  const needsRequest =
+    permissionState === "needs-request" ||
+    permissionState === "unknown" ||
+    // labels hidden = not granted yet (Safari etc.)
+    (mics.length > 0 && mics.every((m) => !m.label));
+  const isDenied = permissionState === "denied";
 
   return (
-    <div className="p-8 max-w-6xl grid lg:grid-cols-[360px_1fr] gap-6">
+    <div className="p-8 max-w-6xl grid lg:grid-cols-[380px_1fr] gap-6">
       <section>
         <h1 className="text-2xl font-bold tracking-tight mb-2">Ses → PRD</h1>
         <p className="text-sm text-muted mb-4">
@@ -157,7 +274,45 @@ export default function VoiceClient({ initial }: { initial: Recording[] }) {
         </p>
 
         <div className="card p-4">
-          <label className="label block mb-1">Ek bağlam (opsiyonel)</label>
+          <label className="label block mb-1">Mikrofon</label>
+          {isDenied ? (
+            <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-800">
+              Mikrofon izni reddedilmiş. Tarayıcı adres çubuğundaki kilit
+              simgesinden izni açıp sayfayı yenile.
+            </div>
+          ) : needsRequest ? (
+            <button
+              type="button"
+              className="btn-outline w-full justify-center h-10"
+              onClick={requestPermission}
+              disabled={isRecording || isProcessing}
+            >
+              Mikrofonları göster
+            </button>
+          ) : (
+            <select
+              className="input h-10 w-full"
+              value={deviceId}
+              onChange={(e) => onPickMic(e.target.value)}
+              disabled={isRecording || isProcessing || isStarting}
+            >
+              {mics.length === 0 && <option value="">Mikrofon bulunamadı</option>}
+              {mics.map((m) => (
+                <option key={m.deviceId} value={m.deviceId}>
+                  {m.label || "Adsız mikrofon"}
+                </option>
+              ))}
+            </select>
+          )}
+          {mics.length > 1 && !needsRequest && !isDenied && (
+            <p className="text-xs text-muted mt-1">
+              Kullanmak istediğin mikrofonu seç. macOS'te iPhone'un
+              Continuity mikrofonu görünebilir; kayıt sırasında bağlantıyı
+              koparırsa kayıt iptal olur.
+            </p>
+          )}
+
+          <label className="label block mt-4 mb-1">Ek bağlam (opsiyonel)</label>
           <textarea
             className="input mb-3"
             rows={2}
@@ -167,16 +322,26 @@ export default function VoiceClient({ initial }: { initial: Recording[] }) {
             disabled={isRecording || isProcessing}
           />
 
+          {deviceLost && !isRecording && (
+            <div className="mb-3 rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+              Mikrofon bağlantısı koptu. Farklı bir mikrofon seçip tekrar
+              dene.
+            </div>
+          )}
+
           {isRecording ? (
             <RecordingView
               elapsed={elapsed}
               levels={levels}
               peakHeard={peakHeard}
+              micLabel={mics.find((m) => m.deviceId === deviceId)?.label}
               onStop={stop}
             />
           ) : (
             <button
-              disabled={isProcessing || isStarting}
+              disabled={
+                isProcessing || isStarting || needsRequest || isDenied || !deviceId
+              }
               className="btn-primary w-full justify-center h-12"
               onClick={start}
             >
@@ -272,9 +437,7 @@ export default function VoiceClient({ initial }: { initial: Recording[] }) {
               </div>
             )}
 
-            {prd?.subtitle && (
-              <p className="text-muted">{prd.subtitle}</p>
-            )}
+            {prd?.subtitle && <p className="text-muted">{prd.subtitle}</p>}
 
             {prd && <PrdView prd={prd} />}
 
@@ -299,11 +462,13 @@ function RecordingView({
   elapsed,
   levels,
   peakHeard,
+  micLabel,
   onStop,
 }: {
   elapsed: number;
   levels: number[];
   peakHeard: boolean;
+  micLabel?: string;
   onStop: () => void;
 }) {
   return (
@@ -313,12 +478,11 @@ function RecordingView({
           <span className="absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-60 animate-ping" />
           <span className="relative inline-flex h-3 w-3 rounded-full bg-red-600" />
         </span>
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <div className="text-sm font-semibold text-red-800">KAYDEDİLİYOR</div>
-          <div className="text-xs text-red-700/80">
-            {peakHeard
-              ? "Mikrofon sesi alıyor"
-              : "Sessizlik — konuşmaya başla"}
+          <div className="text-xs text-red-700/80 truncate">
+            {micLabel ? `${micLabel} · ` : ""}
+            {peakHeard ? "ses alıyor" : "sessizlik — konuşmaya başla"}
           </div>
         </div>
         <div className="font-mono text-2xl tabular-nums text-red-900">
