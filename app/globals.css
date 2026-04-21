@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 250 250 249;
+  --surface: 255 255 255;
+  --border: 229 229 225;
+  --fg: 24 24 27;
+  --muted: 113 113 122;
+  --accent: 99 102 241;
+  --accent-fg: 255 255 255;
+  --font-sans: "Inter", ui-sans-serif, system-ui;
+}
+
+.dark {
+  --bg: 12 12 14;
+  --surface: 22 22 26;
+  --border: 38 38 45;
+  --fg: 244 244 245;
+  --muted: 161 161 170;
+  --accent: 129 140 248;
+  --accent-fg: 24 24 27;
+}
+
+html, body { height: 100%; }
+body {
+  background-color: rgb(var(--bg));
+  color: rgb(var(--fg));
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Utility-ish primitives */
+.card { @apply rounded-xl border border-border bg-surface shadow-soft; }
+.input { @apply w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-accent/40; }
+.label { @apply text-xs font-medium text-muted uppercase tracking-wide; }
+.btn { @apply inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors disabled:opacity-50 disabled:pointer-events-none; }
+.btn-primary { @apply btn bg-accent text-accent-fg hover:bg-accent/90; }
+.btn-ghost { @apply btn hover:bg-border/40; }
+.btn-outline { @apply btn border border-border bg-surface hover:bg-border/40; }
+.chip { @apply inline-flex items-center gap-1 rounded-full border border-border bg-surface px-2 py-0.5 text-xs text-muted; }
+
+/* Prose for articles */
+.prose-studio h1 { @apply text-4xl font-bold tracking-tight mt-8 mb-4; }
+.prose-studio h2 { @apply text-2xl font-semibold tracking-tight mt-8 mb-3; }
+.prose-studio h3 { @apply text-xl font-semibold mt-6 mb-2; }
+.prose-studio p  { @apply text-lg leading-8 text-fg/90 my-4; font-family: ui-serif, Georgia, serif; }
+.prose-studio blockquote { @apply border-l-4 border-accent pl-4 italic text-muted my-6; }
+.prose-studio code { @apply rounded bg-border/40 px-1 py-0.5 text-sm font-mono; }
+.prose-studio a { @apply text-accent underline underline-offset-2; }
+.prose-studio ul { @apply list-disc pl-6 my-4 text-lg; }
+.prose-studio ol { @apply list-decimal pl-6 my-4 text-lg; }
+
+/* Tiptap editor */
+.ProseMirror:focus { outline: none; }
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: rgb(var(--muted));
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+.mention {
+  @apply inline-flex items-center gap-1 rounded-md bg-accent/10 px-1.5 py-0.5 text-accent text-sm font-medium;
+}
+
+/* Drag & drop visual */
+.dnd-dragging { @apply opacity-60; }
+.dnd-over { @apply ring-2 ring-accent/60; }
+
+/* Sticky note style */
+.sticky-note {
+  @apply rounded-lg p-3 shadow-soft border border-black/5;
+  transform: rotate(-0.4deg);
+}
+.sticky-note:nth-child(3n) { transform: rotate(0.6deg); }
+.sticky-note:nth-child(4n) { transform: rotate(-0.8deg); }

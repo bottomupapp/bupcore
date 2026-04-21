@@ -1,0 +1,11 @@
+name = "bupcore-product-proxy"
+main = "worker.js"
+compatibility_date = "2025-10-01"
+
+# Route: bupcore.ai/product* → bu Worker
+routes = [
+  { pattern = "bupcore.ai/product*", zone_name = "bupcore.ai" }
+]
+
+# RAILWAY_ORIGIN secret'ını CLI ile set et:
+#   npx wrangler secret put RAILWAY_ORIGIN

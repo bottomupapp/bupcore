@@ -1,0 +1,321 @@
+// ======================================================================
+// Studio — Ekip planlama & ürün düşünme aracı
+// ======================================================================
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ------------------------- Auth.js ------------------------------------
+model User {
+  id            String     @id @default(cuid())
+  name          String?
+  email         String     @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  memberships   Membership[]
+  createdEpics  Epic[]        @relation("EpicCreatedBy")
+  assignedTasks Task[]        @relation("TaskAssignee")
+  createdTasks  Task[]        @relation("TaskCreatedBy")
+  ideas         IdeationCard[] @relation("IdeaAuthor")
+  articles      Article[]     @relation("ArticleAuthor")
+  voiceRecords  VoiceRecording[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ------------------------- Workspace ----------------------------------
+model Workspace {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  memberships     Membership[]
+  epics           Epic[]
+  tasks           Task[]
+  sprints         Sprint[]
+  ideationBoards  IdeationBoard[]
+  articles        Article[]
+  voiceRecordings VoiceRecording[]
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+model Membership {
+  id          String    @id @default(cuid())
+  userId      String
+  workspaceId String
+  role        Role      @default(MEMBER)
+  createdAt   DateTime  @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, workspaceId])
+}
+
+// ------------------------- Work items ---------------------------------
+enum EpicStatus {
+  IDEA
+  DISCOVERY
+  IN_PROGRESS
+  SHIPPED
+  ARCHIVED
+}
+
+enum TaskStatus {
+  BACKLOG
+  TODO
+  IN_PROGRESS
+  REVIEW
+  DONE
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model Epic {
+  id          String     @id @default(cuid())
+  workspaceId String
+  key         String     // ör: EP-12
+  title       String
+  summary     String?    @db.Text
+  status      EpicStatus @default(IDEA)
+  color       String     @default("#6366F1")
+  order       Int        @default(0)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  createdById String?
+  createdBy   User?     @relation("EpicCreatedBy", fields: [createdById], references: [id])
+
+  tasks         Task[]
+  articleLinks  ArticleLink[]
+
+  @@unique([workspaceId, key])
+  @@index([workspaceId])
+}
+
+model Sprint {
+  id          String    @id @default(cuid())
+  workspaceId String
+  name        String
+  goal        String?   @db.Text
+  startsAt    DateTime?
+  endsAt      DateTime?
+  active      Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  tasks     Task[]
+
+  @@index([workspaceId])
+}
+
+model Task {
+  id          String     @id @default(cuid())
+  workspaceId String
+  key         String     // ör: T-124
+  title       String
+  description String?    @db.Text
+  status      TaskStatus @default(BACKLOG)
+  priority    Priority   @default(MEDIUM)
+  estimate    Int?       // story point
+  order       Int        @default(0)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  workspace    Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  epicId       String?
+  epic         Epic?     @relation(fields: [epicId], references: [id], onDelete: SetNull)
+  sprintId     String?
+  sprint       Sprint?   @relation(fields: [sprintId], references: [id], onDelete: SetNull)
+  assigneeId   String?
+  assignee     User?     @relation("TaskAssignee", fields: [assigneeId], references: [id])
+  createdById  String?
+  createdBy    User?     @relation("TaskCreatedBy", fields: [createdById], references: [id])
+
+  articleLinks ArticleLink[]
+
+  @@unique([workspaceId, key])
+  @@index([workspaceId, status])
+  @@index([sprintId])
+  @@index([epicId])
+}
+
+// ------------------------- Ideation -----------------------------------
+model IdeationBoard {
+  id          String   @id @default(cuid())
+  workspaceId String
+  name        String
+  createdAt   DateTime @default(now())
+
+  workspace Workspace      @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  cards     IdeationCard[]
+
+  @@index([workspaceId])
+}
+
+enum IdeaStatus {
+  NEW
+  REVIEWING
+  ACCEPTED
+  REJECTED
+  PROMOTED // epic'e dönüştürüldü
+}
+
+model IdeationCard {
+  id         String     @id @default(cuid())
+  boardId    String
+  title      String
+  body       String?    @db.Text
+  status     IdeaStatus @default(NEW)
+  color      String     @default("#FDE68A")
+  positionX  Float      @default(0)
+  positionY  Float      @default(0)
+  votes      Int        @default(0)
+  tags       String[]   @default([])
+  promotedToEpicId String?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  board   IdeationBoard @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  authorId String?
+  author   User?         @relation("IdeaAuthor", fields: [authorId], references: [id])
+}
+
+// ------------------------- Articles (Medium tarzı) --------------------
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model Article {
+  id          String        @id @default(cuid())
+  workspaceId String
+  slug        String
+  title       String
+  subtitle    String?
+  coverImage  String?
+  content     Json          // Tiptap JSON
+  status      ArticleStatus @default(DRAFT)
+  publishedAt DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  authorId  String?
+  author    User?     @relation("ArticleAuthor", fields: [authorId], references: [id])
+
+  links            ArticleLink[]
+  voiceRecordings  VoiceRecording[]
+
+  @@unique([workspaceId, slug])
+  @@index([workspaceId, status])
+}
+
+// Makale içindeki bir bloğu bir epic veya task'a bağlayan kayıt
+model ArticleLink {
+  id        String   @id @default(cuid())
+  articleId String
+  blockId   String   // Tiptap içindeki bloğun data-id'si
+  epicId    String?
+  taskId    String?
+  label     String?  // kullanıcı etiketi (ör. "Scope", "Acceptance criteria")
+  createdAt DateTime @default(now())
+
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  epic    Epic?   @relation(fields: [epicId], references: [id], onDelete: SetNull)
+  task    Task?   @relation(fields: [taskId], references: [id], onDelete: SetNull)
+
+  @@index([articleId])
+  @@index([epicId])
+  @@index([taskId])
+}
+
+// ------------------------- Voice → PRD --------------------------------
+enum VoiceStatus {
+  RECORDED
+  TRANSCRIBING
+  DRAFTING
+  READY
+  FAILED
+}
+
+model VoiceRecording {
+  id            String      @id @default(cuid())
+  workspaceId   String
+  userId        String
+  durationSec   Int?
+  mimeType      String?
+  // Storage: küçük dosyalarsa base64 olarak metin kolonunda; prod'da S3/R2
+  audioBase64   String?     @db.Text
+  transcript    String?     @db.Text
+  prdDraft      Json?       // Claude'un çıkardığı yapılandırılmış PRD
+  status        VoiceStatus @default(RECORDED)
+  articleId     String?
+  errorMessage  String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  article   Article?  @relation(fields: [articleId], references: [id], onDelete: SetNull)
+
+  @@index([workspaceId, status])
+}
