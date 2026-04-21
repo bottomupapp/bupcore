@@ -9,8 +9,8 @@ COPY prisma ./prisma
 RUN npm install --legacy-peer-deps
 
 FROM base AS builder
-ARG DATABASE_URL
-ENV DATABASE_URL=$DATABASE_URL
+ARG BUILD_DATABASE_URL
+ENV DATABASE_URL=$BUILD_DATABASE_URL
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
