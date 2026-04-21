@@ -51,10 +51,6 @@ if (process.env.RESEND_API_KEY) {
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(db),
   session: { strategy: "database" },
-  pages: {
-    signIn: "/auth/signin",
-    verifyRequest: "/auth/verify",
-  },
   providers,
   callbacks: {
     session({ session, user }) {
