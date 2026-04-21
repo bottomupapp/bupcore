@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export function middleware() {
+export function middleware(req: NextRequest) {
+  console.log(`[mw-v2] ${req.method} ${req.nextUrl.pathname}`);
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: "/never-matches-this-path-12345",
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };
