@@ -1,11 +1,6 @@
 import Link from "next/link";
-import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
 
 export default async function Landing() {
-  const session = await auth();
-  if (session?.user) redirect("/app");
-
   return (
     <main className="mx-auto max-w-5xl px-6 py-20">
       <header className="flex items-center justify-between mb-16">
