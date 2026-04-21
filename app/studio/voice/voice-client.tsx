@@ -16,37 +16,101 @@ type Recording = {
   errorMessage: string | null;
 };
 
+const BAR_COUNT = 24;
+
 export default function VoiceClient({ initial }: { initial: Recording[] }) {
   const [recs, setRecs] = useState<Recording[]>(initial);
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isStarting, setIsStarting] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [hint, setHint] = useState("");
   const [selected, setSelected] = useState<Recording | null>(null);
+  const [levels, setLevels] = useState<number[]>(() => Array(BAR_COUNT).fill(0));
+  const [peakHeard, setPeakHeard] = useState(false);
 
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const chunks = useRef<Blob[]>([]);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const audioCtx = useRef<AudioContext | null>(null);
+  const analyser = useRef<AnalyserNode | null>(null);
+  const rafId = useRef<number | null>(null);
+  const sourceStream = useRef<MediaStream | null>(null);
   const router = useRouter();
 
+  useEffect(() => () => cleanupAudio(), []);
+
+  function cleanupAudio() {
+    if (rafId.current) cancelAnimationFrame(rafId.current);
+    rafId.current = null;
+    sourceStream.current?.getTracks().forEach((t) => t.stop());
+    sourceStream.current = null;
+    audioCtx.current?.close().catch(() => {});
+    audioCtx.current = null;
+    analyser.current = null;
+  }
+
+  function startMeter(stream: MediaStream) {
+    const AC: typeof AudioContext =
+      (window as any).AudioContext || (window as any).webkitAudioContext;
+    const ctx = new AC();
+    const src = ctx.createMediaStreamSource(stream);
+    const a = ctx.createAnalyser();
+    a.fftSize = 1024;
+    a.smoothingTimeConstant = 0.75;
+    src.connect(a);
+    audioCtx.current = ctx;
+    analyser.current = a;
+
+    const data = new Uint8Array(a.frequencyBinCount);
+    const binSize = Math.floor(data.length / BAR_COUNT);
+
+    const tick = () => {
+      if (!analyser.current) return;
+      analyser.current.getByteFrequencyData(data);
+      const next: number[] = [];
+      let max = 0;
+      for (let i = 0; i < BAR_COUNT; i++) {
+        let sum = 0;
+        for (let j = 0; j < binSize; j++) sum += data[i * binSize + j];
+        const avg = sum / binSize / 255;
+        next.push(avg);
+        if (avg > max) max = avg;
+      }
+      setLevels(next);
+      if (max > 0.12) setPeakHeard(true);
+      rafId.current = requestAnimationFrame(tick);
+    };
+    rafId.current = requestAnimationFrame(tick);
+  }
+
   async function start() {
+    setIsStarting(true);
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: { echoCancellation: true, noiseSuppression: true },
+      });
+      sourceStream.current = stream;
       const rec = new MediaRecorder(stream, { mimeType: "audio/webm" });
       mediaRecorder.current = rec;
       chunks.current = [];
-      rec.ondataavailable = (e) => chunks.current.push(e.data);
+      rec.ondataavailable = (e) => e.data.size > 0 && chunks.current.push(e.data);
       rec.onstop = async () => {
-        stream.getTracks().forEach((t) => t.stop());
+        cleanupAudio();
         const blob = new Blob(chunks.current, { type: "audio/webm" });
-        await upload(blob);
+        if (blob.size > 0) await upload(blob);
       };
-      rec.start();
+      rec.start(250);
       setIsRecording(true);
       setElapsed(0);
+      setLevels(Array(BAR_COUNT).fill(0));
+      setPeakHeard(false);
+      startMeter(stream);
       timer.current = setInterval(() => setElapsed((e) => e + 1), 1000);
     } catch (e: any) {
       alert("Mikrofona erişilemedi: " + (e?.message ?? e));
+    } finally {
+      setIsStarting(false);
     }
   }
 
@@ -103,9 +167,16 @@ export default function VoiceClient({ initial }: { initial: Recording[] }) {
             disabled={isRecording || isProcessing}
           />
 
-          {!isRecording ? (
+          {isRecording ? (
+            <RecordingView
+              elapsed={elapsed}
+              levels={levels}
+              peakHeard={peakHeard}
+              onStop={stop}
+            />
+          ) : (
             <button
-              disabled={isProcessing}
+              disabled={isProcessing || isStarting}
               className="btn-primary w-full justify-center h-12"
               onClick={start}
             >
@@ -113,18 +184,16 @@ export default function VoiceClient({ initial }: { initial: Recording[] }) {
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" /> İşleniyor...
                 </>
+              ) : isStarting ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />{" "}
+                  Mikrofon açılıyor...
+                </>
               ) : (
                 <>
                   <Mic className="h-4 w-4" /> Kayda başla
                 </>
               )}
-            </button>
-          ) : (
-            <button
-              className="btn w-full justify-center h-12 bg-red-600 text-white hover:bg-red-500"
-              onClick={stop}
-            >
-              <Square className="h-4 w-4" /> Durdur · {mmss(elapsed)}
             </button>
           )}
 
@@ -222,6 +291,60 @@ export default function VoiceClient({ initial }: { initial: Recording[] }) {
           </div>
         )}
       </section>
+    </div>
+  );
+}
+
+function RecordingView({
+  elapsed,
+  levels,
+  peakHeard,
+  onStop,
+}: {
+  elapsed: number;
+  levels: number[];
+  peakHeard: boolean;
+  onStop: () => void;
+}) {
+  return (
+    <div className="rounded-lg border border-red-200 bg-red-50 p-4 space-y-3">
+      <div className="flex items-center gap-3">
+        <span className="relative flex h-3 w-3">
+          <span className="absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-60 animate-ping" />
+          <span className="relative inline-flex h-3 w-3 rounded-full bg-red-600" />
+        </span>
+        <div className="flex-1">
+          <div className="text-sm font-semibold text-red-800">KAYDEDİLİYOR</div>
+          <div className="text-xs text-red-700/80">
+            {peakHeard
+              ? "Mikrofon sesi alıyor"
+              : "Sessizlik — konuşmaya başla"}
+          </div>
+        </div>
+        <div className="font-mono text-2xl tabular-nums text-red-900">
+          {mmss(elapsed)}
+        </div>
+      </div>
+
+      <div
+        aria-hidden
+        className="flex items-end justify-between gap-0.5 h-10 px-0.5"
+      >
+        {levels.map((v, i) => (
+          <span
+            key={i}
+            className="flex-1 rounded-sm bg-red-500/80 transition-[height] duration-75"
+            style={{ height: `${Math.max(6, Math.min(100, v * 140))}%` }}
+          />
+        ))}
+      </div>
+
+      <button
+        className="btn w-full justify-center h-11 bg-red-600 text-white hover:bg-red-500"
+        onClick={onStop}
+      >
+        <Square className="h-4 w-4" /> Durdur ve PRD üret
+      </button>
     </div>
   );
 }
