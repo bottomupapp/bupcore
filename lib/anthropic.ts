@@ -11,6 +11,56 @@ export const CLAUDE_MODEL =
  * Ses + talimat → yapısal PRD taslağı
  * audioBase64: ham base64 (data: öneki OLMADAN)
  */
+/**
+ * Metin transkript + opsiyonel bağlamdan yapısal PRD taslağı üretir.
+ * Anthropic Messages API audio girdisi desteklemez; transkripsiyon
+ * tarayıcıda (Web Speech API) yapılır ve buraya metin gelir.
+ */
+export async function transcriptToPrd({
+  transcript,
+  hint,
+}: {
+  transcript: string;
+  hint?: string;
+}) {
+  const systemPrompt = `Sen deneyimli bir ürün yöneticisisin. Sana verilen transkripte dayanarak aşağıdaki alanları içeren bir ürün gereksinim belgesi (PRD) üret. JSON ile yanıt ver.
+
+Alanlar:
+- title (string)
+- subtitle (string, max 140 karakter)
+- problem (markdown)
+- goals (string dizisi, maddeler halinde)
+- nonGoals (string dizisi)
+- users (string dizisi, hedef kitle)
+- userStories (dizi; her biri {role, want, benefit})
+- requirements (dizi; her biri {title, detail, priority: "LOW"|"MEDIUM"|"HIGH"|"URGENT"})
+- epics (dizi; her biri {title, summary, tasks: string[]})
+- risks (string dizisi)
+- successMetrics (string dizisi)
+
+Dili transkriptin dilinde tut. Kısa, net, aksiyonlu yaz.`;
+
+  const userText = [
+    hint ? `Ek bağlam: ${hint}` : null,
+    `Transkript:\n${transcript}`,
+    "Yanıtı sadece geçerli JSON olarak ver. Başka açıklama ekleme.",
+  ]
+    .filter(Boolean)
+    .join("\n\n");
+
+  const response = await anthropic.messages.create({
+    model: CLAUDE_MODEL,
+    max_tokens: 4096,
+    system: systemPrompt,
+    messages: [{ role: "user", content: [{ type: "text", text: userText }] }],
+  });
+
+  const textBlock = response.content.find((c) => c.type === "text");
+  const raw = textBlock && "text" in textBlock ? textBlock.text : "";
+  const json = extractJson(raw);
+  return { raw, json };
+}
+
 export async function voiceToPrd({
   audioBase64,
   mimeType,

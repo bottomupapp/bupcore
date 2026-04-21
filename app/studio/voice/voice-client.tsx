@@ -36,6 +36,13 @@ export default function VoiceClient({ initial }: { initial: Recording[] }) {
     "unknown" | "granted" | "denied" | "needs-request"
   >("unknown");
   const [deviceLost, setDeviceLost] = useState(false);
+  const [liveTranscript, setLiveTranscript] = useState("");
+  const speechSupported =
+    typeof window !== "undefined" &&
+    !!(
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition
+    );
 
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const chunks = useRef<Blob[]>([]);
@@ -44,6 +51,9 @@ export default function VoiceClient({ initial }: { initial: Recording[] }) {
   const analyser = useRef<AnalyserNode | null>(null);
   const rafId = useRef<number | null>(null);
   const sourceStream = useRef<MediaStream | null>(null);
+  const recognition = useRef<any | null>(null);
+  const finalText = useRef<string>("");
+  const interimText = useRef<string>("");
   const router = useRouter();
 
   useEffect(() => {
@@ -132,6 +142,52 @@ export default function VoiceClient({ initial }: { initial: Recording[] }) {
     audioCtx.current?.close().catch(() => {});
     audioCtx.current = null;
     analyser.current = null;
+    try {
+      recognition.current?.stop();
+    } catch {}
+    recognition.current = null;
+  }
+
+  function startRecognition() {
+    const Rec =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
+    if (!Rec) return;
+    const r = new Rec();
+    r.continuous = true;
+    r.interimResults = true;
+    r.lang = navigator.language || "tr-TR";
+    finalText.current = "";
+    interimText.current = "";
+    setLiveTranscript("");
+    r.onresult = (e: any) => {
+      let interim = "";
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const res = e.results[i];
+        if (res.isFinal) {
+          finalText.current += res[0].transcript + " ";
+        } else {
+          interim += res[0].transcript;
+        }
+      }
+      interimText.current = interim;
+      setLiveTranscript((finalText.current + interim).trim());
+    };
+    r.onerror = () => {
+      // ignore; we'll still have whatever we captured
+    };
+    r.onend = () => {
+      // If it ends mid-recording, restart (Chrome stops after silence)
+      if (mediaRecorder.current?.state === "recording") {
+        try {
+          r.start();
+        } catch {}
+      }
+    };
+    try {
+      r.start();
+      recognition.current = r;
+    } catch {}
   }
 
   function startMeter(stream: MediaStream) {
@@ -205,9 +261,10 @@ export default function VoiceClient({ initial }: { initial: Recording[] }) {
       rec.ondataavailable = (e) =>
         e.data.size > 0 && chunks.current.push(e.data);
       rec.onstop = async () => {
+        const transcript = (finalText.current + interimText.current).trim();
         cleanupAudio();
         const blob = new Blob(chunks.current, { type: "audio/webm" });
-        if (blob.size > 0 && !deviceLost) await upload(blob);
+        if (!deviceLost) await upload(blob, transcript);
       };
       rec.start(250);
       setIsRecording(true);
@@ -215,6 +272,7 @@ export default function VoiceClient({ initial }: { initial: Recording[] }) {
       setLevels(Array(BAR_COUNT).fill(0));
       setPeakHeard(false);
       startMeter(stream);
+      startRecognition();
       timer.current = setInterval(() => setElapsed((e) => e + 1), 1000);
     } catch (e: any) {
       alert("Mikrofona erişilemedi: " + (e?.message ?? e));
@@ -229,11 +287,12 @@ export default function VoiceClient({ initial }: { initial: Recording[] }) {
     mediaRecorder.current?.stop();
   }
 
-  async function upload(blob: Blob) {
+  async function upload(blob: Blob, transcript: string) {
     setIsProcessing(true);
     try {
       const fd = new FormData();
-      fd.append("audio", blob, "recording.webm");
+      if (blob.size > 0) fd.append("audio", blob, "recording.webm");
+      if (transcript) fd.append("transcript", transcript);
       if (hint.trim()) fd.append("hint", hint.trim());
       const res = await apiFetch("/api/voice", { method: "POST", body: fd });
       const rec: Recording = await res.json();
@@ -329,11 +388,19 @@ export default function VoiceClient({ initial }: { initial: Recording[] }) {
             </div>
           )}
 
+          {!speechSupported && !isRecording && (
+            <div className="mb-3 rounded-md border border-amber-200 bg-amber-50 p-3 text-xs text-amber-900">
+              Bu tarayıcı konuşma tanımayı desteklemiyor (Chrome / Safari /
+              Edge gerekiyor). Kaydın transkripti çıkarılamaz, PRD üretilemez.
+            </div>
+          )}
+
           {isRecording ? (
             <RecordingView
               elapsed={elapsed}
               levels={levels}
               peakHeard={peakHeard}
+              transcript={liveTranscript}
               micLabel={mics.find((m) => m.deviceId === deviceId)?.label}
               onStop={stop}
             />
@@ -462,12 +529,14 @@ function RecordingView({
   elapsed,
   levels,
   peakHeard,
+  transcript,
   micLabel,
   onStop,
 }: {
   elapsed: number;
   levels: number[];
   peakHeard: boolean;
+  transcript: string;
   micLabel?: string;
   onStop: () => void;
 }) {
@@ -501,6 +570,16 @@ function RecordingView({
             style={{ height: `${Math.max(6, Math.min(100, v * 140))}%` }}
           />
         ))}
+      </div>
+
+      <div className="rounded-md bg-white/60 border border-red-200 p-2 max-h-32 overflow-y-auto text-xs text-red-900/90">
+        {transcript ? (
+          transcript
+        ) : (
+          <span className="text-red-700/60">
+            Canlı transkript burada belirir…
+          </span>
+        )}
       </div>
 
       <button
