@@ -7,7 +7,6 @@
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "/product";
 
 const nextConfig = {
-  output: "standalone",
   basePath,
   assetPrefix: basePath || undefined,
   experimental: {
