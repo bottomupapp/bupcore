@@ -5,7 +5,7 @@
   "description": "Ekip için Jira alternatifi: ideation board, sprint planlama, epic+task, ses→PRD, Medium-stili makaleler.",
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && (prisma migrate deploy || prisma db push --accept-data-loss) && next build",
+    "build": "prisma generate && next build",
     "start": "next start -p ${PORT:-3000}",
     "lint": "next lint",
     "db:push": "prisma db push",
