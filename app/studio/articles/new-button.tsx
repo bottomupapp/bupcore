@@ -21,7 +21,7 @@ export default function NewArticleButton() {
     if (res.ok) {
       const a = await res.json();
       // next/navigation router.push basePath'i otomatik handle eder
-      router.push(`/app/articles/${a.slug}`);
+      router.push(`/studio/articles/${a.slug}`);
     }
     setLoading(false);
   }

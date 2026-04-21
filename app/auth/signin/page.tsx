@@ -18,7 +18,7 @@ export default async function SignInPage({
   searchParams: Promise<{ callbackUrl?: string; error?: string }>;
 }) {
   const sp = await searchParams;
-  const callbackUrl = sp?.callbackUrl ?? "/app";
+  const callbackUrl = sp?.callbackUrl ?? "/studio";
 
   const hasGoogle = !!process.env.GOOGLE_CLIENT_ID;
   const hasEmail =

@@ -75,7 +75,7 @@ export default function VoiceClient({ initial }: { initial: Recording[] }) {
     const res = await apiFetch(`/api/voice/${id}/to-article`, { method: "POST" });
     if (res.ok) {
       const { article } = await res.json();
-      router.push(`/app/articles/${article.slug}`);
+      router.push(`/studio/articles/${article.slug}`);
     } else {
       alert("Dönüşüm başarısız");
     }
@@ -190,7 +190,7 @@ export default function VoiceClient({ initial }: { initial: Recording[] }) {
               {selected.articleId && (
                 <button
                   className="btn-outline"
-                  onClick={() => router.push(`/app/articles`)}
+                  onClick={() => router.push(`/studio/articles`)}
                 >
                   <FileText className="h-4 w-4" /> Makaleyi aç
                 </button>

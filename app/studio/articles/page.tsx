@@ -38,7 +38,7 @@ export default async function ArticlesPage() {
         {articles.map((a) => (
           <Link
             key={a.id}
-            href={`/app/articles/${a.slug}`}
+            href={`/studio/articles/${a.slug}`}
             className="block py-5 hover:bg-border/10 px-2 -mx-2 rounded-lg"
           >
             <div className="flex items-center gap-2 text-xs text-muted mb-1">

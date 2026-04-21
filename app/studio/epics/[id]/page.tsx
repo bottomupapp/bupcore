@@ -43,7 +43,7 @@ export default async function EpicDetail({
   return (
     <div className="p-8 max-w-5xl">
       <Link
-        href="/app/epics"
+        href="/studio/epics"
         className="text-sm text-muted hover:text-fg mb-2 inline-block"
       >
         ← Epic'ler
@@ -73,7 +73,7 @@ export default async function EpicDetail({
               l.article ? (
                 <Link
                   key={l.id}
-                  href={`/app/articles/${l.article.slug}`}
+                  href={`/studio/articles/${l.article.slug}`}
                   className="chip hover:bg-border/40"
                 >
                   {l.article.title}

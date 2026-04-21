@@ -104,7 +104,7 @@ export default function IdeationClient({
             : i,
         ),
       );
-      router.push(`/app/epics/${epic.id}`);
+      router.push(`/studio/epics/${epic.id}`);
     }
   }
 

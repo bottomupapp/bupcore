@@ -35,19 +35,19 @@ export default async function AppLayout({
   const csrfToken = await getCsrfToken(`${proto}://${host}`);
 
   const nav = [
-    { href: "/app", label: "Pano", icon: Home },
-    { href: "/app/ideation", label: "Ideation", icon: Lightbulb },
-    { href: "/app/board", label: "Sprint Board", icon: KanbanSquare },
-    { href: "/app/epics", label: "Epic & Task", icon: Layers },
-    { href: "/app/articles", label: "Makaleler", icon: FileText },
-    { href: "/app/voice", label: "Ses → PRD", icon: Mic },
+    { href: "/studio", label: "Pano", icon: Home },
+    { href: "/studio/ideation", label: "Ideation", icon: Lightbulb },
+    { href: "/studio/board", label: "Sprint Board", icon: KanbanSquare },
+    { href: "/studio/epics", label: "Epic & Task", icon: Layers },
+    { href: "/studio/articles", label: "Makaleler", icon: FileText },
+    { href: "/studio/voice", label: "Ses → PRD", icon: Mic },
   ];
 
   return (
     <div className="flex min-h-screen">
       <aside className="w-60 shrink-0 border-r border-border bg-surface flex flex-col">
         <div className="px-5 py-4 border-b border-border">
-          <Link href="/app" className="flex items-center gap-2">
+          <Link href="/studio" className="flex items-center gap-2">
             <div className="h-7 w-7 rounded-lg bg-accent" />
             <span className="font-semibold tracking-tight">Studio</span>
           </Link>

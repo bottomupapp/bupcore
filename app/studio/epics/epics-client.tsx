@@ -135,7 +135,7 @@ export default function EpicsClient({ initial }: { initial: Epic[] }) {
             />
             <div className="flex-1 min-w-0">
               <Link
-                href={`/app/epics/${e.id}`}
+                href={`/studio/epics/${e.id}`}
                 className="font-medium hover:underline block truncate"
               >
                 <span className="text-muted mr-2">{e.key}</span>

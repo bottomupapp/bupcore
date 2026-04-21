@@ -36,12 +36,12 @@ export default async function AppHome() {
 
       <div className="grid grid-cols-2 md:grid-cols-6 gap-3 mb-10">
         {[
-          { label: "Aktif Sprint", value: sprints, href: "/app/board" },
-          { label: "Task", value: tasks, href: "/app/board" },
-          { label: "Epic", value: epics, href: "/app/epics" },
-          { label: "Fikir", value: ideas, href: "/app/ideation" },
-          { label: "Makale", value: articles, href: "/app/articles" },
-          { label: "Ses Kaydı", value: voices, href: "/app/voice" },
+          { label: "Aktif Sprint", value: sprints, href: "/studio/board" },
+          { label: "Task", value: tasks, href: "/studio/board" },
+          { label: "Epic", value: epics, href: "/studio/epics" },
+          { label: "Fikir", value: ideas, href: "/studio/ideation" },
+          { label: "Makale", value: articles, href: "/studio/articles" },
+          { label: "Ses Kaydı", value: voices, href: "/studio/voice" },
         ].map((s) => (
           <Link key={s.label} href={s.href} className="card p-4 hover:bg-border/20">
             <div className="label">{s.label}</div>
@@ -55,7 +55,7 @@ export default async function AppHome() {
         {recentEpics.length === 0 && (
           <div className="card p-4 text-sm text-muted">
             Henüz epic yok.{" "}
-            <Link href="/app/epics" className="text-accent underline">
+            <Link href="/studio/epics" className="text-accent underline">
               Yeni epic oluştur
             </Link>
           </div>
@@ -63,7 +63,7 @@ export default async function AppHome() {
         {recentEpics.map((e) => (
           <Link
             key={e.id}
-            href={`/app/epics/${e.id}`}
+            href={`/studio/epics/${e.id}`}
             className="card p-4 flex items-center gap-3 hover:bg-border/20"
           >
             <span
