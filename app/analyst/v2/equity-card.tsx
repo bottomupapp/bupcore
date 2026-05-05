@@ -156,7 +156,13 @@ function filterByRange(
   if (points.length === 0) return points;
   if (range === "ALL") return points;
   const days = range === "7D" ? 7 : range === "30D" ? 30 : 90;
-  const cutoff = Date.now() - days * 24 * 60 * 60 * 1000;
+  // Anchor the window to the LAST data point, not Date.now(). Two
+  // reasons: (1) Date.now() in render diverges between SSR and
+  // hydration, breaking React's hydration check (#418); (2) for a
+  // trader who's been quiet, "last N days of activity" is the more
+  // useful framing than "literal last N calendar days, possibly empty".
+  const anchor = points[points.length - 1]!.t;
+  const cutoff = anchor - days * 24 * 60 * 60 * 1000;
   const f = points.filter((p) => p.t >= cutoff);
   // Always keep at least 2 points so the curve doesn't collapse.
   return f.length >= 2 ? f : points.slice(-2);
