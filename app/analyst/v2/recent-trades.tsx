@@ -58,7 +58,7 @@ export function RecentTrades({
           <tbody>
             {trades.map((t, i) => {
               const isWin = t.status === "success" || t.pnl > 0;
-              const tone = t.pnl > 0 ? "var(--acid)" : t.pnl < 0 ? "var(--warn)" : "var(--ink-3)";
+              const tone = t.pnl > 0 ? "var(--pos)" : t.pnl < 0 ? "var(--neg)" : "var(--ink-3)";
               const num = (totalTrades - i).toString().padStart(4, "0");
               return (
                 <tr key={t.id}>
@@ -88,9 +88,9 @@ export function RecentTrades({
                           display: "inline-block",
                           padding: "2px 8px",
                           border: `1px solid ${
-                            t.position === "long" ? "var(--acid)" : "var(--warn)"
+                            t.position === "long" ? "var(--pos)" : "var(--neg)"
                           }`,
-                          color: t.position === "long" ? "var(--acid)" : "var(--warn)",
+                          color: t.position === "long" ? "var(--pos)" : "var(--neg)",
                           fontSize: 10,
                           fontWeight: 700,
                           letterSpacing: ".14em",
@@ -107,7 +107,7 @@ export function RecentTrades({
                         fontSize: 10,
                         letterSpacing: ".14em",
                         textTransform: "uppercase",
-                        color: isWin ? "var(--acid)" : "var(--ink-3)",
+                        color: isWin ? "var(--pos)" : "var(--ink-3)",
                       }}
                     >
                       {isWin ? "◉ WIN" : "○ " + (t.status || "closed")}

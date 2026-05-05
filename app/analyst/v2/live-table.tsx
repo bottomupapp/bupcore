@@ -97,9 +97,9 @@ export function LiveAnalystTable({
               const handle = a.name ?? a.trader_id;
               const href = `/analyst/${encodeURIComponent(handle)}`;
               const monthlyPnlTone =
-                (a.stats.monthly_pnl ?? 0) >= 0 ? "var(--acid)" : "var(--warn)";
+                (a.stats.monthly_pnl ?? 0) >= 0 ? "var(--pos)" : "var(--neg)";
               const totalPnlTone =
-                (a.stats.pnl ?? 0) >= 0 ? "var(--acid)" : "var(--warn)";
+                (a.stats.pnl ?? 0) >= 0 ? "var(--pos)" : "var(--neg)";
               return (
                 <tr key={a.trader_id}>
                   <td className="num" style={{ color: "var(--ink-3)" }}>
@@ -221,7 +221,7 @@ export function LiveBadge({
       <span
         className={connected ? "blink" : undefined}
         style={{
-          color: connected ? "var(--acid)" : "var(--warn)",
+          color: connected ? "var(--pos)" : "var(--neg)",
           fontSize: 14,
           lineHeight: 1,
         }}

@@ -42,15 +42,23 @@ type Format = keyof typeof FORMATS;
 
 const TOKENS = {
   bg: "#0A0A0A",
-  bg2: "#0F0F0F",
-  bg3: "#1A1A1A",
+  bg2: "#111111",
+  bg3: "#181818",
   ink: "#F5F5F0",
-  ink2: "#B0B0AA",
+  ink2: "#B8B8B0",
   ink3: "#6E6E68",
   line: "#1F1F1F",
-  line2: "#2A2A28",
+  line2: "#262626",
+  // Logo palette adopted from the brand sampling. acid keeps the
+  // referral-CTA orange; pos/neg drive trader gain/loss colors.
   acid: "#FF6B1A",
-  warn: "#FF3B5C",
+  pos: "#1FC16B",
+  neg: "#FF5577",
+  // Backwards-compat alias — the hero stat tone math used to flip
+  // between acid (gain) and warn (loss); keep `warn` pointing at the
+  // new neg so existing references stay valid until they're cleaned
+  // up below.
+  warn: "#FF5577",
 } as const;
 
 type HeroLabelKey =
@@ -475,7 +483,7 @@ interface CardProps {
 
 // ─── Twitter / X / Facebook 1200×675 ──────────────────────────────
 function TwitterCard({ name, ref_code, hero, avatar, t }: CardProps) {
-  const heroColor = hero.tone === "up" ? TOKENS.acid : TOKENS.warn;
+  const heroColor = hero.tone === "up" ? TOKENS.pos : TOKENS.neg;
   return (
     <div
       style={{
@@ -707,7 +715,7 @@ function TwitterCard({ name, ref_code, hero, avatar, t }: CardProps) {
 
 // ─── Instagram square 1080×1080 ───────────────────────────────────
 function SquareCard({ name, ref_code, hero, avatar, t }: CardProps) {
-  const heroColor = hero.tone === "up" ? TOKENS.acid : TOKENS.warn;
+  const heroColor = hero.tone === "up" ? TOKENS.pos : TOKENS.neg;
   return (
     <div
       style={{
@@ -951,7 +959,7 @@ function SquareCard({ name, ref_code, hero, avatar, t }: CardProps) {
 
 // ─── Story / TikTok 1080×1920 ─────────────────────────────────────
 function StoryCard({ name, ref_code, hero, avatar, t }: CardProps) {
-  const heroColor = hero.tone === "up" ? TOKENS.acid : TOKENS.warn;
+  const heroColor = hero.tone === "up" ? TOKENS.pos : TOKENS.neg;
   return (
     <div
       style={{

@@ -71,7 +71,7 @@ function PerfRow({
         big={
           <span
             className="display num"
-            style={{ fontSize: 40, color: isUp ? "var(--acid)" : "var(--warn)" }}
+            style={{ fontSize: 40, color: isUp ? "var(--pos)" : "var(--neg)" }}
           >
             {fmtPct(data.virtual_return_pct)}
           </span>
@@ -81,8 +81,8 @@ function PerfRow({
         head={t("winRate")}
         sub={
           <>
-            <span style={{ color: "var(--acid)" }}>{data.wins}W</span> ·{" "}
-            <span style={{ color: "var(--warn)" }}>{data.losses}L</span>
+            <span style={{ color: "var(--pos)" }}>{data.wins}W</span> ·{" "}
+            <span style={{ color: "var(--neg)" }}>{data.losses}L</span>
             {neutral > 0 ? (
               <>
                 {" · "}
@@ -104,7 +104,7 @@ function PerfRow({
           primary === "30d"
             ? data.best_trade_pnl != null
               ? (
-                <span className="display num" style={{ fontSize: 36, color: "var(--acid)" }}>
+                <span className="display num" style={{ fontSize: 36, color: "var(--pos)" }}>
                   {fmtUsd(data.best_trade_pnl, { sign: true, compact: true })}
                 </span>
               )

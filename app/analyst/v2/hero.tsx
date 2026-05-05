@@ -51,15 +51,15 @@ export function Hero({
       >
         <defs>
           <linearGradient id="heroEqFill" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stopColor="var(--acid)" stopOpacity=".30" />
-            <stop offset="100%" stopColor="var(--acid)" stopOpacity="0" />
+            <stop offset="0%" stopColor="var(--pos)" stopOpacity=".30" />
+            <stop offset="100%" stopColor="var(--pos)" stopOpacity="0" />
           </linearGradient>
         </defs>
         <path d={eq.area} fill="url(#heroEqFill)" />
         <path
           d={eq.line}
           fill="none"
-          stroke="var(--acid)"
+          stroke="var(--pos)"
           strokeWidth={1.5}
           vectorEffect="non-scaling-stroke"
         />
@@ -211,7 +211,7 @@ export function Hero({
               className="display num hero-pnl"
               style={{
                 fontSize: 88,
-                color: stats.total_pnl >= 0 ? "var(--acid)" : "var(--warn)",
+                color: stats.total_pnl >= 0 ? "var(--pos)" : "var(--neg)",
                 marginTop: 8,
                 letterSpacing: "-0.04em",
               }}
@@ -232,12 +232,12 @@ export function Hero({
               <HeroSubStat
                 label={t("return")}
                 value={fmtPct(stats.virtual_return_pct)}
-                tone={stats.virtual_return_pct >= 0 ? "acid" : "warn"}
+                tone={stats.virtual_return_pct >= 0 ? "pos" : "neg"}
               />
               <HeroSubStat
                 label={t("netR")}
                 value={fmtR(stats.total_r)}
-                tone={stats.total_r >= 0 ? "acid" : "warn"}
+                tone={stats.total_r >= 0 ? "pos" : "neg"}
               />
               <HeroSubStat
                 label={t("winRateShort")}
@@ -326,10 +326,10 @@ function HeroSubStat({
 }: {
   label: string;
   value: string;
-  tone: "acid" | "warn" | "ink";
+  tone: "pos" | "neg" | "ink";
 }) {
   const color =
-    tone === "acid" ? "var(--acid)" : tone === "warn" ? "var(--warn)" : "var(--ink)";
+    tone === "pos" ? "var(--pos)" : tone === "neg" ? "var(--neg)" : "var(--ink)";
   return (
     <div style={{ minWidth: 0, flex: 1 }}>
       <div className="eyebrow" style={{ whiteSpace: "nowrap" }}>

@@ -17,7 +17,7 @@ export function MonthlyBars({ data }: { data: MonthlyPoint[] }) {
       <div style={{ padding: "20px 24px", borderBottom: "1px solid var(--line-2)" }}>
         <div className="eyebrow">MONTHLY_R · {safe.length}M</div>
         <div className="display" style={{ fontSize: 24, color: "var(--ink)", marginTop: 8 }}>
-          <span className="num" style={{ color: "var(--acid)" }}>
+          <span className="num" style={{ color: "var(--pos)" }}>
             {greenCount}
           </span>
           <span style={{ color: "var(--ink-3)" }}>/</span>
@@ -83,7 +83,7 @@ function BarsSvg({ data }: { data: MonthlyPoint[] }) {
         const isUp = d.net_r >= 0;
         const h = (Math.abs(d.net_r) / max) * (usable / 2);
         const y = isUp ? baseline - h : baseline;
-        const fill = isUp ? "var(--acid)" : "var(--warn)";
+        const fill = isUp ? "var(--pos)" : "var(--neg)";
         const isHover = hover === i;
         const opacity = hover === null ? 1 : isHover ? 1 : 0.3;
         return (

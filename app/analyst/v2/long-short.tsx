@@ -10,8 +10,8 @@ export function LongShort({ data }: { data: TraderDetail["long_short"] }) {
         DIRECTION SPLIT
       </div>
       <div style={{ display: "grid", gap: 18 }}>
-        <SideRow side="L" label="LONG" stats={data.long} pct={lp} color="var(--acid)" />
-        <SideRow side="S" label="SHORT" stats={data.short} pct={100 - lp} color="var(--warn)" />
+        <SideRow side="L" label="LONG" stats={data.long} pct={lp} color="var(--pos)" />
+        <SideRow side="S" label="SHORT" stats={data.short} pct={100 - lp} color="var(--neg)" />
       </div>
     </div>
   );

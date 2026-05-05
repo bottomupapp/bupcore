@@ -26,7 +26,7 @@ export function EquityCard({ detail }: { detail: TraderDetail }) {
   const VIRTUAL_BASE = 10_000;
   const totalPnl = eq.endBalance - VIRTUAL_BASE;
   const returnPct = (totalPnl / VIRTUAL_BASE) * 100;
-  const tone = totalPnl >= 0 ? "var(--acid)" : "var(--warn)";
+  const tone = totalPnl >= 0 ? "var(--pos)" : "var(--neg)";
 
   const dateLabels = makeDateLabels(filtered);
 

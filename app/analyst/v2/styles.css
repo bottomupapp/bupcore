@@ -11,11 +11,25 @@
   --ink-4: #3A3A36;
   --line:  #1F1F1F;
   --line-2:#262626;
-  --acid:        #FF6B1A;
+  --acid:        #FF6B1A;       /* logo orange — referral CTA, brand */
   --acid-deep:   #E04F00;
-  --warn:        #FF3B5C;
-  --warn-soft:   rgba(255,59,92,.10);
   --acid-soft:   rgba(255,107,26,.10);
+
+  /* Logo palette — adopted from the brand sampling. Used as semantic
+     positive/negative/info colors so gains read green and losses read
+     a slightly softer pink than the previous warn red. */
+  --pos:         #1FC16B;       /* gains — was previously ink-color */
+  --pos-soft:    rgba(31,193,107,.10);
+  --neg:         #FF5577;       /* losses — eased from #FF3B5C */
+  --neg-soft:    rgba(255,85,119,.10);
+  --info:        #335DFF;
+  --purple:      #9B6BFF;
+
+  /* Backwards-compatible alias — a few older call sites still use
+     --warn for losses; map it to the new --neg so they pick up the
+     refreshed pink without each component needing an edit. */
+  --warn:        var(--neg);
+  --warn-soft:   var(--neg-soft);
 
   --font-mono:    var(--font-jetbrains), ui-monospace, "SF Mono", Menlo, monospace;
   --font-display: var(--font-archivo), system-ui, sans-serif;

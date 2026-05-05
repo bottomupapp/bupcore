@@ -45,7 +45,7 @@ export function TopCoins({ coins }: { coins: TraderCoinStat[] }) {
           </thead>
           <tbody>
             {coins.map((c) => {
-              const tone = c.net_r >= 0 ? "var(--acid)" : "var(--warn)";
+              const tone = c.net_r >= 0 ? "var(--pos)" : "var(--neg)";
               const barPct = max > 0 ? (Math.abs(c.net_r) / max) * 100 : 0;
               return (
                 <tr key={c.coin}>
@@ -65,7 +65,7 @@ export function TopCoins({ coins }: { coins: TraderCoinStat[] }) {
                   </td>
                   <td
                     className="ralign num"
-                    style={{ color: c.win_rate >= 50 ? "var(--acid)" : "var(--ink-2)" }}
+                    style={{ color: c.win_rate >= 50 ? "var(--pos)" : "var(--ink-2)" }}
                   >
                     {c.win_rate.toFixed(1)}%
                   </td>
