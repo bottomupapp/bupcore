@@ -461,16 +461,7 @@ function TwitterCard({ name, ref_code, hero, avatar, t }: CardProps) {
         }}
       >
         {/* left: trader */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 16,
-            flex: 1,
-            minWidth: 0,
-            overflow: "hidden",
-          }}
-        >
+        <div style={{ display: "flex", flexDirection: "column", gap: 16, flex: 1 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
             {avatar ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -499,7 +490,6 @@ function TwitterCard({ name, ref_code, hero, avatar, t }: CardProps) {
                 color: TOKENS.ink,
                 textTransform: "uppercase",
                 display: "flex",
-                overflow: "hidden",
               }}
             >
               {name}
@@ -528,7 +518,6 @@ function TwitterCard({ name, ref_code, hero, avatar, t }: CardProps) {
             border: `2px solid ${heroColor}`,
             padding: "24px 32px",
             background: `${TOKENS.bg2}`,
-            flexShrink: 0,
           }}
         >
           <div
