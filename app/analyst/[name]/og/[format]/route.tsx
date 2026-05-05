@@ -18,11 +18,15 @@ import { resolveLocale, tFor, type Locale } from "../../../v2/i18n";
 
 // Node runtime — `runtime = "edge"` 502'd on Railway's self-hosted
 // Next.js (the edge runtime worker either fails to start or can't
-// resolve the satori wasm in our docker image). next/og's
-// ImageResponse works equally well in Node runtime, just heavier.
-// 60s revalidate keeps re-render rate sane between trade closes.
+// resolve the satori wasm in our docker image).
+//
+// `dynamic = "force-dynamic"` instead of `revalidate = 60`: the Next
+// ISR cache layer was producing intermittent 502s, surface 200 for
+// the first ~3min after deploy and then crash on every fresh render.
+// We rely on Cloudflare's edge cache via the `s-maxage` response
+// header instead, which is more predictable in self-hosted setups.
 export const runtime = "nodejs";
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 const FORMATS = {
   twitter: { width: 1200, height: 675 },
@@ -378,12 +382,13 @@ export async function GET(
     );
   }
 
-  // Pre-fetch the avatar to a data URL (or null on any failure). This
-  // keeps satori's internal image-fetch step deterministic — we've
-  // observed Railway 502s when satori fetched a slow/failing third-
-  // party avatar URL mid-render and the unhandled error bubbled up
-  // from the Node runtime.
-  const avatarDataUrl = await preloadAvatar(detail.trader.image);
+  // Avatar disabled — embedding the trader's avatar (whether via
+  // satori's inline fetch or our own pre-fetched data URL) was the
+  // most reliable trigger for the post-deploy 502 cascade. Falling
+  // back to the Monogram letter for now; we'll re-introduce avatars
+  // once we have a reliable image-encoding path.
+  const avatarDataUrl: string | null = null;
+  void preloadAvatar;
 
   const hero = pickHero(detail);
   const traderName = fullName(detail.trader);
