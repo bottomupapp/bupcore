@@ -21,6 +21,7 @@
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@prisma/client": "^5.22.0",
+    "@resvg/resvg-js": "^2.6.2",
     "@tiptap/extension-link": "^2.10.3",
     "@tiptap/extension-mention": "^2.10.3",
     "@tiptap/extension-placeholder": "^2.10.3",
@@ -38,6 +39,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "resend": "^4.0.1",
+    "satori": "^0.26.0",
     "tailwind-merge": "^2.5.5",
     "tippy.js": "^6.3.7",
     "zod": "^3.23.8"

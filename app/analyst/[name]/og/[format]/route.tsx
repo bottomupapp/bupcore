@@ -1,4 +1,5 @@
-import { ImageResponse } from "next/og";
+import satori from "satori";
+import { Resvg } from "@resvg/resvg-js";
 import { fetchTraderDetail, type TraderDetail } from "@/lib/bottomup-api";
 import { resolveLocale, tFor, type Locale } from "../../../v2/i18n";
 
@@ -16,15 +17,18 @@ import { resolveLocale, tFor, type Locale } from "../../../v2/i18n";
  * best (high WR, high return, high PnL — see pickHero).
  */
 
-// Node runtime — `runtime = "edge"` 502'd on Railway's self-hosted
-// Next.js (the edge runtime worker either fails to start or can't
-// resolve the satori wasm in our docker image).
+// Node runtime + manual satori → native Resvg pipeline.
 //
-// `dynamic = "force-dynamic"` instead of `revalidate = 60`: the Next
-// ISR cache layer was producing intermittent 502s, surface 200 for
-// the first ~3min after deploy and then crash on every fresh render.
-// We rely on Cloudflare's edge cache via the `s-maxage` response
-// header instead, which is more predictable in self-hosted setups.
+// We can't use `next/og`'s `ImageResponse` here. Its bundled
+// resvg-wasm has a known "memory access out of bounds" failure mode
+// after a Node process has rendered ~N images (the wasm heap gets
+// corrupted and never recovers). On our self-hosted Railway box
+// this manifested as: deploy → first ~5 min OK → 100% of fresh
+// renders 500. Switching to native `@resvg/resvg-js` (a Rust addon,
+// not wasm) sidesteps that bug entirely.
+//
+// `dynamic = "force-dynamic"` instead of `revalidate`: rely on
+// Cloudflare edge cache via the response's `s-maxage` header.
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -434,18 +438,18 @@ export async function GET(
     );
   }
 
-  // ImageResponse normally returns a streaming Response — the actual
-  // satori → yoga → resvg pipeline runs lazily as the framework reads
-  // the body, which means errors thrown during render escape any
-  // try/catch around the constructor (we kept hitting this: works
-  // for ~5min after deploy, then every fresh render 502s with no
-  // useful body). Force the render into a buffer here so any throw
-  // from the satori pipeline is caught synchronously and returned
-  // as a 500 with the actual message.
   try {
-    const imgRes = new ImageResponse(node, { width, height, fonts });
-    const buf = await imgRes.arrayBuffer();
-    return new Response(buf, {
+    // Step 1: satori turns the React tree into an SVG string. This
+    // call is pure JS (no wasm), so it's stable across many renders.
+    const svg = await satori(node, { width, height, fonts });
+    // Step 2: native Resvg rasterises the SVG to PNG. Rust addon, no
+    // wasm heap to corrupt — fixes the 'memory access out of bounds'
+    // panic that next/og's bundled resvg-wasm hits after ~N renders.
+    const resvg = new Resvg(svg, {
+      fitTo: { mode: "width", value: width },
+    });
+    const png = resvg.render().asPng();
+    return new Response(png, {
       status: 200,
       headers: {
         "content-type": "image/png",
