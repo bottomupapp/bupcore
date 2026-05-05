@@ -4,13 +4,21 @@ import { equityPaths } from "./equity-path";
 import { fmtPct, fmtR, fmtUsd, fmtJoinedMonth, tradesIdHex } from "./format";
 import { CopyCode } from "./copy-code";
 import { ArrowLeft } from "./icons";
+import { tFor, type Locale } from "./i18n";
 
-function displayName(t: TraderDetail["trader"]): string {
-  if (t.name) return t.name;
-  return [t.first_name, t.last_name].filter(Boolean).join(" ").trim() || "—";
+function displayName(tr: TraderDetail["trader"]): string {
+  if (tr.name) return tr.name;
+  return [tr.first_name, tr.last_name].filter(Boolean).join(" ").trim() || "—";
 }
 
-export function Hero({ detail }: { detail: TraderDetail }) {
+export function Hero({
+  detail,
+  locale = "en",
+}: {
+  detail: TraderDetail;
+  locale?: Locale;
+}) {
+  const t = tFor(locale);
   const { trader, stats, all_time, equity_curve } = detail;
   const name = displayName(trader);
   const handle = (trader.referral_code ?? name).toUpperCase();
@@ -96,7 +104,7 @@ export function Hero({ detail }: { detail: TraderDetail }) {
             borderBottom: "none",
           }}
         >
-          <ArrowLeft /> ALL ANALYSTS
+          <ArrowLeft /> {t("analystsTitle")}
         </Link>
 
         <div
@@ -113,7 +121,7 @@ export function Hero({ detail }: { detail: TraderDetail }) {
             <div className="eyebrow" style={{ marginBottom: 16, color: "var(--ink-3)" }}>
               ANALYST_ID <span style={{ color: "var(--ink-2)" }}>// {id}</span>
               {" · "}
-              {trader.followers.toLocaleString("en-US")} FOLLOWERS
+              {trader.followers.toLocaleString("en-US")} {t("followers")}
             </div>
             <h1
               className="display hero-headline"
@@ -159,7 +167,7 @@ export function Hero({ detail }: { detail: TraderDetail }) {
                 <div style={{ fontSize: 13, color: "var(--ink-2)", fontWeight: 500 }}>
                   {trader.bio ?? "—"}
                   {trader.bio ? " · " : null}
-                  ALL_TIME PNL {fmtUsd(all_time.total_pnl, { sign: true, compact: true })}
+                  {t("allPnl")} {fmtUsd(all_time.total_pnl, { sign: true, compact: true })}
                 </div>
                 <div
                   className="num"
@@ -170,8 +178,7 @@ export function Hero({ detail }: { detail: TraderDetail }) {
                     marginTop: 2,
                   }}
                 >
-                  VIRTUAL_BALANCE: {fmtUsd(stats.virtual_balance_usd, { compact: false })} ·
-                  TRADES_ALL: {all_time.trades.toLocaleString("en-US")}
+                  {fmtPct(all_time.virtual_return_pct)} {t("heroAllReturn")}
                 </div>
               </div>
             </div>
@@ -188,7 +195,7 @@ export function Hero({ detail }: { detail: TraderDetail }) {
             }}
           >
             <div className="eyebrow" style={{ color: "var(--acid)" }}>
-              <span className="blink">▮</span> 30D NET PNL
+              <span className="blink">▮</span> {t("thirtyDNetPnlEyebrow")}
             </div>
             <div
               className="display num hero-pnl"
@@ -213,17 +220,17 @@ export function Hero({ detail }: { detail: TraderDetail }) {
               }}
             >
               <HeroSubStat
-                label="RETURN"
+                label={t("return")}
                 value={fmtPct(stats.virtual_return_pct)}
                 tone={stats.virtual_return_pct >= 0 ? "acid" : "warn"}
               />
               <HeroSubStat
-                label="NET R"
+                label={t("netR")}
                 value={fmtR(stats.total_r)}
                 tone={stats.total_r >= 0 ? "acid" : "warn"}
               />
               <HeroSubStat
-                label="WR"
+                label={t("winRateShort")}
                 value={
                   stats.win_rate == null
                     ? "—"
@@ -257,10 +264,10 @@ export function Hero({ detail }: { detail: TraderDetail }) {
                 justifyContent: "center",
               }}
             >
-              <div className="eyebrow" style={{ color: "var(--ink-3)" }}>STEP 01</div>
-              <div style={{ fontSize: 13, marginTop: 4 }}>Install BottomUP</div>
+              <div className="eyebrow" style={{ color: "var(--ink-3)" }}>{t("step01")}</div>
+              <div style={{ fontSize: 13, marginTop: 4 }}>{t("installBottomup")}</div>
             </div>
-            <CopyCode code={trader.referral_code} variant="step" />
+            <CopyCode code={trader.referral_code} variant="step" locale={locale} />
             <div
               style={{
                 padding: "16px 22px",
@@ -270,8 +277,8 @@ export function Hero({ detail }: { detail: TraderDetail }) {
                 justifyContent: "center",
               }}
             >
-              <div className="eyebrow" style={{ color: "var(--ink-3)" }}>STEP 03</div>
-              <div style={{ fontSize: 13, marginTop: 4 }}>Auto-follow {name}</div>
+              <div className="eyebrow" style={{ color: "var(--ink-3)" }}>{t("step03")}</div>
+              <div style={{ fontSize: 13, marginTop: 4 }}>{t("autoFollow", { name })}</div>
             </div>
           </div>
         ) : null}

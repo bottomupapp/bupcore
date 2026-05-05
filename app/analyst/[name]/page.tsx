@@ -13,6 +13,7 @@ import { LiveStrip } from "../v2/live-strip";
 import { AnalystAutoRefresh } from "../v2/auto-refresh";
 import { ShareButton } from "../v2/share-button";
 import { fmtPct, fmtR } from "../v2/format";
+import { resolveLocale, tFor, RTL_LOCALES } from "../v2/i18n";
 
 // Short ISR window. The detail page also gets `router.refresh()`
 // pinged by the ws `analyst:<trader_id>` channel on every closed
@@ -41,10 +42,15 @@ function displayName(t: TraderDetail["trader"]): string {
 
 export default async function AnalystDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ name: string }>;
+  searchParams: Promise<{ lang?: string }>;
 }) {
   const { name } = await params;
+  const sp = await searchParams;
+  const locale = resolveLocale(sp.lang);
+  const t = tFor(locale);
   const decoded = decodeURIComponent(name);
 
   let detail: TraderDetail | null = null;
@@ -58,10 +64,9 @@ export default async function AnalystDetailPage({
   if (!detail && !error) notFound();
 
   if (!detail) {
-    // Soft error fallback within the V2 chrome
     return (
-      <>
-        <TopBar crumb={`/ ANALYST / ${decoded.toUpperCase()}`} />
+      <div dir={RTL_LOCALES.has(locale) ? "rtl" : "ltr"}>
+        <TopBar crumb={`/ ANALYST / ${decoded.toUpperCase()}`} locale={locale} />
         <main style={{ maxWidth: 1440, margin: "0 auto", padding: "64px 32px 120px" }}>
           <div
             style={{
@@ -72,12 +77,12 @@ export default async function AnalystDetailPage({
             }}
           >
             <div className="eyebrow" style={{ color: "var(--warn)", marginBottom: 12 }}>
-              FETCH ERROR
+              {t("fetchError")}
             </div>
             <div style={{ color: "var(--ink-2)", whiteSpace: "pre-wrap" }}>{error}</div>
           </div>
         </main>
-      </>
+      </div>
     );
   }
 
@@ -103,7 +108,7 @@ export default async function AnalystDetailPage({
       up: detail.all_time.total_r >= 0,
     },
     {
-      k: "FOLLOWERS",
+      k: t("followers"),
       v: detail.trader.followers.toLocaleString("en-US") + " ↑",
     },
     detail.coins[0]
@@ -115,20 +120,16 @@ export default async function AnalystDetailPage({
           up: detail.coins[0].net_r >= 0,
         }
       : null,
-    {
-      k: "ALL TRADES",
-      v: detail.all_time.trades.toLocaleString("en-US"),
-    },
-    { k: "BOTTOMUP", v: "LIVE", up: true },
+    { k: "BOTTOMUP", v: t("live"), up: true },
   ].filter((x): x is { k: string; v: string; up?: boolean } => x !== null);
 
   return (
-    <>
+    <div dir={RTL_LOCALES.has(locale) ? "rtl" : "ltr"}>
       <AnalystAutoRefresh traderId={detail.trader.id} />
-      <ShareButton name={name_} />
-      <TopBar crumb={`/ ANALYST / ${handle}`} />
+      <ShareButton name={name_} locale={locale} />
+      <TopBar crumb={`/ ANALYST / ${handle}`} locale={locale} />
       <TickerTape items={tape} />
-      <Hero detail={detail} />
+      <Hero detail={detail} locale={locale} />
 
       <main style={{ maxWidth: 1440, margin: "0 auto", padding: "0 32px 120px" }}>
         <LiveStrip
@@ -137,8 +138,9 @@ export default async function AnalystDetailPage({
             followers: detail.trader.followers,
             referral_code: detail.trader.referral_code,
           }}
+          locale={locale}
         />
-        <PerfMatrix d30={detail.stats} all={detail.all_time} />
+        <PerfMatrix d30={detail.stats} all={detail.all_time} locale={locale} />
 
         <section style={{ marginTop: 32 }}>
           <div
@@ -182,7 +184,7 @@ export default async function AnalystDetailPage({
         >
           <div>© {new Date().getFullYear()} BOTTOMUP</div>
           <div style={{ maxWidth: 600, textAlign: "right" }}>
-            VIRTUAL_TRACK_RECORD · NOT_FINANCIAL_ADVICE · PAST_PERFORMANCE_≠_FUTURE_RESULTS
+            {t("virtualTrackRecord").replace(/ /g, "_")} · NOT_FINANCIAL_ADVICE · PAST_PERFORMANCE_≠_FUTURE_RESULTS
           </div>
         </footer>
       </main>
@@ -191,7 +193,8 @@ export default async function AnalystDetailPage({
         name={name_}
         avatar={detail.trader.image}
         referralCode={detail.trader.referral_code}
+        locale={locale}
       />
-    </>
+    </div>
   );
 }

@@ -4,13 +4,22 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Plus } from "./icons";
+import { LangPicker } from "./lang-picker";
+import { tFor, type Locale } from "./i18n";
 
 const APP_STORE_URL =
   "https://apps.apple.com/tr/app/bottomup-sofi-trade-finance/id1661474993";
 const GOOGLE_PLAY_URL =
   "https://play.google.com/store/apps/details?id=com.bottomup.bottomupapp";
 
-export function TopBar({ crumb }: { crumb?: string }) {
+export function TopBar({
+  crumb,
+  locale = "en",
+}: {
+  crumb?: string;
+  locale?: Locale;
+}) {
+  const t = tFor(locale);
   const [now, setNow] = useState<Date | null>(null);
   // Hydration-safe: render time only client-side after mount.
   useEffect(() => {
@@ -62,8 +71,9 @@ export function TopBar({ crumb }: { crumb?: string }) {
             <span className="blink" style={{ color: "var(--acid)" }}>
               ●
             </span>{" "}
-            LIVE · UTC {time}
+            {t("live")} · UTC {time}
           </span>
+          <LangPicker current={locale} />
           <a
             href={APP_STORE_URL}
             target="_blank"

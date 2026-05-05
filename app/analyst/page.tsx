@@ -7,17 +7,18 @@ import {
 import { TopBar, TickerTape } from "./v2/top-bar";
 import { LiveAnalystTable } from "./v2/live-table";
 import { fmtUsd } from "./v2/format";
+import { resolveLocale, tFor, RTL_LOCALES, type Locale } from "./v2/i18n";
 
 export const revalidate = 60;
 
-const ORDER_OPTIONS: Array<{ value: AnalystOrder; label: string }> = [
-  { value: "monthly_pnl", label: "30D_PNL" },
-  { value: "monthly_roi", label: "30D_ROI" },
-  { value: "monthly_win_rate", label: "30D_WR" },
-  { value: "win_rate", label: "ALL_WR" },
-  { value: "pnl", label: "ALL_PNL" },
-  { value: "followers", label: "FOLLOWERS" },
-  { value: "name", label: "NAME" },
+const ORDER_OPTIONS: Array<{ value: AnalystOrder; labelKey: string }> = [
+  { value: "monthly_pnl", labelKey: "sort30dPnl" },
+  { value: "monthly_roi", labelKey: "sort30dRoi" },
+  { value: "monthly_win_rate", labelKey: "sort30dWr" },
+  { value: "win_rate", labelKey: "sortAllWr" },
+  { value: "pnl", labelKey: "sortAllPnl" },
+  { value: "followers", labelKey: "sortFollowers" },
+  { value: "name", labelKey: "sortName" },
 ];
 
 function isOrder(value: string | undefined): value is AnalystOrder {
@@ -32,10 +33,12 @@ function fullName(a: Analyst): string {
 export default async function AnalystListPage({
   searchParams,
 }: {
-  searchParams: Promise<{ order?: string }>;
+  searchParams: Promise<{ order?: string; lang?: string }>;
 }) {
   const sp = await searchParams;
   const order: AnalystOrder = isOrder(sp.order) ? sp.order : "monthly_pnl";
+  const locale: Locale = resolveLocale(sp.lang);
+  const t = tFor(locale);
 
   let analysts: Analyst[] = [];
   let error: string | null = null;
@@ -46,7 +49,7 @@ export default async function AnalystListPage({
   }
 
   const tape = [
-    { k: "ANALYSTS", v: analysts.length.toString(), up: true },
+    { k: t("analystsTitle"), v: analysts.length.toString(), up: true },
     {
       k: "TOP",
       v: analysts[0]
@@ -54,19 +57,21 @@ export default async function AnalystListPage({
         : "—",
       up: true,
     },
-    { k: "BOTTOMUP", v: "LIVE", up: true },
-    { k: "SOURCE", v: "REAL_TIME · 60S CACHE" },
+    { k: "BOTTOMUP", v: t("live"), up: true },
   ];
 
+  const langSuffix = locale === "en" ? "" : `&lang=${locale}`;
+  const langOnlySuffix = locale === "en" ? "" : `?lang=${locale}`;
+
   return (
-    <>
-      <TopBar crumb="/ ANALYSTS" />
+    <div dir={RTL_LOCALES.has(locale) ? "rtl" : "ltr"}>
+      <TopBar crumb={`/ ${t("analystsTitle")}`} locale={locale} />
       <TickerTape items={tape} />
 
       <main style={{ maxWidth: 1440, margin: "0 auto", padding: "48px 32px 120px" }}>
         <section style={{ maxWidth: 900 }}>
           <div className="eyebrow" style={{ color: "var(--ink-3)" }}>
-            // BOTTOMUP_TERMINAL · ANALYST_INDEX
+            // BOTTOMUP_TERMINAL · {t("analystIndex")}
           </div>
           <h1
             className="display"
@@ -76,7 +81,7 @@ export default async function AnalystListPage({
               color: "var(--ink)",
             }}
           >
-            ANALYSTS
+            {t("analystsTitle")}
           </h1>
           <p
             style={{
@@ -86,9 +91,7 @@ export default async function AnalystListPage({
               lineHeight: 1.5,
             }}
           >
-            Live performance, follower counts and referral codes for every
-            active analyst on BottomUP. Use any code at signup to follow them
-            from day one.
+            {t("analystListTagline")}
           </p>
         </section>
 
@@ -105,9 +108,9 @@ export default async function AnalystListPage({
               flexWrap: "wrap",
             }}
           >
-            <span>// SORT_BY</span>
+            <span>// {t("sortBy")}</span>
             <span style={{ color: "var(--ink-4)" }}>
-              {analysts.length} ROWS · DESC
+              {analysts.length} {t("rowsDesc")}
             </span>
           </div>
           <div
@@ -120,14 +123,14 @@ export default async function AnalystListPage({
           >
             {ORDER_OPTIONS.map((o, i) => {
               const active = o.value === order;
+              const href =
+                o.value === "monthly_pnl"
+                  ? `/analyst${langOnlySuffix}`
+                  : `/analyst?order=${o.value}${langSuffix}`;
               return (
                 <Link
                   key={o.value}
-                  href={
-                    o.value === "monthly_pnl"
-                      ? "/analyst"
-                      : `/analyst?order=${o.value}`
-                  }
+                  href={href}
                   style={{
                     padding: "10px 16px",
                     background: active ? "var(--acid)" : "transparent",
@@ -140,7 +143,7 @@ export default async function AnalystListPage({
                       i < ORDER_OPTIONS.length - 1 ? "1px solid var(--line-2)" : "none",
                   }}
                 >
-                  {o.label}
+                  {t(o.labelKey as never)}
                 </Link>
               );
             })}
@@ -159,7 +162,7 @@ export default async function AnalystListPage({
             }}
           >
             <div className="eyebrow" style={{ color: "var(--warn)", marginBottom: 8 }}>
-              FETCH ERROR
+              {t("fetchError")}
             </div>
             {error}
           </div>
@@ -176,11 +179,11 @@ export default async function AnalystListPage({
               textTransform: "uppercase",
             }}
           >
-            no analysts found
+            {t("noAnalysts")}
           </div>
         ) : (
           <div style={{ marginTop: 24 }}>
-            <LiveAnalystTable initial={analysts} order={order} />
+            <LiveAnalystTable initial={analysts} order={order} locale={locale} />
           </div>
         )}
 
@@ -200,10 +203,10 @@ export default async function AnalystListPage({
         >
           <div>© {new Date().getFullYear()} BOTTOMUP</div>
           <div style={{ maxWidth: 600, textAlign: "right" }}>
-            VIRTUAL_TRACK_RECORD · NOT_FINANCIAL_ADVICE · PAST_PERFORMANCE_≠_FUTURE_RESULTS
+            {t("virtualTrackRecord").replace(/ /g, "_")} · NOT_FINANCIAL_ADVICE · PAST_PERFORMANCE_≠_FUTURE_RESULTS
           </div>
         </footer>
       </main>
-    </>
+    </div>
   );
 }

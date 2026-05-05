@@ -1,21 +1,25 @@
 import type { TraderWindowStats } from "@/lib/bottomup-api";
 import { fmtPct, fmtR, fmtUsd } from "./format";
+import { tFor, type Locale } from "./i18n";
 
 export function PerfMatrix({
   d30,
   all,
+  locale = "en",
 }: {
   d30: TraderWindowStats;
   all: TraderWindowStats;
+  locale?: Locale;
 }) {
+  const t = tFor(locale);
   return (
     <section style={{ marginTop: 32 }}>
       <div
         className="eyebrow"
         style={{ marginBottom: 14, display: "flex", justifyContent: "space-between" }}
       >
-        <span>// PERFORMANCE_MATRIX</span>
-        <span style={{ color: "var(--ink-4)" }}>SOURCE: BOTTOMUP</span>
+        <span>// {t("performanceMatrix")}</span>
+        <span style={{ color: "var(--ink-4)" }}>{t("sourceBottomup")}</span>
       </div>
       <div
         style={{
@@ -25,39 +29,40 @@ export function PerfMatrix({
           background: "var(--bg-2)",
         }}
       >
-        <PerfRow label="LAST_30D" data={d30} primary="30d" />
+        <PerfRow data={d30} primary="30d" t={t} />
         <div style={{ height: 1, background: "var(--line-2)" }} />
-        <PerfRow label="ALL-TIME" data={all} primary="all" />
+        <PerfRow data={all} primary="all" t={t} />
       </div>
     </section>
   );
 }
 
 function PerfRow({
-  label,
   data,
   primary,
+  t,
 }: {
-  label: string;
   data: TraderWindowStats;
   primary: "30d" | "all";
+  t: ReturnType<typeof tFor>;
 }) {
   const isUp = data.virtual_return_pct >= 0;
   const winRatePct = data.win_rate == null ? null : Math.round(data.win_rate * 100);
+  const headLabel = primary === "30d" ? t("last30d") : t("allTime");
   return (
     <div className="stat-grid perf-row" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
       <PerfCell
-        head={label}
-        sub="WINDOW"
+        head={headLabel}
+        sub={t("window")}
         big={
           <span className="display" style={{ fontSize: 28, color: "var(--ink)" }}>
-            {label.replace("-", "‑")}
+            {headLabel.replace(/-/g, "‑")}
           </span>
         }
       />
       <PerfCell
-        head="RETURN"
-        sub={`PNL ${fmtUsd(data.total_pnl, { sign: true, compact: true })} · NET R ${fmtR(data.total_r)}`}
+        head={t("return")}
+        sub={`${t("pnl")} ${fmtUsd(data.total_pnl, { sign: true, compact: true })} · ${t("netR")} ${fmtR(data.total_r)}`}
         big={
           <span
             className="display num"
@@ -68,7 +73,7 @@ function PerfRow({
         }
       />
       <PerfCell
-        head="WIN RATE"
+        head={t("winRate")}
         sub={
           <>
             <span style={{ color: "var(--acid)" }}>{data.wins}W</span> ·{" "}
@@ -82,8 +87,8 @@ function PerfRow({
         }
       />
       <PerfCell
-        head={primary === "30d" ? "BEST TRADE" : "TOTAL TRADES"}
-        sub={primary === "30d" ? "30D PEAK" : "CAREER"}
+        head={primary === "30d" ? t("bestTrade") : t("totalTrades")}
+        sub={primary === "30d" ? t("thirtyDayPeak") : t("career")}
         big={
           primary === "30d"
             ? data.best_trade_pnl != null

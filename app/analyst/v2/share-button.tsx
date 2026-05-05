@@ -1,23 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { tFor, type Locale } from "./i18n";
 
 const FORMATS = [
   {
     key: "twitter" as const,
-    label: "TWITTER / X",
+    labelKey: "shareTwitter" as const,
     sublabel: "1200 × 675",
     aspect: 1200 / 675,
   },
   {
     key: "square" as const,
-    label: "INSTAGRAM",
+    labelKey: "shareInstagram" as const,
     sublabel: "1080 × 1080",
     aspect: 1,
   },
   {
     key: "story" as const,
-    label: "STORY / TIKTOK",
+    labelKey: "shareStory" as const,
     sublabel: "1080 × 1920",
     aspect: 1080 / 1920,
   },
@@ -29,8 +30,15 @@ const FORMATS = [
  * the trader can right-click save, or hit the Download button which
  * pulls the PNG via fetch and triggers a save dialog.
  */
-export function ShareButton({ name }: { name: string }) {
+export function ShareButton({
+  name,
+  locale = "en",
+}: {
+  name: string;
+  locale?: Locale;
+}) {
   const [open, setOpen] = useState(false);
+  const t = tFor(locale);
 
   // Lock body scroll while open + close on Esc
   useEffect(() => {
@@ -64,14 +72,29 @@ export function ShareButton({ name }: { name: string }) {
         }}
         aria-label="Share trader card"
       >
-        ◉ SHARE
+        {t("shareCta")}
       </button>
-      {open ? <ShareModal name={name} onClose={() => setOpen(false)} /> : null}
+      {open ? (
+        <ShareModal
+          name={name}
+          locale={locale}
+          onClose={() => setOpen(false)}
+        />
+      ) : null}
     </>
   );
 }
 
-function ShareModal({ name, onClose }: { name: string; onClose: () => void }) {
+function ShareModal({
+  name,
+  locale,
+  onClose,
+}: {
+  name: string;
+  locale: Locale;
+  onClose: () => void;
+}) {
+  const t = tFor(locale);
   return (
     <div
       onClick={onClose}
@@ -108,7 +131,7 @@ function ShareModal({ name, onClose }: { name: string; onClose: () => void }) {
         >
           <div>
             <div className="eyebrow" style={{ color: "var(--acid)" }}>
-              // SHARE_KIT
+              // {t("shareKit")}
             </div>
             <div
               className="display"
@@ -130,7 +153,7 @@ function ShareModal({ name, onClose }: { name: string; onClose: () => void }) {
               cursor: "pointer",
             }}
           >
-            CLOSE ✕
+            {t("shareClose")}
           </button>
         </div>
         <p
@@ -142,8 +165,7 @@ function ShareModal({ name, onClose }: { name: string; onClose: () => void }) {
             lineHeight: 1.5,
           }}
         >
-          Platform-tuned PNG cards. Pick a format, hit DOWNLOAD, post on
-          Twitter / Instagram / TikTok. Updates every time a trade closes.
+          {t("shareTagline")}
         </p>
         <div
           className="share-grid"
@@ -154,7 +176,7 @@ function ShareModal({ name, onClose }: { name: string; onClose: () => void }) {
           }}
         >
           {FORMATS.map((fmt) => (
-            <SharePreview key={fmt.key} name={name} format={fmt} />
+            <SharePreview key={fmt.key} name={name} format={fmt} locale={locale} />
           ))}
         </div>
       </div>
@@ -165,25 +187,36 @@ function ShareModal({ name, onClose }: { name: string; onClose: () => void }) {
 function SharePreview({
   name,
   format,
+  locale,
 }: {
   name: string;
   format: (typeof FORMATS)[number];
+  locale: Locale;
 }) {
+  const t = tFor(locale);
   const [downloading, setDownloading] = useState(false);
   const [bust, setBust] = useState(0);
-  const url = `/analyst/${encodeURIComponent(name)}/og/${format.key}`;
-  const previewUrl = bust > 0 ? `${url}?b=${bust}` : url;
+  const baseUrl = `/analyst/${encodeURIComponent(name)}/og/${format.key}`;
+  const langSuffix = locale === "en" ? "" : `lang=${locale}`;
+  const url =
+    langSuffix && !baseUrl.includes("?") ? `${baseUrl}?${langSuffix}` : baseUrl;
+  const previewUrl =
+    bust > 0
+      ? `${url}${url.includes("?") ? "&" : "?"}b=${bust}`
+      : url;
+  const formatLabel = t(format.labelKey);
 
   const onDownload = async () => {
     setDownloading(true);
     try {
-      const res = await fetch(`${url}?b=${Date.now()}`);
+      const dlUrl = `${url}${url.includes("?") ? "&" : "?"}b=${Date.now()}`;
+      const res = await fetch(dlUrl);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const blob = await res.blob();
       const blobUrl = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = blobUrl;
-      a.download = `bottomup-${name}-${format.key}.png`;
+      a.download = `bottomup-${name}-${format.key}-${locale}.png`;
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -217,7 +250,7 @@ function SharePreview({
           className="eyebrow"
           style={{ color: "var(--ink-2)", fontSize: 11 }}
         >
-          {format.label}
+          {formatLabel}
         </div>
         <div className="num" style={{ color: "var(--ink-3)", fontSize: 11 }}>
           {format.sublabel}
@@ -236,7 +269,7 @@ function SharePreview({
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={previewUrl}
-          alt={`${name} ${format.label} share card`}
+          alt={t("shareDownloadAria", { name, platform: formatLabel })}
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
           loading="lazy"
         />
@@ -256,7 +289,7 @@ function SharePreview({
             opacity: downloading ? 0.6 : 1,
           }}
         >
-          {downloading ? "…" : "↓ DOWNLOAD"}
+          {downloading ? "…" : t("shareDownload")}
         </button>
         <button
           type="button"

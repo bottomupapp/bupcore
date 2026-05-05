@@ -6,6 +6,7 @@ import type { Analyst, AnalystOrder } from "@/lib/bottomup-api";
 import { useAnalystLive } from "@/lib/use-analyst-live";
 import { CopyCode } from "./copy-code";
 import { fmtUsd } from "./format";
+import { tFor, type Locale } from "./i18n";
 
 function fullName(a: Analyst): string {
   if (a.name) return a.name;
@@ -33,10 +34,13 @@ const ORDER_FIELD: Record<AnalystOrder, (a: Analyst) => number | string | null> 
 export function LiveAnalystTable({
   initial,
   order,
+  locale = "en",
 }: {
   initial: Analyst[];
   order: AnalystOrder;
+  locale?: Locale;
 }) {
+  const t = tFor(locale);
   const { rows: live, lastUpdateAt, connected } = useAnalystLive("*");
 
   const merged = useMemo(() => {
@@ -65,7 +69,7 @@ export function LiveAnalystTable({
 
   return (
     <>
-      <LiveBadge connected={connected} lastUpdateAt={lastUpdateAt} />
+      <LiveBadge connected={connected} lastUpdateAt={lastUpdateAt} locale={locale} />
       <div
         style={{
           marginTop: 12,
@@ -78,13 +82,13 @@ export function LiveAnalystTable({
           <thead>
             <tr>
               <th>#</th>
-              <th>ANALYST</th>
-              <th className="ralign">FOLLOWERS</th>
-              <th className="ralign">30D PNL</th>
-              <th className="ralign">30D WR</th>
-              <th className="ralign">ALL PNL</th>
-              <th className="ralign">ALL WR</th>
-              <th>REF_CODE</th>
+              <th>{t("colAnalyst")}</th>
+              <th className="ralign">{t("colFollowers")}</th>
+              <th className="ralign">{t("colThirtyDPnl")}</th>
+              <th className="ralign">{t("colThirtyDWr")}</th>
+              <th className="ralign">{t("colAllPnl")}</th>
+              <th className="ralign">{t("colAllWr")}</th>
+              <th>{t("colRefCode")}</th>
             </tr>
           </thead>
           <tbody>
@@ -191,15 +195,18 @@ export function LiveAnalystTable({
 export function LiveBadge({
   connected,
   lastUpdateAt,
+  locale = "en",
 }: {
   connected: boolean;
   lastUpdateAt: number | null;
+  locale?: Locale;
 }) {
+  const t = tFor(locale);
   const label = connected
     ? lastUpdateAt
-      ? `LIVE · LAST UPDATE ${formatRelative(lastUpdateAt)}`
-      : "LIVE · WAITING FOR FIRST FRAME"
-    : "RECONNECTING…";
+      ? `${t("live")} · ${t("lastUpdate")} ${formatRelative(lastUpdateAt, t)}`
+      : `${t("live")} · ${t("waitingFirstFrame")}`
+    : t("reconnecting");
   return (
     <div
       className="eyebrow"
@@ -226,10 +233,13 @@ export function LiveBadge({
   );
 }
 
-function formatRelative(ts: number): string {
+function formatRelative(
+  ts: number,
+  t: ReturnType<typeof tFor>,
+): string {
   const s = Math.max(0, Math.round((Date.now() - ts) / 1000));
-  if (s < 5) return "JUST NOW";
-  if (s < 60) return `${s}S AGO`;
-  if (s < 3600) return `${Math.round(s / 60)}M AGO`;
-  return `${Math.round(s / 3600)}H AGO`;
+  if (s < 5) return t("justNow");
+  if (s < 60) return `${s} ${t("secAgo")}`;
+  if (s < 3600) return `${Math.round(s / 60)} ${t("minAgo")}`;
+  return `${Math.round(s / 3600)} ${t("hourAgo")}`;
 }

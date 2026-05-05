@@ -4,6 +4,7 @@ import type { Analyst } from "@/lib/bottomup-api";
 import { useAnalystLive } from "@/lib/use-analyst-live";
 import { LiveBadge } from "./live-table";
 import { fmtPct, fmtUsd } from "./format";
+import { tFor, type Locale } from "./i18n";
 
 /**
  * Detail-page live strip. Subscribes to `analyst:<name>` and surfaces
@@ -16,10 +17,13 @@ import { fmtPct, fmtUsd } from "./format";
 export function LiveStrip({
   name,
   initial,
+  locale = "en",
 }: {
   name: string;
   initial: { followers: number; referral_code: string | null } | null;
+  locale?: Locale;
 }) {
+  const t = tFor(locale);
   const handle = (name ?? "").toLowerCase();
   const { rows, lastUpdateAt, connected } = useAnalystLive(handle);
   const live = rows.get(handle) as Analyst | undefined;
@@ -44,8 +48,8 @@ export function LiveStrip({
           flexWrap: "wrap",
         }}
       >
-        <span>// LIVE_STREAM · TRADER_STATS</span>
-        <LiveBadge connected={connected} lastUpdateAt={lastUpdateAt} />
+        <span>// {t("liveStreamTraderStats")}</span>
+        <LiveBadge connected={connected} lastUpdateAt={lastUpdateAt} locale={locale} />
       </div>
       <div
         className="stat-grid"
@@ -56,9 +60,9 @@ export function LiveStrip({
           background: "var(--bg-2)",
         }}
       >
-        <Tile label="FOLLOWERS" value={followers.toLocaleString("en-US")} />
+        <Tile label={t("followers")} value={followers.toLocaleString("en-US")} />
         <Tile
-          label="30D PNL"
+          label={t("thirtyDPnl")}
           value={
             monthlyPnl == null
               ? "—"
@@ -67,16 +71,16 @@ export function LiveStrip({
           tone={monthlyPnl == null ? "neutral" : monthlyPnl >= 0 ? "up" : "down"}
         />
         <Tile
-          label="30D ROI"
+          label={t("thirtyDRoi")}
           value={fmtPct(monthlyRoi)}
           tone={monthlyRoi == null ? "neutral" : monthlyRoi >= 0 ? "up" : "down"}
         />
         <Tile
-          label="30D WR"
+          label={t("thirtyDWr")}
           value={monthlyWr == null ? "—" : `${Math.round(monthlyWr)}%`}
         />
         <Tile
-          label="ALL PNL"
+          label={t("allPnl")}
           value={
             allPnl == null ? "—" : fmtUsd(allPnl, { sign: true, compact: true })
           }

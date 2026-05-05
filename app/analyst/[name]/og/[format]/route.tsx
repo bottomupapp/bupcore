@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { fetchTraderDetail, type TraderDetail } from "@/lib/bottomup-api";
+import { resolveLocale, tFor, type Locale } from "../../../v2/i18n";
 
 /**
  * Social-share PNG generator for analyst pages. Three platform-tuned
@@ -38,10 +39,31 @@ const TOKENS = {
   warn: "#FF3B5C",
 } as const;
 
+type HeroLabelKey =
+  | "hero7dReturn"
+  | "hero30dReturn"
+  | "heroAllReturn"
+  | "hero7dNetPnl"
+  | "hero30dNetPnl"
+  | "heroAllNetPnl"
+  | "hero7dWinRate"
+  | "hero30dWinRate"
+  | "heroAllWinRate";
+
 interface Hero {
-  label: string;
+  /** i18n key for the eyebrow/label above the value */
+  labelKey: HeroLabelKey;
+  /** Pre-formatted hero value (numbers, % — already locale-safe) */
   value: string;
-  sub: string;
+  /**
+   * Sub line. `kind: "wl"` → `${wins}W · ${losses}L` rendered locally.
+   * `kind: "amount"` → just an already-formatted string (e.g. `+$2,983`).
+   * `kind: "returnPct"` → `+X.XX% RETURN` joined with translated suffix.
+   */
+  sub:
+    | { kind: "wl"; wins: number; losses: number }
+    | { kind: "amount"; text: string }
+    | { kind: "returnPct"; pct: number };
   tone: "up" | "down";
 }
 
@@ -108,8 +130,6 @@ function pickHero(detail: TraderDetail): Hero {
   const pnlAll = all.total_pnl;
   const pnl30 = m30.total_pnl;
   const pnl7 = w7.pnl;
-  // Fresher windows get a multiplier so a strong 7D number outranks
-  // a marginally-stronger all-time number.
   const W7 = 1.4;
   const W30 = 1.15;
   const WALL = 1.0;
@@ -117,89 +137,86 @@ function pickHero(detail: TraderDetail): Hero {
   type C = Hero & { score: number };
   const candidates: C[] = [];
 
-  // ─── Returns ─────────────────────────────────────────────────────
   if (ret7 >= 8) {
     candidates.push({
       score: Math.min(ret7, 200) * W7,
-      label: "7D RETURN",
+      labelKey: "hero7dReturn",
       value: `+${ret7.toFixed(2)}%`,
-      sub: fmtUsd(pnl7, true),
+      sub: { kind: "amount", text: fmtUsd(pnl7, true) },
       tone: "up",
     });
   }
   if (ret30 >= 15) {
     candidates.push({
       score: Math.min(ret30, 200) * W30,
-      label: "30D RETURN",
+      labelKey: "hero30dReturn",
       value: `+${ret30.toFixed(2)}%`,
-      sub: fmtUsd(pnl30, true),
+      sub: { kind: "amount", text: fmtUsd(pnl30, true) },
       tone: "up",
     });
   }
   if (retAll >= 15) {
     candidates.push({
       score: Math.min(retAll, 200) * WALL,
-      label: "ALL-TIME RETURN",
+      labelKey: "heroAllReturn",
       value: `+${retAll.toFixed(2)}%`,
-      sub: fmtUsd(pnlAll, true),
+      sub: { kind: "amount", text: fmtUsd(pnlAll, true) },
       tone: "up",
     });
   }
 
-  // ─── Net PnL ─────────────────────────────────────────────────────
   if (pnl7 >= 1000) {
     candidates.push({
       score: (60 + Math.log10(pnl7) * 5) * W7,
-      label: "7D NET PNL",
+      labelKey: "hero7dNetPnl",
       value: fmtUsd(pnl7, true),
-      sub: `+${ret7.toFixed(2)}% RETURN`,
+      sub: { kind: "returnPct", pct: ret7 },
       tone: "up",
     });
   }
   if (pnl30 >= 3000) {
     candidates.push({
       score: (60 + Math.log10(pnl30) * 5) * W30,
-      label: "30D NET PNL",
+      labelKey: "hero30dNetPnl",
       value: fmtUsd(pnl30, true),
-      sub: `+${ret30.toFixed(2)}% RETURN`,
+      sub: { kind: "returnPct", pct: ret30 },
       tone: "up",
     });
   }
   if (pnlAll >= 3000) {
     candidates.push({
       score: (55 + Math.log10(pnlAll) * 5) * WALL,
-      label: "ALL-TIME NET PNL",
+      labelKey: "heroAllNetPnl",
       value: fmtUsd(pnlAll, true),
-      sub: `+${retAll.toFixed(2)}% RETURN`,
+      sub: { kind: "returnPct", pct: retAll },
       tone: "up",
     });
   }
 
-  // ─── Win rate (need a meaningful sample on the window) ──────────
   if (wr7 >= 70 && w7.wins + w7.losses >= 3) {
     candidates.push({
       score: wr7 * W7,
-      label: "7D WIN RATE",
+      labelKey: "hero7dWinRate",
       value: `${Math.round(wr7)}%`,
-      sub: `${w7.wins}W · ${w7.losses}L`,
+      sub: { kind: "wl", wins: w7.wins, losses: w7.losses },
       tone: "up",
     });
   }
   if (wr30 >= 65 && m30.trades >= 5) {
     candidates.push({
       score: wr30 * W30,
-      label: "30D WIN RATE",
+      labelKey: "hero30dWinRate",
       value: `${Math.round(wr30)}%`,
-      sub: `${m30.wins}W · ${m30.losses}L`,
+      sub: { kind: "wl", wins: m30.wins, losses: m30.losses },
       tone: "up",
     });
   }
   if (wrAll >= 60 && all.wins + all.losses >= 8) {
     candidates.push({
       score: wrAll * WALL,
-      label: "ALL-TIME WIN RATE",
+      labelKey: "heroAllWinRate",
       value: `${Math.round(wrAll)}%`,
-      sub: `${all.wins}W · ${all.losses}L`,
+      sub: { kind: "wl", wins: all.wins, losses: all.losses },
       tone: "up",
     });
   }
@@ -211,16 +228,27 @@ function pickHero(detail: TraderDetail): Hero {
     return rest;
   }
 
-  // Always-on fallback: whatever their all-time return is, even modest.
   return {
-    label: "ALL-TIME RETURN",
+    labelKey: "heroAllReturn",
     value:
       retAll >= 0
         ? `+${retAll.toFixed(2)}%`
         : `−${Math.abs(retAll).toFixed(2)}%`,
-    sub: fmtUsd(pnlAll, true),
+    sub: { kind: "amount", text: fmtUsd(pnlAll, true) },
     tone: retAll >= 0 ? "up" : "down",
   };
+}
+
+function renderHeroSub(
+  hero: Hero,
+  t: ReturnType<typeof tFor>,
+): string {
+  if (hero.sub.kind === "amount") return hero.sub.text;
+  if (hero.sub.kind === "wl") return `${hero.sub.wins}W · ${hero.sub.losses}L`;
+  // returnPct
+  const pct = hero.sub.pct;
+  const sign = pct >= 0 ? "+" : "−";
+  return `${sign}${Math.abs(pct).toFixed(2)}%${t("subOfReturn")}`;
 }
 
 // Static TTF URLs. satori (next/og) cannot parse WOFF2 (no brotli
@@ -243,7 +271,7 @@ async function loadFont(url: string): Promise<ArrayBuffer> {
 }
 
 export async function GET(
-  _req: Request,
+  req: Request,
   ctx: { params: Promise<{ name: string; format: string }> },
 ): Promise<Response> {
   const { name, format } = await ctx.params;
@@ -252,6 +280,9 @@ export async function GET(
   }
   const f = format as Format;
   const decoded = decodeURIComponent(name);
+  const url = new URL(req.url);
+  const locale: Locale = resolveLocale(url.searchParams.get("lang") ?? "en");
+  const t = tFor(locale);
 
   let detail: TraderDetail | null = null;
   try {
@@ -272,28 +303,20 @@ export async function GET(
   const refCode = detail.trader.referral_code ?? "";
   const { width, height } = FORMATS[f];
 
+  const cardProps: CardProps = {
+    name: traderName,
+    ref_code: refCode,
+    hero,
+    avatar: detail.trader.image,
+    t,
+  };
   const node =
     f === "story" ? (
-      <StoryCard
-        name={traderName}
-        ref_code={refCode}
-        hero={hero}
-        avatar={detail.trader.image}
-      />
+      <StoryCard {...cardProps} />
     ) : f === "square" ? (
-      <SquareCard
-        name={traderName}
-        ref_code={refCode}
-        hero={hero}
-        avatar={detail.trader.image}
-      />
+      <SquareCard {...cardProps} />
     ) : (
-      <TwitterCard
-        name={traderName}
-        ref_code={refCode}
-        hero={hero}
-        avatar={detail.trader.image}
-      />
+      <TwitterCard {...cardProps} />
     );
 
   return new ImageResponse(node, {
@@ -316,6 +339,7 @@ interface CardProps {
   ref_code: string;
   hero: Hero;
   avatar: string | null;
+  t: ReturnType<typeof tFor>;
 }
 
 // ─── Twitter / X / Facebook 1200×675 ──────────────────────────────
@@ -374,7 +398,7 @@ function TwitterCard({ name, ref_code, hero, avatar }: CardProps) {
             fontWeight: 700,
           }}
         >
-          // ANALYST CARD
+          // {t("analystCard")}
         </div>
       </div>
 
@@ -433,7 +457,7 @@ function TwitterCard({ name, ref_code, hero, avatar }: CardProps) {
               display: "flex",
             }}
           >
-            VIRTUAL TRACK RECORD
+            {t("virtualTrackRecord")}
           </div>
         </div>
         {/* right: hero stat */}
@@ -457,7 +481,7 @@ function TwitterCard({ name, ref_code, hero, avatar }: CardProps) {
               display: "flex",
             }}
           >
-            {hero.label}
+            {t(hero.labelKey)}
           </div>
           <div
             style={{
@@ -480,7 +504,7 @@ function TwitterCard({ name, ref_code, hero, avatar }: CardProps) {
               display: "flex",
             }}
           >
-            {hero.sub}
+            {renderHeroSub(hero, t)}
           </div>
         </div>
       </div>
@@ -511,7 +535,7 @@ function TwitterCard({ name, ref_code, hero, avatar }: CardProps) {
             alignItems: "center",
           }}
         >
-          REF_CODE
+          {t("refCode")}
         </div>
         <div
           style={{
@@ -542,7 +566,7 @@ function TwitterCard({ name, ref_code, hero, avatar }: CardProps) {
             borderLeft: `1px solid ${TOKENS.line2}`,
           }}
         >
-          USE AT SIGNUP → BOTTOMUP.APP
+          {t("useAtSignup")} → BOTTOMUP.APP
         </div>
       </div>
     </div>
@@ -683,7 +707,7 @@ function SquareCard({ name, ref_code, hero, avatar }: CardProps) {
               display: "flex",
             }}
           >
-            {hero.label}
+            {t(hero.labelKey)}
           </div>
           <div
             style={{
@@ -706,7 +730,7 @@ function SquareCard({ name, ref_code, hero, avatar }: CardProps) {
               display: "flex",
             }}
           >
-            {hero.sub}
+            {renderHeroSub(hero, t)}
           </div>
         </div>
       </div>
@@ -740,7 +764,7 @@ function SquareCard({ name, ref_code, hero, avatar }: CardProps) {
               alignItems: "center",
             }}
           >
-            REF_CODE
+            {t("refCode")}
           </div>
           <div
             style={{
@@ -768,7 +792,7 @@ function SquareCard({ name, ref_code, hero, avatar }: CardProps) {
             letterSpacing: "0.14em",
           }}
         >
-          <div style={{ display: "flex" }}>USE AT SIGNUP — AUTO-FOLLOWED</div>
+          <div style={{ display: "flex" }}>{t("useAtSignupAutoFollowed")}</div>
           <div style={{ display: "flex" }}>BOTTOMUP.APP</div>
         </div>
       </div>
@@ -833,7 +857,7 @@ function StoryCard({ name, ref_code, hero, avatar }: CardProps) {
             fontWeight: 700,
           }}
         >
-          // ANALYST CARD
+          // {t("analystCard")}
         </div>
       </div>
 
@@ -888,7 +912,7 @@ function StoryCard({ name, ref_code, hero, avatar }: CardProps) {
             display: "flex",
           }}
         >
-          VIRTUAL TRACK RECORD
+          {t("virtualTrackRecord")}
         </div>
       </div>
 
@@ -923,7 +947,7 @@ function StoryCard({ name, ref_code, hero, avatar }: CardProps) {
               display: "flex",
             }}
           >
-            {hero.label}
+            {t(hero.labelKey)}
           </div>
           <div
             style={{
@@ -946,7 +970,7 @@ function StoryCard({ name, ref_code, hero, avatar }: CardProps) {
               display: "flex",
             }}
           >
-            {hero.sub}
+            {renderHeroSub(hero, t)}
           </div>
         </div>
       </div>
@@ -981,7 +1005,7 @@ function StoryCard({ name, ref_code, hero, avatar }: CardProps) {
               justifyContent: "center",
             }}
           >
-            REF_CODE — USE AT SIGNUP
+            {t("refCodeUseAtSignup")}
           </div>
           <div
             style={{

@@ -2,16 +2,20 @@
 
 import { useState } from "react";
 import { CheckIcon, CopyIcon } from "./icons";
+import { tFor, type Locale } from "./i18n";
 
 type Variant = "step" | "compact";
 
 export function CopyCode({
   code,
   variant = "step",
+  locale = "en",
 }: {
   code: string;
   variant?: Variant;
+  locale?: Locale;
 }) {
+  const t = tFor(locale);
   const [copied, setCopied] = useState(false);
   const onClick = () => {
     try {
@@ -28,11 +32,11 @@ export function CopyCode({
       <button
         type="button"
         onClick={onClick}
-        aria-label={`Copy referral code ${code}`}
+        aria-label={t("refCodeAriaCopy", { code })}
         className="hair-btn"
         style={{ borderColor: "var(--acid)", color: "var(--acid)" }}
       >
-        {copied ? <CheckIcon /> : <CopyIcon />} {copied ? "COPIED" : code.toUpperCase()}
+        {copied ? <CheckIcon /> : <CopyIcon />} {copied ? t("copied") : code.toUpperCase()}
       </button>
     );
   }
@@ -42,7 +46,7 @@ export function CopyCode({
     <button
       type="button"
       onClick={onClick}
-      aria-label={`Copy referral code ${code}`}
+      aria-label={t("refCodeAriaCopy", { code })}
       style={{
         border: 0,
         background: "var(--acid)",
@@ -59,7 +63,7 @@ export function CopyCode({
     >
       <div>
         <div className="eyebrow" style={{ color: "rgba(0,0,0,.55)", whiteSpace: "nowrap" }}>
-          STEP 02 · USE CODE
+          {t("step02")} · {t("useCode")}
         </div>
         <div
           className="display num"
@@ -86,7 +90,7 @@ export function CopyCode({
           textTransform: "uppercase",
         }}
       >
-        {copied ? <CheckIcon /> : <CopyIcon />} {copied ? "COPIED" : "COPY"}
+        {copied ? <CheckIcon /> : <CopyIcon />} {copied ? t("copied") : t("copy")}
       </span>
     </button>
   );

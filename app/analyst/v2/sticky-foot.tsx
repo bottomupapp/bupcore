@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, Plus } from "./icons";
 import { CopyCode } from "./copy-code";
+import { tFor, type Locale } from "./i18n";
 
 const APP_STORE_URL =
   "https://apps.apple.com/tr/app/bottomup-sofi-trade-finance/id1661474993";
@@ -13,11 +14,14 @@ export function StickyFoot({
   name,
   avatar,
   referralCode,
+  locale = "en",
 }: {
   name: string;
   avatar: string | null;
   referralCode: string | null;
+  locale?: Locale;
 }) {
+  const t = tFor(locale);
   const [show, setShow] = useState(false);
   useEffect(() => {
     const fn = () => setShow(window.scrollY > 720);
@@ -80,15 +84,15 @@ export function StickyFoot({
           )}
           <div>
             <div className="eyebrow" style={{ color: "var(--ink-3)" }}>
-              FOLLOW {name.toUpperCase()} ON BOTTOMUP
+              {t("follow", { name: name.toUpperCase() })}
             </div>
             <div style={{ fontSize: 12, color: "var(--ink-2)", marginTop: 2 }}>
-              Use code at signup → bound on day one
+              {t("useCodeBound")}
             </div>
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          {referralCode ? <CopyCode code={referralCode} variant="compact" /> : null}
+          {referralCode ? <CopyCode code={referralCode} variant="compact" locale={locale} /> : null}
           <a
             href={APP_STORE_URL}
             target="_blank"
