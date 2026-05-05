@@ -168,18 +168,28 @@ function filterByRange(
   return f.length >= 2 ? f : points.slice(-2);
 }
 
+// Deterministic "DD MMM" UTC formatter. Avoids toLocaleDateString
+// because Node ICU and browser ICU disagree on locale data, causing
+// hydration mismatches when this component runs on both server and
+// client render passes.
+const MONTHS_SHORT = [
+  "JAN", "FEB", "MAR", "APR", "MAY", "JUN",
+  "JUL", "AUG", "SEP", "OCT", "NOV", "DEC",
+] as const;
+
+function fmtDayMonthUTC(d: Date): string {
+  const day = String(d.getUTCDate()).padStart(2, "0");
+  return `${day} ${MONTHS_SHORT[d.getUTCMonth()]}`;
+}
+
 function makeDateLabels(points: Array<{ t: number; balance: number }>): string[] {
   if (points.length < 2) return ["—", "—"];
   const first = new Date(points[0]!.t);
   const last = new Date(points[points.length - 1]!.t);
-  const fmt = (d: Date) =>
-    d
-      .toLocaleDateString("en-US", { day: "2-digit", month: "short" })
-      .toUpperCase();
   // Two endpoints + two midpoints if range is wide enough
   const span = last.getTime() - first.getTime();
-  if (span <= 0) return [fmt(first), fmt(last)];
+  if (span <= 0) return [fmtDayMonthUTC(first), fmtDayMonthUTC(last)];
   const midA = new Date(first.getTime() + span / 3);
   const midB = new Date(first.getTime() + (2 * span) / 3);
-  return [fmt(first), fmt(midA), fmt(midB), fmt(last)];
+  return [fmtDayMonthUTC(first), fmtDayMonthUTC(midA), fmtDayMonthUTC(midB), fmtDayMonthUTC(last)];
 }
