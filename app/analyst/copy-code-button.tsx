@@ -19,7 +19,7 @@ export function CopyCodeButton({ code }: { code: string }) {
         }
       }}
       className="group inline-flex items-center gap-1.5 rounded-md border border-border bg-surface px-2 py-1 text-xs font-mono hover:bg-border/40"
-      aria-label={`Referans kodu ${code} kopyala`}
+      aria-label={`Copy referral code ${code}`}
     >
       <span>{code}</span>
       {copied ? (

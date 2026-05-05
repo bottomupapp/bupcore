@@ -16,7 +16,7 @@ export async function generateMetadata({
   const decoded = decodeURIComponent(name);
   return {
     title: `${decoded} — Bottomup Analyst`,
-    description: `${decoded} adlı analystin performansı, son işlemleri ve referans kodu.`,
+    description: `Performance, recent trades and referral code for ${decoded} on Bottomup.`,
   };
 }
 
@@ -46,7 +46,7 @@ function pnlColor(n: number | null | undefined): string {
 
 function fmtDate(s: string | null): string {
   if (!s) return "—";
-  return new Date(s).toLocaleDateString("tr-TR", {
+  return new Date(s).toLocaleDateString("en-US", {
     day: "2-digit",
     month: "short",
     year: "2-digit",
@@ -110,12 +110,12 @@ export default async function AnalystDetailPage({
         className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-fg mb-6"
       >
         <ArrowLeft className="h-4 w-4" />
-        Tüm analystler
+        All analysts
       </Link>
 
       {error && (
         <div className="card p-6 text-sm text-rose-600 mb-6">
-          Veri yüklenemedi: {error}
+          Failed to load data: {error}
         </div>
       )}
 
@@ -150,7 +150,7 @@ export default async function AnalystDetailPage({
               <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-muted">
                 <span className="inline-flex items-center gap-1.5">
                   <Users className="h-4 w-4" />
-                  {detail.trader.followers.toLocaleString("tr-TR")} takipçi
+                  {detail.trader.followers.toLocaleString("en-US")} followers
                 </span>
                 <a
                   href={`https://bottomup.app/together/profile/${detail.trader.id}`}
@@ -158,12 +158,12 @@ export default async function AnalystDetailPage({
                   rel="noreferrer"
                   className="text-accent hover:underline"
                 >
-                  bottomup.app'te aç →
+                  Open on bottomup.app →
                 </a>
               </div>
             </div>
             <div className="flex flex-col gap-1 items-end">
-              <span className="label">Referans kodu</span>
+              <span className="label">Referral code</span>
               {detail.trader.referral_code ? (
                 <CopyCodeButton code={detail.trader.referral_code} />
               ) : (
@@ -175,13 +175,13 @@ export default async function AnalystDetailPage({
           {/* 30-day stats */}
           <section className="mb-10">
             <h2 className="text-sm font-semibold text-muted uppercase tracking-wide mb-3">
-              Son 30 gün
+              Last 30 days
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <StatCard
-                label="Sanal Bakiye"
+                label="Virtual Balance"
                 value={fmtUsd(detail.stats.virtual_balance_usd)}
-                sub={`${fmtPct(detail.stats.virtual_return_pct)} getiri`}
+                sub={`${fmtPct(detail.stats.virtual_return_pct)} return`}
                 tone={detail.stats.virtual_return_pct >= 0 ? "good" : "bad"}
               />
               <StatCard
@@ -200,11 +200,11 @@ export default async function AnalystDetailPage({
                 sub={`${detail.stats.wins}W / ${detail.stats.losses}L`}
               />
               <StatCard
-                label="İşlem"
+                label="Trades"
                 value={String(detail.stats.trades)}
                 sub={
                   detail.stats.best_trade_pnl != null
-                    ? `En iyi ${fmtUsd(detail.stats.best_trade_pnl)}`
+                    ? `Best ${fmtUsd(detail.stats.best_trade_pnl)}`
                     : undefined
                 }
               />
@@ -215,13 +215,13 @@ export default async function AnalystDetailPage({
           <section className="mb-10 grid lg:grid-cols-2 gap-6">
             <div>
               <h2 className="text-sm font-semibold text-muted uppercase tracking-wide mb-3">
-                Tüm Zamanlar
+                All-time
               </h2>
               <div className="grid grid-cols-2 gap-3">
                 <StatCard
-                  label="Sanal Bakiye"
+                  label="Virtual Balance"
                   value={fmtUsd(detail.all_time.virtual_balance_usd)}
-                  sub={`${fmtPct(detail.all_time.virtual_return_pct)} getiri`}
+                  sub={`${fmtPct(detail.all_time.virtual_return_pct)} return`}
                   tone={
                     detail.all_time.virtual_return_pct >= 0 ? "good" : "bad"
                   }
@@ -242,14 +242,14 @@ export default async function AnalystDetailPage({
                   sub={`${detail.all_time.wins}W / ${detail.all_time.losses}L`}
                 />
                 <StatCard
-                  label="Toplam İşlem"
+                  label="Total Trades"
                   value={String(detail.all_time.trades)}
                 />
               </div>
             </div>
             <div>
               <h2 className="text-sm font-semibold text-muted uppercase tracking-wide mb-3">
-                Bakiye eğrisi (30g)
+                Equity curve (30d)
               </h2>
               <div className="card p-3">
                 <EquityArea data={detail.equity_curve} height={200} />
@@ -260,7 +260,7 @@ export default async function AnalystDetailPage({
           {/* Monthly chart */}
           <section className="mb-10">
             <h2 className="text-sm font-semibold text-muted uppercase tracking-wide mb-3">
-              Aylık net R (son 12 ay)
+              Monthly net R (last 12 months)
             </h2>
             <div className="card p-3">
               <MonthlyBars data={detail.monthly} height={220} />
@@ -283,7 +283,7 @@ export default async function AnalystDetailPage({
                         {side === "long" ? "Long" : "Short"}
                       </div>
                       <div className="text-xs text-muted">
-                        {s.trades} işlem · {wr == null ? "—" : `${wr}% WR`}
+                        {s.trades} trades · {wr == null ? "—" : `${wr}% WR`}
                       </div>
                     </div>
                     <div className="mt-2 grid grid-cols-2 gap-2 text-sm">
@@ -310,14 +310,14 @@ export default async function AnalystDetailPage({
           {detail.coins.length > 0 && (
             <section className="mb-10">
               <h2 className="text-sm font-semibold text-muted uppercase tracking-wide mb-3">
-                En çok işlem yapılan coinler
+                Most traded coins
               </h2>
               <div className="card overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead className="text-xs text-muted uppercase">
                     <tr className="border-b border-border">
                       <th className="text-left px-4 py-2 font-medium">Coin</th>
-                      <th className="text-right px-4 py-2 font-medium">İşlem</th>
+                      <th className="text-right px-4 py-2 font-medium">Trades</th>
                       <th className="text-right px-4 py-2 font-medium">WR</th>
                       <th className="text-right px-4 py-2 font-medium">Net R</th>
                       <th className="text-right px-4 py-2 font-medium">Net PnL</th>
@@ -347,16 +347,16 @@ export default async function AnalystDetailPage({
           {detail.recent.length > 0 && (
             <section>
               <h2 className="text-sm font-semibold text-muted uppercase tracking-wide mb-3">
-                Son işlemler
+                Recent trades
               </h2>
               <div className="card overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead className="text-xs text-muted uppercase">
                     <tr className="border-b border-border">
-                      <th className="text-left px-4 py-2 font-medium">Tarih</th>
+                      <th className="text-left px-4 py-2 font-medium">Date</th>
                       <th className="text-left px-4 py-2 font-medium">Coin</th>
-                      <th className="text-left px-4 py-2 font-medium">Yön</th>
-                      <th className="text-left px-4 py-2 font-medium">Durum</th>
+                      <th className="text-left px-4 py-2 font-medium">Side</th>
+                      <th className="text-left px-4 py-2 font-medium">Status</th>
                       <th className="text-right px-4 py-2 font-medium">PnL</th>
                       <th className="text-right px-4 py-2 font-medium">R</th>
                     </tr>

@@ -11,13 +11,13 @@ import { CopyCodeButton } from "./copy-code-button";
 export const revalidate = 60;
 
 const ORDER_OPTIONS: Array<{ value: AnalystOrder; label: string }> = [
-  { value: "monthly_pnl", label: "Aylık PnL" },
-  { value: "monthly_roi", label: "Aylık ROI" },
-  { value: "monthly_win_rate", label: "Aylık Win Rate" },
-  { value: "win_rate", label: "Tüm Zamanlar Win Rate" },
-  { value: "pnl", label: "Toplam PnL" },
-  { value: "followers", label: "Takipçi" },
-  { value: "name", label: "İsim (A→Z)" },
+  { value: "monthly_pnl", label: "Monthly PnL" },
+  { value: "monthly_roi", label: "Monthly ROI" },
+  { value: "monthly_win_rate", label: "Monthly Win Rate" },
+  { value: "win_rate", label: "All-time Win Rate" },
+  { value: "pnl", label: "Total PnL" },
+  { value: "followers", label: "Followers" },
+  { value: "name", label: "Name (A→Z)" },
 ];
 
 function isOrder(value: string | undefined): value is AnalystOrder {
@@ -76,15 +76,16 @@ export default async function AnalystListPage({
     <div className="mx-auto max-w-6xl px-6 py-10">
       <div className="flex flex-col gap-2 mb-8">
         <h1 className="text-3xl font-bold tracking-tight">
-          Bottomup Analystleri
+          Bottomup Analysts
         </h1>
         <p className="text-muted">
-          Trader'ların güncel performansı, takipçi sayısı ve referans kodları.
+          Live performance, follower counts and referral codes for every active
+          trader.
         </p>
       </div>
 
       <div className="mb-6 flex flex-wrap items-center gap-2">
-        <span className="text-sm text-muted">Sırala:</span>
+        <span className="text-sm text-muted">Sort:</span>
         {ORDER_OPTIONS.map((o) => (
           <Link
             key={o.value}
@@ -102,11 +103,11 @@ export default async function AnalystListPage({
 
       {error ? (
         <div className="card p-6 text-sm text-rose-600">
-          Veri yüklenemedi: {error}
+          Failed to load data: {error}
         </div>
       ) : analysts.length === 0 ? (
         <div className="card p-6 text-sm text-muted">
-          Hiç analyst bulunamadı.
+          No analysts found.
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -144,14 +145,14 @@ export default async function AnalystListPage({
                     </h2>
                     <div className="mt-1 flex items-center gap-2 text-xs text-muted">
                       <Users className="h-3.5 w-3.5" />
-                      {a.followers.toLocaleString("tr-TR")} takipçi
+                      {a.followers.toLocaleString("en-US")} followers
                     </div>
                   </div>
                   <span
                     className={`rounded-full px-2 py-0.5 text-xs font-semibold ${winRateBadge(
                       a.stats.win_rate,
                     )}`}
-                    title="Tüm zamanlar win rate"
+                    title="All-time win rate"
                   >
                     {a.stats.win_rate == null ? "—" : `${Math.round(a.stats.win_rate)}%`}
                   </span>
@@ -159,13 +160,13 @@ export default async function AnalystListPage({
 
                 <dl className="grid grid-cols-2 gap-x-3 gap-y-2 text-sm">
                   <div>
-                    <dt className="label">Aylık PnL</dt>
+                    <dt className="label">Monthly PnL</dt>
                     <dd className={`font-semibold ${pnlColor(a.stats.monthly_pnl)}`}>
                       {fmtUsd(a.stats.monthly_pnl)}
                     </dd>
                   </div>
                   <div>
-                    <dt className="label">Aylık Win Rate</dt>
+                    <dt className="label">Monthly Win Rate</dt>
                     <dd className="font-semibold">
                       {a.stats.monthly_win_rate == null
                         ? "—"
@@ -173,13 +174,13 @@ export default async function AnalystListPage({
                     </dd>
                   </div>
                   <div>
-                    <dt className="label">Toplam PnL</dt>
+                    <dt className="label">Total PnL</dt>
                     <dd className={`font-semibold ${pnlColor(a.stats.pnl)}`}>
                       {fmtUsd(a.stats.pnl)}
                     </dd>
                   </div>
                   <div>
-                    <dt className="label">PnL Oranı</dt>
+                    <dt className="label">PnL Rate</dt>
                     <dd className={`font-semibold ${pnlColor(a.stats.pnl_rate)}`}>
                       {fmtPct(a.stats.pnl_rate)}
                     </dd>
@@ -188,7 +189,7 @@ export default async function AnalystListPage({
 
                 <footer className="flex items-center justify-between gap-2 border-t border-border pt-4">
                   <div className="flex flex-col">
-                    <span className="label">Referans kodu</span>
+                    <span className="label">Referral code</span>
                     {a.referral_code ? (
                       <CopyCodeButton code={a.referral_code} />
                     ) : (
@@ -199,7 +200,7 @@ export default async function AnalystListPage({
                     href={`/analyst/${encodeURIComponent(a.name ?? a.trader_id)}`}
                     className="text-xs text-accent hover:underline"
                   >
-                    Detayı gör →
+                    View details →
                   </Link>
                 </footer>
               </article>

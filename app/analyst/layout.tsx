@@ -2,9 +2,9 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Bottomup Analystleri",
+  title: "Bottomup Analysts",
   description:
-    "Bottomup'taki analystlerin performansı, başarı istatistikleri ve referans kodları.",
+    "Performance, success metrics and referral codes for analysts on Bottomup.",
 };
 
 export default function AnalystLayout({

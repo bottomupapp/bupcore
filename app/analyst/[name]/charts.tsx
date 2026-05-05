@@ -24,7 +24,7 @@ export function EquityArea({
         className="grid place-items-center text-xs text-muted"
         style={{ width, height }}
       >
-        Yeterli veri yok
+        Not enough data
       </div>
     );
   }
@@ -60,7 +60,7 @@ export function EquityArea({
       width="100%"
       height={height}
       role="img"
-      aria-label="Bakiye eğrisi"
+      aria-label="Equity curve"
     >
       <line
         x1={pad.l}
@@ -78,7 +78,7 @@ export function EquityArea({
         fontSize={10}
         fill="rgb(var(--muted))"
       >
-        {new Date(xMin).toLocaleDateString("tr-TR", {
+        {new Date(xMin).toLocaleDateString("en-US", {
           day: "2-digit",
           month: "short",
         })}
@@ -90,7 +90,7 @@ export function EquityArea({
         textAnchor="end"
         fill="rgb(var(--muted))"
       >
-        {new Date(xMax).toLocaleDateString("tr-TR", {
+        {new Date(xMax).toLocaleDateString("en-US", {
           day: "2-digit",
           month: "short",
         })}
@@ -114,7 +114,7 @@ export function MonthlyBars({
         className="grid place-items-center text-xs text-muted"
         style={{ width, height }}
       >
-        Aylık kayıt yok
+        No monthly records
       </div>
     );
   }
@@ -136,7 +136,7 @@ export function MonthlyBars({
       width="100%"
       height={height}
       role="img"
-      aria-label="Aylık net R"
+      aria-label="Monthly net R"
     >
       <line
         x1={pad.l}
