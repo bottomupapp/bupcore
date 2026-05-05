@@ -269,10 +269,14 @@ const FONT_URLS = {
     "https://github.com/JetBrains/JetBrainsMono/raw/master/fonts/ttf/JetBrainsMono-Bold.ttf",
   monoMedium:
     "https://github.com/JetBrains/JetBrainsMono/raw/master/fonts/ttf/JetBrainsMono-Medium.ttf",
+  // Tajawal — static-instance Arabic + Latin font. Variable Noto
+  // Arabic (with [wght] axis) was rejected by satori with
+  // "Cannot read properties of undefined (reading '256')" — the
+  // opentype.js parser doesn't handle the variable-font tables.
   arabicDisplay:
-    "https://github.com/google/fonts/raw/main/ofl/notokufiarabic/NotoKufiArabic%5Bwght%5D.ttf",
+    "https://github.com/google/fonts/raw/main/ofl/tajawal/Tajawal-Black.ttf",
   arabicBody:
-    "https://github.com/google/fonts/raw/main/ofl/notosansarabic/NotoSansArabic%5Bwdth,wght%5D.ttf",
+    "https://github.com/google/fonts/raw/main/ofl/tajawal/Tajawal-Bold.ttf",
 } as const;
 
 async function loadFont(url: string): Promise<ArrayBuffer> {
