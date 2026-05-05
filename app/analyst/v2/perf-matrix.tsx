@@ -1,0 +1,138 @@
+import type { TraderWindowStats } from "@/lib/bottomup-api";
+import { fmtPct, fmtR, fmtUsd } from "./format";
+
+export function PerfMatrix({
+  d30,
+  all,
+}: {
+  d30: TraderWindowStats;
+  all: TraderWindowStats;
+}) {
+  return (
+    <section style={{ marginTop: 32 }}>
+      <div
+        className="eyebrow"
+        style={{ marginBottom: 14, display: "flex", justifyContent: "space-between" }}
+      >
+        <span>// PERFORMANCE_MATRIX</span>
+        <span style={{ color: "var(--ink-4)" }}>SOURCE: BUPCORE.AI</span>
+      </div>
+      <div
+        style={{
+          display: "grid",
+          gap: 0,
+          border: "1px solid var(--line-2)",
+          background: "var(--bg-2)",
+        }}
+      >
+        <PerfRow label="LAST_30D" data={d30} primary="30d" />
+        <div style={{ height: 1, background: "var(--line-2)" }} />
+        <PerfRow label="ALL-TIME" data={all} primary="all" />
+      </div>
+    </section>
+  );
+}
+
+function PerfRow({
+  label,
+  data,
+  primary,
+}: {
+  label: string;
+  data: TraderWindowStats;
+  primary: "30d" | "all";
+}) {
+  const isUp = data.virtual_return_pct >= 0;
+  const winRatePct = data.win_rate == null ? null : Math.round(data.win_rate * 100);
+  return (
+    <div className="stat-grid perf-row" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
+      <PerfCell
+        head={label}
+        sub="WINDOW"
+        big={
+          <span className="display" style={{ fontSize: 28, color: "var(--ink)" }}>
+            {label.replace("-", "‑")}
+          </span>
+        }
+      />
+      <PerfCell
+        head="RETURN"
+        sub={`PNL ${fmtUsd(data.total_pnl, { sign: true, compact: true })} · NET R ${fmtR(data.total_r)}`}
+        big={
+          <span
+            className="display num"
+            style={{ fontSize: 40, color: isUp ? "var(--acid)" : "var(--warn)" }}
+          >
+            {fmtPct(data.virtual_return_pct)}
+          </span>
+        }
+      />
+      <PerfCell
+        head="WIN RATE"
+        sub={
+          <>
+            <span style={{ color: "var(--acid)" }}>{data.wins}W</span> ·{" "}
+            <span style={{ color: "var(--warn)" }}>{data.losses}L</span>
+          </>
+        }
+        big={
+          <span className="display num" style={{ fontSize: 40, color: "var(--ink)" }}>
+            {winRatePct == null ? "—" : `${winRatePct}%`}
+          </span>
+        }
+      />
+      <PerfCell
+        head={primary === "30d" ? "BEST TRADE" : "TOTAL TRADES"}
+        sub={primary === "30d" ? "30D PEAK" : "CAREER"}
+        big={
+          primary === "30d"
+            ? data.best_trade_pnl != null
+              ? (
+                <span className="display num" style={{ fontSize: 36, color: "var(--acid)" }}>
+                  {fmtUsd(data.best_trade_pnl, { sign: true, compact: true })}
+                </span>
+              )
+              : <span className="display" style={{ fontSize: 28, color: "var(--ink-3)" }}>—</span>
+            : (
+              <span className="display num" style={{ fontSize: 40, color: "var(--ink)" }}>
+                {data.trades.toLocaleString("en-US")}
+              </span>
+            )
+        }
+        noBorder
+      />
+    </div>
+  );
+}
+
+function PerfCell({
+  head,
+  sub,
+  big,
+  noBorder = false,
+}: {
+  head: string;
+  sub: React.ReactNode;
+  big: React.ReactNode;
+  noBorder?: boolean;
+}) {
+  return (
+    <div
+      className="pad"
+      style={{
+        padding: "24px 24px 20px",
+        borderRight: noBorder ? "none" : "1px solid var(--line-2)",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        minHeight: 140,
+      }}
+    >
+      <div className="eyebrow">{head}</div>
+      <div style={{ marginTop: 16, marginBottom: 8 }}>{big}</div>
+      <div className="num" style={{ fontSize: 11, color: "var(--ink-3)", letterSpacing: ".06em" }}>
+        {sub}
+      </div>
+    </div>
+  );
+}

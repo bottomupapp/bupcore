@@ -1,22 +1,23 @@
 import Link from "next/link";
-import { ArrowUpRight, Users } from "lucide-react";
 import {
   fetchAnalysts,
   type Analyst,
   type AnalystOrder,
 } from "@/lib/bottomup-api";
-import { CopyCodeButton } from "./copy-code-button";
+import { TopBar, TickerTape } from "./v2/top-bar";
+import { CopyCode } from "./v2/copy-code";
+import { fmtPct, fmtR, fmtUsd } from "./v2/format";
 
 export const revalidate = 60;
 
 const ORDER_OPTIONS: Array<{ value: AnalystOrder; label: string }> = [
-  { value: "monthly_pnl", label: "Monthly PnL" },
-  { value: "monthly_roi", label: "Monthly ROI" },
-  { value: "monthly_win_rate", label: "Monthly Win Rate" },
-  { value: "win_rate", label: "All-time Win Rate" },
-  { value: "pnl", label: "Total PnL" },
-  { value: "followers", label: "Followers" },
-  { value: "name", label: "Name (A→Z)" },
+  { value: "monthly_pnl", label: "30D_PNL" },
+  { value: "monthly_roi", label: "30D_ROI" },
+  { value: "monthly_win_rate", label: "30D_WR" },
+  { value: "win_rate", label: "ALL_WR" },
+  { value: "pnl", label: "ALL_PNL" },
+  { value: "followers", label: "FOLLOWERS" },
+  { value: "name", label: "NAME" },
 ];
 
 function isOrder(value: string | undefined): value is AnalystOrder {
@@ -25,35 +26,7 @@ function isOrder(value: string | undefined): value is AnalystOrder {
 
 function fullName(a: Analyst): string {
   if (a.name) return a.name;
-  const fl = [a.first_name, a.last_name].filter(Boolean).join(" ").trim();
-  return fl || "—";
-}
-
-function fmtUsd(n: number | null): string {
-  if (n == null) return "—";
-  const sign = n < 0 ? "−" : "";
-  const abs = Math.abs(n);
-  if (abs >= 1000)
-    return `${sign}$${(abs / 1000).toFixed(abs >= 10000 ? 1 : 2)}k`;
-  return `${sign}$${abs.toFixed(2)}`;
-}
-
-function fmtPct(n: number | null): string {
-  if (n == null) return "—";
-  return `${n > 0 ? "+" : ""}${n.toFixed(1)}%`;
-}
-
-function pnlColor(n: number | null): string {
-  if (n == null || n === 0) return "text-zinc-500";
-  return n > 0 ? "text-emerald-400" : "text-rose-400";
-}
-
-function winRateBadge(n: number | null): string {
-  if (n == null) return "border-zinc-700 bg-zinc-800/60 text-zinc-400";
-  if (n >= 60)
-    return "border-emerald-400/30 bg-emerald-400/10 text-emerald-300";
-  if (n >= 40) return "border-amber-400/30 bg-amber-400/10 text-amber-300";
-  return "border-rose-400/30 bg-rose-400/10 text-rose-300";
+  return [a.first_name, a.last_name].filter(Boolean).join(" ").trim() || "—";
 }
 
 export default async function AnalystListPage({
@@ -72,171 +45,283 @@ export default async function AnalystListPage({
     error = err instanceof Error ? err.message : String(err);
   }
 
+  const tape = [
+    { k: "ANALYSTS", v: analysts.length.toString(), up: true },
+    {
+      k: "TOP",
+      v: analysts[0]
+        ? `${fullName(analysts[0])} ${fmtUsd(analysts[0].stats.monthly_pnl, { sign: true, compact: true })}`
+        : "—",
+      up: true,
+    },
+    { k: "BUPCORE.AI", v: "ACTIVE", up: true },
+    { k: "SOURCE", v: "REAL_TIME · 60S CACHE" },
+  ];
+
   return (
-    <div className="mx-auto max-w-[1400px] px-4 py-10 md:px-8 md:py-14">
-      {/* Hero */}
-      <section className="mb-10 max-w-3xl">
-        <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-zinc-300">
-          The App Store of Smart Money
-        </span>
-        <h1 className="mt-5 text-4xl font-bold tracking-tight text-white sm:text-5xl">
-          BottomUP{" "}
-          <span className="bg-gradient-to-r from-orange-400 via-rose-400 to-rose-500 bg-clip-text text-transparent">
-            Analysts.
-          </span>
-        </h1>
-        <p className="mt-4 text-lg text-zinc-400">
-          Live performance, follower counts and referral codes for every active
-          trader. Use any analyst's code at signup to follow them on day one.
-        </p>
-      </section>
+    <>
+      <TopBar crumb="/ ANALYSTS" />
+      <TickerTape items={tape} />
 
-      {/* Sort chips */}
-      <div className="mb-8 -mx-4 overflow-x-auto px-4 md:mx-0 md:px-0">
-        <div className="flex items-center gap-2 whitespace-nowrap pb-1">
-          <span className="text-xs font-medium uppercase tracking-wider text-zinc-500">
-            Sort
-          </span>
-          {ORDER_OPTIONS.map((o) => (
-            <Link
-              key={o.value}
-              href={
-                o.value === "monthly_pnl" ? "/analyst" : `/analyst?order=${o.value}`
-              }
-              className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
-                order === o.value
-                  ? "border-white bg-white text-zinc-950"
-                  : "border-white/10 bg-white/5 text-zinc-400 hover:border-white/20 hover:text-zinc-100"
-              }`}
-            >
-              {o.label}
-            </Link>
-          ))}
-        </div>
-      </div>
+      <main style={{ maxWidth: 1440, margin: "0 auto", padding: "48px 32px 120px" }}>
+        <section style={{ maxWidth: 900 }}>
+          <div className="eyebrow" style={{ color: "var(--ink-3)" }}>
+            // BOTTOMUP_TERMINAL · ANALYST_INDEX
+          </div>
+          <h1
+            className="display"
+            style={{
+              fontSize: 96,
+              margin: "16px 0 12px",
+              color: "var(--ink)",
+            }}
+          >
+            ANALYSTS
+          </h1>
+          <p
+            style={{
+              fontSize: 14,
+              color: "var(--ink-2)",
+              maxWidth: 720,
+              lineHeight: 1.5,
+            }}
+          >
+            Live performance, follower counts and referral codes for every
+            active analyst on BottomUP. Use any code at signup to follow them
+            from day one.
+          </p>
+        </section>
 
-      {error ? (
-        <div className="rounded-2xl border border-rose-400/30 bg-rose-500/10 p-6 text-sm text-rose-200">
-          Failed to load data: {error}
-        </div>
-      ) : analysts.length === 0 ? (
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-sm text-zinc-400">
-          No analysts found.
-        </div>
-      ) : (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {analysts.map((a) => {
-            const name = fullName(a);
-            const traderHref = `/analyst/${encodeURIComponent(a.name ?? a.trader_id)}`;
-            return (
-              <article
-                key={a.trader_id}
-                className="group flex flex-col gap-5 rounded-2xl border border-white/10 bg-zinc-900/60 p-5 transition hover:border-white/20 hover:bg-zinc-900 sm:p-6"
-              >
-                {/* Header */}
-                <header className="flex items-start gap-3">
-                  <Link
-                    href={traderHref}
-                    className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full bg-zinc-800 ring-1 ring-white/10"
-                  >
-                    {a.image ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={a.image}
-                        alt={name}
-                        className="h-full w-full object-cover"
-                        loading="lazy"
-                        referrerPolicy="no-referrer"
-                      />
-                    ) : (
-                      <div className="grid h-full w-full place-items-center text-base font-semibold text-zinc-500">
-                        {name[0]?.toUpperCase() ?? "?"}
-                      </div>
-                    )}
-                  </Link>
-                  <div className="min-w-0 flex-1">
-                    <h2 className="truncate text-base font-semibold text-white">
-                      <Link href={traderHref} className="hover:text-zinc-300">
-                        {name}
-                      </Link>
-                    </h2>
-                    <div className="mt-1 flex items-center gap-1.5 text-xs text-zinc-500">
-                      <Users className="h-3.5 w-3.5" />
-                      {a.followers.toLocaleString("en-US")} followers
-                    </div>
-                  </div>
-                  <span
-                    className={`rounded-full border px-2 py-0.5 text-[11px] font-semibold ${winRateBadge(
-                      a.stats.win_rate,
-                    )}`}
-                    title="All-time win rate"
-                  >
-                    {a.stats.win_rate == null
-                      ? "—"
-                      : `${Math.round(a.stats.win_rate)}% WR`}
-                  </span>
-                </header>
-
-                {/* KPI grid */}
-                <dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
-                  <div>
-                    <dt className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
-                      Monthly PnL
-                    </dt>
-                    <dd className={`mt-0.5 text-base font-bold ${pnlColor(a.stats.monthly_pnl)}`}>
-                      {fmtUsd(a.stats.monthly_pnl)}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
-                      Monthly Win Rate
-                    </dt>
-                    <dd className="mt-0.5 text-base font-bold text-zinc-100">
-                      {a.stats.monthly_win_rate == null
-                        ? "—"
-                        : `${Math.round(a.stats.monthly_win_rate)}%`}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
-                      Total PnL
-                    </dt>
-                    <dd className={`mt-0.5 text-base font-bold ${pnlColor(a.stats.pnl)}`}>
-                      {fmtUsd(a.stats.pnl)}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
-                      PnL Rate
-                    </dt>
-                    <dd className={`mt-0.5 text-base font-bold ${pnlColor(a.stats.pnl_rate)}`}>
-                      {fmtPct(a.stats.pnl_rate)}
-                    </dd>
-                  </div>
-                </dl>
-
-                {/* Referral CTA */}
-                {a.referral_code ? (
-                  <CopyCodeButton code={a.referral_code} variant="cta" />
-                ) : (
-                  <div className="rounded-xl border border-dashed border-white/10 bg-white/5 px-4 py-3 text-xs text-zinc-500">
-                    No referral code yet
-                  </div>
-                )}
-
-                {/* Footer link */}
+        {/* sort row */}
+        <section style={{ marginTop: 32 }}>
+          <div
+            className="eyebrow"
+            style={{
+              marginBottom: 14,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: 16,
+              flexWrap: "wrap",
+            }}
+          >
+            <span>// SORT_BY</span>
+            <span style={{ color: "var(--ink-4)" }}>
+              {analysts.length} ROWS · DESC
+            </span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              gap: 0,
+              border: "1px solid var(--line-2)",
+              flexWrap: "wrap",
+            }}
+          >
+            {ORDER_OPTIONS.map((o, i) => {
+              const active = o.value === order;
+              return (
                 <Link
-                  href={traderHref}
-                  className="-mb-1 inline-flex items-center gap-1 self-start text-xs font-medium text-zinc-400 hover:text-white"
+                  key={o.value}
+                  href={
+                    o.value === "monthly_pnl"
+                      ? "/analyst"
+                      : `/analyst?order=${o.value}`
+                  }
+                  style={{
+                    padding: "10px 16px",
+                    background: active ? "var(--acid)" : "transparent",
+                    color: active ? "var(--bg)" : "var(--ink-3)",
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: ".14em",
+                    textTransform: "uppercase",
+                    borderRight:
+                      i < ORDER_OPTIONS.length - 1 ? "1px solid var(--line-2)" : "none",
+                  }}
                 >
-                  View details
-                  <ArrowUpRight className="h-3.5 w-3.5" />
+                  {o.label}
                 </Link>
-              </article>
-            );
-          })}
-        </div>
-      )}
-    </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {error ? (
+          <div
+            style={{
+              marginTop: 24,
+              border: "1px solid var(--warn)",
+              padding: "20px 24px",
+              background: "var(--bg-2)",
+              fontSize: 13,
+              color: "var(--ink-2)",
+            }}
+          >
+            <div className="eyebrow" style={{ color: "var(--warn)", marginBottom: 8 }}>
+              FETCH ERROR
+            </div>
+            {error}
+          </div>
+        ) : analysts.length === 0 ? (
+          <div
+            style={{
+              marginTop: 24,
+              padding: 32,
+              border: "1px solid var(--line-2)",
+              background: "var(--bg-2)",
+              color: "var(--ink-3)",
+              fontSize: 12,
+              letterSpacing: ".1em",
+              textTransform: "uppercase",
+            }}
+          >
+            no analysts found
+          </div>
+        ) : (
+          <div
+            style={{
+              marginTop: 24,
+              border: "1px solid var(--line-2)",
+              background: "var(--bg-2)",
+              overflowX: "auto",
+            }}
+          >
+            <table className="terminal">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>ANALYST</th>
+                  <th className="ralign">FOLLOWERS</th>
+                  <th className="ralign">30D PNL</th>
+                  <th className="ralign">30D WR</th>
+                  <th className="ralign">ALL PNL</th>
+                  <th className="ralign">ALL WR</th>
+                  <th>REF_CODE</th>
+                </tr>
+              </thead>
+              <tbody>
+                {analysts.map((a, i) => {
+                  const name = fullName(a);
+                  const handle = (a.name ?? a.trader_id);
+                  const href = `/analyst/${encodeURIComponent(handle)}`;
+                  const monthlyPnlTone =
+                    (a.stats.monthly_pnl ?? 0) >= 0 ? "var(--acid)" : "var(--warn)";
+                  const totalPnlTone =
+                    (a.stats.pnl ?? 0) >= 0 ? "var(--acid)" : "var(--warn)";
+                  return (
+                    <tr key={a.trader_id}>
+                      <td className="num" style={{ color: "var(--ink-3)" }}>
+                        {(i + 1).toString().padStart(2, "0")}
+                      </td>
+                      <td>
+                        <Link
+                          href={href}
+                          style={{ display: "flex", alignItems: "center", gap: 12 }}
+                        >
+                          {a.image ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              src={a.image}
+                              alt=""
+                              width={28}
+                              height={28}
+                              referrerPolicy="no-referrer"
+                              style={{
+                                width: 28,
+                                height: 28,
+                                border: "1px solid var(--line-2)",
+                                background: "var(--bg-3)",
+                                objectFit: "cover",
+                              }}
+                              loading="lazy"
+                            />
+                          ) : (
+                            <span
+                              style={{
+                                width: 28,
+                                height: 28,
+                                border: "1px solid var(--line-2)",
+                                background: "var(--bg-3)",
+                                color: "var(--ink-3)",
+                                display: "inline-grid",
+                                placeItems: "center",
+                                fontFamily: "var(--font-mono)",
+                                fontWeight: 700,
+                                fontSize: 11,
+                              }}
+                            >
+                              {name[0]?.toUpperCase() ?? "?"}
+                            </span>
+                          )}
+                          <span
+                            style={{ fontWeight: 600, fontSize: 13 }}
+                            className="lnk"
+                          >
+                            {name}
+                          </span>
+                        </Link>
+                      </td>
+                      <td className="ralign num" style={{ color: "var(--ink-2)" }}>
+                        {a.followers.toLocaleString("en-US")}
+                      </td>
+                      <td
+                        className="ralign num"
+                        style={{ color: monthlyPnlTone, fontWeight: 600 }}
+                      >
+                        {fmtUsd(a.stats.monthly_pnl, { sign: true, compact: true })}
+                      </td>
+                      <td className="ralign num" style={{ color: "var(--ink-2)" }}>
+                        {a.stats.monthly_win_rate == null
+                          ? "—"
+                          : `${Math.round(a.stats.monthly_win_rate)}%`}
+                      </td>
+                      <td
+                        className="ralign num"
+                        style={{ color: totalPnlTone, fontWeight: 600 }}
+                      >
+                        {fmtUsd(a.stats.pnl, { sign: true, compact: true })}
+                      </td>
+                      <td className="ralign num" style={{ color: "var(--ink-2)" }}>
+                        {a.stats.win_rate == null
+                          ? "—"
+                          : `${Math.round(a.stats.win_rate)}%`}
+                      </td>
+                      <td>
+                        {a.referral_code ? (
+                          <CopyCode code={a.referral_code} variant="compact" />
+                        ) : (
+                          <span style={{ color: "var(--ink-3)" }}>—</span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        <footer
+          style={{
+            marginTop: 64,
+            paddingTop: 24,
+            borderTop: "1px solid var(--line-2)",
+            display: "flex",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: 16,
+            fontSize: 11,
+            color: "var(--ink-3)",
+            letterSpacing: ".06em",
+          }}
+        >
+          <div>© {new Date().getFullYear()} BOTTOMUP.LAB · BUPCORE.AI</div>
+          <div style={{ maxWidth: 600, textAlign: "right" }}>
+            VIRTUAL_TRACK_RECORD · NOT_FINANCIAL_ADVICE · PAST_PERFORMANCE_≠_FUTURE_RESULTS
+          </div>
+        </footer>
+      </main>
+    </>
   );
 }
