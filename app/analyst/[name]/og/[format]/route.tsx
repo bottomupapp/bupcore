@@ -144,20 +144,23 @@ function pickHero(detail: TraderDetail): Hero {
   };
 }
 
-async function loadFont(family: string, weight: number): Promise<ArrayBuffer> {
-  const css = await fetch(
-    `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:wght@${weight}&display=swap`,
-    {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
-      },
-    },
-  ).then((r) => r.text());
-  const match = /url\((https:\/\/[^)]+\.woff2)\)/.exec(css);
-  if (!match) throw new Error(`Font ${family}@${weight} not found`);
-  const fontRes = await fetch(match[1]!);
-  return fontRes.arrayBuffer();
+// Static TTF URLs. satori (next/og) cannot parse WOFF2 (no brotli
+// decoder bundled), and Google Fonts CSS2 serves WOFF2 to modern
+// user-agents. Pulling raw TTFs from upstream repos is the simplest
+// reliable path. Cached aggressively by Next's fetch.
+const FONT_URLS = {
+  archivo:
+    "https://github.com/google/fonts/raw/main/ofl/archivoblack/ArchivoBlack-Regular.ttf",
+  monoBold:
+    "https://github.com/JetBrains/JetBrainsMono/raw/master/fonts/ttf/JetBrainsMono-Bold.ttf",
+  monoMedium:
+    "https://github.com/JetBrains/JetBrainsMono/raw/master/fonts/ttf/JetBrainsMono-Medium.ttf",
+} as const;
+
+async function loadFont(url: string): Promise<ArrayBuffer> {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Font fetch failed ${url} (${res.status})`);
+  return res.arrayBuffer();
 }
 
 export async function GET(
@@ -180,9 +183,9 @@ export async function GET(
   if (!detail) return new Response("Not found", { status: 404 });
 
   const [archivo900, mono700, mono500] = await Promise.all([
-    loadFont("Archivo", 900),
-    loadFont("JetBrains Mono", 700),
-    loadFont("JetBrains Mono", 500),
+    loadFont(FONT_URLS.archivo),
+    loadFont(FONT_URLS.monoBold),
+    loadFont(FONT_URLS.monoMedium),
   ]);
 
   const hero = pickHero(detail);
