@@ -41,7 +41,7 @@ function fmtR(n: number | null | undefined): string {
 
 function pnlColor(n: number | null | undefined): string {
   if (n == null || n === 0) return "text-zinc-500";
-  return n > 0 ? "text-emerald-600" : "text-rose-600";
+  return n > 0 ? "text-emerald-400" : "text-rose-400";
 }
 
 function fmtDate(s: string | null): string {
@@ -71,12 +71,12 @@ function StatCard({
 }) {
   const colorClass =
     tone === "good"
-      ? "text-emerald-600"
+      ? "text-emerald-400"
       : tone === "bad"
-        ? "text-rose-600"
-        : "text-zinc-900";
+        ? "text-rose-400"
+        : "text-white";
   return (
-    <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
+    <div className="rounded-2xl border border-white/10 bg-zinc-900/60 p-4">
       <div className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
         {label}
       </div>
@@ -118,14 +118,14 @@ export default async function AnalystDetailPage({
     <div className="mx-auto max-w-[1200px] px-4 py-8 md:px-8 md:py-10">
       <Link
         href="/analyst"
-        className="mb-6 inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-900"
+        className="mb-6 inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-200"
       >
         <ArrowLeft className="h-4 w-4" />
         All analysts
       </Link>
 
       {error && (
-        <div className="mb-6 rounded-2xl border border-rose-200 bg-rose-50 p-6 text-sm text-rose-700">
+        <div className="mb-6 rounded-2xl border border-rose-400/30 bg-rose-500/10 p-6 text-sm text-rose-200">
           Failed to load data: {error}
         </div>
       )}
@@ -133,9 +133,9 @@ export default async function AnalystDetailPage({
       {detail && (
         <>
           {/* Hero header */}
-          <header className="mb-10 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+          <header className="mb-10 overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/60">
             <div className="flex flex-col gap-6 p-6 md:flex-row md:items-start md:gap-8 md:p-8">
-              <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full bg-zinc-100 ring-2 ring-white shadow md:h-28 md:w-28">
+              <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full bg-zinc-800 ring-2 ring-white/10 md:h-28 md:w-28">
                 {detail.trader.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -145,24 +145,24 @@ export default async function AnalystDetailPage({
                     referrerPolicy="no-referrer"
                   />
                 ) : (
-                  <div className="grid h-full w-full place-items-center text-2xl font-bold text-zinc-400">
+                  <div className="grid h-full w-full place-items-center text-2xl font-bold text-zinc-500">
                     {displayName(detail.trader)[0]?.toUpperCase() ?? "?"}
                   </div>
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
+                <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
                   {displayName(detail.trader)}
                 </h1>
                 {detail.trader.bio && (
-                  <p className="mt-3 max-w-2xl whitespace-pre-line text-sm leading-relaxed text-zinc-600">
+                  <p className="mt-3 max-w-2xl whitespace-pre-line text-sm leading-relaxed text-zinc-400">
                     {detail.trader.bio}
                   </p>
                 )}
                 <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-zinc-500">
                   <span className="inline-flex items-center gap-1.5">
                     <Users className="h-4 w-4" />
-                    <span className="font-medium text-zinc-900">
+                    <span className="font-medium text-zinc-100">
                       {detail.trader.followers.toLocaleString("en-US")}
                     </span>
                     followers
@@ -171,7 +171,7 @@ export default async function AnalystDetailPage({
                     href={`https://bottomup.app/together/profile/${detail.trader.id}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1 text-zinc-700 hover:text-zinc-900 hover:underline"
+                    className="inline-flex items-center gap-1 text-zinc-300 hover:text-white hover:underline"
                   >
                     Open on bottomup.app
                     <ExternalLink className="h-3.5 w-3.5" />
@@ -182,19 +182,19 @@ export default async function AnalystDetailPage({
 
             {/* Referral CTA strip */}
             {detail.trader.referral_code && (
-              <div className="border-t border-zinc-200 bg-gradient-to-r from-emerald-50/60 via-white to-emerald-50/60 px-6 py-5 md:px-8">
+              <div className="border-t border-white/10 bg-gradient-to-r from-emerald-500/10 via-zinc-900/0 to-emerald-500/10 px-6 py-5 md:px-8">
                 <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                   <div>
-                    <div className="text-[11px] font-semibold uppercase tracking-wider text-emerald-700">
+                    <div className="text-[11px] font-semibold uppercase tracking-wider text-emerald-300/90">
                       Follow {displayName(detail.trader)}
                     </div>
-                    <p className="mt-0.5 text-sm text-zinc-700">
+                    <p className="mt-0.5 text-sm text-zinc-300">
                       Use this referral code at signup on the{" "}
                       <a
                         href="https://bottomup.app"
                         target="_blank"
                         rel="noreferrer"
-                        className="font-medium text-zinc-900 underline-offset-2 hover:underline"
+                        className="font-medium text-white underline-offset-2 hover:underline"
                       >
                         BottomUP app
                       </a>{" "}
@@ -284,7 +284,7 @@ export default async function AnalystDetailPage({
             </div>
             <div>
               <SectionHeading>Equity curve (30d)</SectionHeading>
-              <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
+              <div className="rounded-2xl border border-white/10 bg-zinc-900/60 p-4">
                 <EquityArea data={detail.equity_curve} height={220} />
               </div>
             </div>
@@ -293,7 +293,7 @@ export default async function AnalystDetailPage({
           {/* Monthly chart */}
           <section className="mb-8">
             <SectionHeading>Monthly net R (last 12 months)</SectionHeading>
-            <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
+            <div className="rounded-2xl border border-white/10 bg-zinc-900/60 p-4">
               <MonthlyBars data={detail.monthly} height={240} />
             </div>
           </section>
@@ -309,20 +309,20 @@ export default async function AnalystDetailPage({
                 return (
                   <div
                     key={side}
-                    className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm"
+                    className="rounded-2xl border border-white/10 bg-zinc-900/60 p-5"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span
                           className={`grid h-7 w-7 place-items-center rounded-lg text-xs font-bold ${
                             side === "long"
-                              ? "bg-emerald-100 text-emerald-700"
-                              : "bg-rose-100 text-rose-700"
+                              ? "bg-emerald-400/15 text-emerald-300"
+                              : "bg-rose-400/15 text-rose-300"
                           }`}
                         >
                           {side === "long" ? "L" : "S"}
                         </span>
-                        <span className="font-semibold capitalize text-zinc-900">
+                        <span className="font-semibold capitalize text-white">
                           {side}
                         </span>
                       </div>
@@ -362,9 +362,9 @@ export default async function AnalystDetailPage({
           {detail.coins.length > 0 && (
             <section className="mb-8">
               <SectionHeading>Most traded coins</SectionHeading>
-              <div className="overflow-x-auto rounded-2xl border border-zinc-200 bg-white shadow-sm">
+              <div className="overflow-x-auto rounded-2xl border border-white/10 bg-zinc-900/60">
                 <table className="w-full text-sm">
-                  <thead className="bg-zinc-50 text-xs uppercase tracking-wider text-zinc-500">
+                  <thead className="bg-white/5 text-xs uppercase tracking-wider text-zinc-500">
                     <tr>
                       <th className="px-4 py-3 text-left font-semibold">Coin</th>
                       <th className="px-4 py-3 text-right font-semibold">Trades</th>
@@ -373,12 +373,12 @@ export default async function AnalystDetailPage({
                       <th className="px-4 py-3 text-right font-semibold">Net PnL</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-zinc-100">
+                  <tbody className="divide-y divide-white/5">
                     {detail.coins.map((c) => (
                       <tr key={c.coin}>
-                        <td className="px-4 py-3 font-medium text-zinc-900">{c.coin}</td>
-                        <td className="px-4 py-3 text-right text-zinc-600">{c.trades}</td>
-                        <td className="px-4 py-3 text-right text-zinc-600">{c.win_rate}%</td>
+                        <td className="px-4 py-3 font-medium text-white">{c.coin}</td>
+                        <td className="px-4 py-3 text-right text-zinc-400">{c.trades}</td>
+                        <td className="px-4 py-3 text-right text-zinc-400">{c.win_rate}%</td>
                         <td className={`px-4 py-3 text-right font-medium ${pnlColor(c.net_r)}`}>
                           {fmtR(c.net_r)}
                         </td>
@@ -397,9 +397,9 @@ export default async function AnalystDetailPage({
           {detail.recent.length > 0 && (
             <section>
               <SectionHeading>Recent trades</SectionHeading>
-              <div className="overflow-x-auto rounded-2xl border border-zinc-200 bg-white shadow-sm">
+              <div className="overflow-x-auto rounded-2xl border border-white/10 bg-zinc-900/60">
                 <table className="w-full text-sm">
-                  <thead className="bg-zinc-50 text-xs uppercase tracking-wider text-zinc-500">
+                  <thead className="bg-white/5 text-xs uppercase tracking-wider text-zinc-500">
                     <tr>
                       <th className="px-4 py-3 text-left font-semibold">Date</th>
                       <th className="px-4 py-3 text-left font-semibold">Coin</th>
@@ -409,13 +409,13 @@ export default async function AnalystDetailPage({
                       <th className="px-4 py-3 text-right font-semibold">R</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-zinc-100">
+                  <tbody className="divide-y divide-white/5">
                     {detail.recent.map((t) => (
                       <tr key={t.id}>
                         <td className="whitespace-nowrap px-4 py-3 text-zinc-500">
                           {fmtDate(t.close_date)}
                         </td>
-                        <td className="px-4 py-3 font-medium text-zinc-900">{t.coin}</td>
+                        <td className="px-4 py-3 font-medium text-white">{t.coin}</td>
                         <td className="px-4 py-3">
                           {t.position == null ? (
                             "—"
@@ -423,15 +423,15 @@ export default async function AnalystDetailPage({
                             <span
                               className={`rounded-md px-2 py-0.5 text-xs font-semibold ${
                                 t.position === "long"
-                                  ? "bg-emerald-100 text-emerald-700"
-                                  : "bg-rose-100 text-rose-700"
+                                  ? "bg-emerald-400/15 text-emerald-300"
+                                  : "bg-rose-400/15 text-rose-300"
                               }`}
                             >
                               {t.position}
                             </span>
                           )}
                         </td>
-                        <td className="px-4 py-3 capitalize text-zinc-600">
+                        <td className="px-4 py-3 capitalize text-zinc-400">
                           {t.status}
                         </td>
                         <td className={`px-4 py-3 text-right font-medium ${pnlColor(t.pnl)}`}>

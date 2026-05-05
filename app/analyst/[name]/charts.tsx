@@ -67,7 +67,7 @@ export function EquityArea({
         y1={baselineY}
         x2={pad.l + w}
         y2={baselineY}
-        stroke="rgb(var(--border))"
+        stroke="rgb(63 63 70)"
         strokeDasharray="3 3"
       />
       <path d={areaPath} fill={fill} />
@@ -76,7 +76,7 @@ export function EquityArea({
         x={pad.l}
         y={pad.t + h + 12}
         fontSize={10}
-        fill="rgb(var(--muted))"
+        fill="rgb(113 113 122)"
       >
         {new Date(xMin).toLocaleDateString("en-US", {
           day: "2-digit",
@@ -88,7 +88,7 @@ export function EquityArea({
         y={pad.t + h + 12}
         fontSize={10}
         textAnchor="end"
-        fill="rgb(var(--muted))"
+        fill="rgb(113 113 122)"
       >
         {new Date(xMax).toLocaleDateString("en-US", {
           day: "2-digit",
@@ -143,7 +143,7 @@ export function MonthlyBars({
         y1={zeroY}
         x2={pad.l + w}
         y2={zeroY}
-        stroke="rgb(var(--border))"
+        stroke="rgb(63 63 70)"
       />
       {data.map((d, i) => {
         const x = pad.l + i * (barW + gap) + gap / 2;
@@ -165,7 +165,7 @@ export function MonthlyBars({
               x={x + barW / 2}
               y={pad.t + h + 14}
               fontSize={9}
-              fill="rgb(var(--muted))"
+              fill="rgb(113 113 122)"
               textAnchor="middle"
             >
               {d.month.slice(2)}
@@ -177,7 +177,7 @@ export function MonthlyBars({
         x={4}
         y={pad.t + 6}
         fontSize={10}
-        fill="rgb(var(--muted))"
+        fill="rgb(113 113 122)"
       >
         {yMax.toFixed(0)}R
       </text>
@@ -185,7 +185,7 @@ export function MonthlyBars({
         x={4}
         y={pad.t + h}
         fontSize={10}
-        fill="rgb(var(--muted))"
+        fill="rgb(113 113 122)"
       >
         {yMin.toFixed(0)}R
       </text>

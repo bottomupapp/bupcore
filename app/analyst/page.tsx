@@ -45,14 +45,15 @@ function fmtPct(n: number | null): string {
 
 function pnlColor(n: number | null): string {
   if (n == null || n === 0) return "text-zinc-500";
-  return n > 0 ? "text-emerald-600" : "text-rose-600";
+  return n > 0 ? "text-emerald-400" : "text-rose-400";
 }
 
 function winRateBadge(n: number | null): string {
-  if (n == null) return "border-zinc-200 bg-zinc-50 text-zinc-500";
-  if (n >= 60) return "border-emerald-200 bg-emerald-50 text-emerald-700";
-  if (n >= 40) return "border-amber-200 bg-amber-50 text-amber-700";
-  return "border-rose-200 bg-rose-50 text-rose-700";
+  if (n == null) return "border-zinc-700 bg-zinc-800/60 text-zinc-400";
+  if (n >= 60)
+    return "border-emerald-400/30 bg-emerald-400/10 text-emerald-300";
+  if (n >= 40) return "border-amber-400/30 bg-amber-400/10 text-amber-300";
+  return "border-rose-400/30 bg-rose-400/10 text-rose-300";
 }
 
 export default async function AnalystListPage({
@@ -75,13 +76,16 @@ export default async function AnalystListPage({
     <div className="mx-auto max-w-[1400px] px-4 py-10 md:px-8 md:py-14">
       {/* Hero */}
       <section className="mb-10 max-w-3xl">
-        <span className="inline-flex items-center rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1 text-xs font-medium text-zinc-600">
+        <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-zinc-300">
           The App Store of Smart Money
         </span>
-        <h1 className="mt-4 text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl">
-          BottomUP Analysts
+        <h1 className="mt-5 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+          BottomUP{" "}
+          <span className="bg-gradient-to-r from-orange-400 via-rose-400 to-rose-500 bg-clip-text text-transparent">
+            Analysts.
+          </span>
         </h1>
-        <p className="mt-4 text-lg text-zinc-600">
+        <p className="mt-4 text-lg text-zinc-400">
           Live performance, follower counts and referral codes for every active
           trader. Use any analyst's code at signup to follow them on day one.
         </p>
@@ -101,8 +105,8 @@ export default async function AnalystListPage({
               }
               className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
                 order === o.value
-                  ? "border-zinc-900 bg-zinc-900 text-white"
-                  : "border-zinc-200 bg-white text-zinc-600 hover:border-zinc-300 hover:text-zinc-900"
+                  ? "border-white bg-white text-zinc-950"
+                  : "border-white/10 bg-white/5 text-zinc-400 hover:border-white/20 hover:text-zinc-100"
               }`}
             >
               {o.label}
@@ -112,11 +116,11 @@ export default async function AnalystListPage({
       </div>
 
       {error ? (
-        <div className="rounded-2xl border border-rose-200 bg-rose-50 p-6 text-sm text-rose-700">
+        <div className="rounded-2xl border border-rose-400/30 bg-rose-500/10 p-6 text-sm text-rose-200">
           Failed to load data: {error}
         </div>
       ) : analysts.length === 0 ? (
-        <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-6 text-sm text-zinc-500">
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-sm text-zinc-400">
           No analysts found.
         </div>
       ) : (
@@ -127,13 +131,13 @@ export default async function AnalystListPage({
             return (
               <article
                 key={a.trader_id}
-                className="group flex flex-col gap-5 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:border-zinc-300 hover:shadow-md sm:p-6"
+                className="group flex flex-col gap-5 rounded-2xl border border-white/10 bg-zinc-900/60 p-5 transition hover:border-white/20 hover:bg-zinc-900 sm:p-6"
               >
                 {/* Header */}
                 <header className="flex items-start gap-3">
                   <Link
                     href={traderHref}
-                    className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full bg-zinc-100 ring-1 ring-zinc-200"
+                    className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full bg-zinc-800 ring-1 ring-white/10"
                   >
                     {a.image ? (
                       // eslint-disable-next-line @next/next/no-img-element
@@ -145,17 +149,14 @@ export default async function AnalystListPage({
                         referrerPolicy="no-referrer"
                       />
                     ) : (
-                      <div className="grid h-full w-full place-items-center text-base font-semibold text-zinc-400">
+                      <div className="grid h-full w-full place-items-center text-base font-semibold text-zinc-500">
                         {name[0]?.toUpperCase() ?? "?"}
                       </div>
                     )}
                   </Link>
                   <div className="min-w-0 flex-1">
-                    <h2 className="truncate text-base font-semibold text-zinc-900">
-                      <Link
-                        href={traderHref}
-                        className="hover:text-zinc-700"
-                      >
+                    <h2 className="truncate text-base font-semibold text-white">
+                      <Link href={traderHref} className="hover:text-zinc-300">
                         {name}
                       </Link>
                     </h2>
@@ -190,7 +191,7 @@ export default async function AnalystListPage({
                     <dt className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
                       Monthly Win Rate
                     </dt>
-                    <dd className="mt-0.5 text-base font-bold text-zinc-900">
+                    <dd className="mt-0.5 text-base font-bold text-zinc-100">
                       {a.stats.monthly_win_rate == null
                         ? "—"
                         : `${Math.round(a.stats.monthly_win_rate)}%`}
@@ -218,7 +219,7 @@ export default async function AnalystListPage({
                 {a.referral_code ? (
                   <CopyCodeButton code={a.referral_code} variant="cta" />
                 ) : (
-                  <div className="rounded-xl border border-dashed border-zinc-200 bg-zinc-50 px-4 py-3 text-xs text-zinc-500">
+                  <div className="rounded-xl border border-dashed border-white/10 bg-white/5 px-4 py-3 text-xs text-zinc-500">
                     No referral code yet
                   </div>
                 )}
@@ -226,7 +227,7 @@ export default async function AnalystListPage({
                 {/* Footer link */}
                 <Link
                   href={traderHref}
-                  className="-mb-1 inline-flex items-center gap-1 self-start text-xs font-medium text-zinc-600 hover:text-zinc-900"
+                  className="-mb-1 inline-flex items-center gap-1 self-start text-xs font-medium text-zinc-400 hover:text-white"
                 >
                   View details
                   <ArrowUpRight className="h-3.5 w-3.5" />
