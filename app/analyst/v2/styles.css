@@ -152,6 +152,7 @@
   .analyst-v2 .perf-row    { grid-template-columns: 1fr 1fr !important; }
   .analyst-v2 .hero-stack  { grid-template-columns: 1fr !important; }
   .analyst-v2 .hero-headline { font-size: 96px !important; }
+  .analyst-v2 .share-grid { grid-template-columns: 1fr 1fr !important; }
 }
 @media (max-width: 640px) {
   .analyst-v2 .perf-row { grid-template-columns: 1fr !important; }
@@ -160,4 +161,5 @@
   .analyst-v2 .top-bar-right { display: none !important; }
   .analyst-v2 .pad { padding: 24px !important; }
   .analyst-v2 .referral-strip { grid-template-columns: 1fr !important; }
+  .analyst-v2 .share-grid { grid-template-columns: 1fr !important; }
 }

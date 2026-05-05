@@ -11,6 +11,7 @@ import { RecentTrades } from "../v2/recent-trades";
 import { StickyFoot } from "../v2/sticky-foot";
 import { LiveStrip } from "../v2/live-strip";
 import { AnalystAutoRefresh } from "../v2/auto-refresh";
+import { ShareButton } from "../v2/share-button";
 import { fmtPct, fmtR } from "../v2/format";
 
 // Short ISR window. The detail page also gets `router.refresh()`
@@ -124,6 +125,7 @@ export default async function AnalystDetailPage({
   return (
     <>
       <AnalystAutoRefresh traderId={detail.trader.id} />
+      <ShareButton name={name_} />
       <TopBar crumb={`/ ANALYST / ${handle}`} />
       <TickerTape items={tape} />
       <Hero detail={detail} />
