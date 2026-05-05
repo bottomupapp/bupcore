@@ -77,6 +77,28 @@ type TraderDetail = {
 };
 ```
 
+## Live data (WebSocket)
+
+Headline trader stats (followers + monthly_pnl + win_rate + ALL pnl) tick live on both list and detail pages. The deeper detail panels (PerfMatrix, equity curve, monthly bars, recent trades) stay on `revalidate=60` ISR — those derive from raw trades on the API side and would need a separate watcher.
+
+**Plumbing:**
+- Workers: [`apps/workers/src/trader-watcher.ts`](https://github.com/denizbottomup/bottomup/blob/main/apps/workers/src/trader-watcher.ts) polls Railway `trader_stats` (same SQL as `PublicService.analystList`) every 15s and `RealtimeBus.publishAlways('analyst', <name>, row)` for each row. Uses `publishAlways` (not deduped `publish`) so the LIVE badge gets a per-tick proof-of-life frame even when nothing changed — `trader_stats` is daily-cron updated, dedup would otherwise leave new visitors stuck on "WAITING FOR FIRST FRAME".
+- Redis pub/sub key: `ws:analyst:<lowercased name>`
+- WS gateway ([`apps/ws/src/gateway.ts`](https://github.com/denizbottomup/bottomup/blob/main/apps/ws/src/gateway.ts)): fans each per-id event out to both `analyst:<name>` topic subscribers (detail page) **and** `analyst:*` topic subscribers (directory page). `analyst` channel is in the anonymous-allowed list — no JWT needed.
+- `analyst` is in [`packages/events/src/index.ts`](https://github.com/denizbottomup/bottomup/blob/main/packages/events/src/index.ts) `WS_CHANNELS`.
+- Frontend hook: [`lib/use-analyst-live.ts`](../lib/use-analyst-live.ts) — native `WebSocket('wss://bottomupws-production.up.railway.app/')`, anonymous bind, exponential reconnect (cap 8s).
+- List page wrapper: [`app/analyst/v2/live-table.tsx`](../app/analyst/v2/live-table.tsx) — re-sorts on every frame using the active order key.
+- Detail page wrapper: [`app/analyst/v2/live-strip.tsx`](../app/analyst/v2/live-strip.tsx) — 5-tile strip above PerfMatrix.
+
+**WS env knobs (workers):**
+- `TRADER_WATCHER_ENABLED` (default `true`)
+- `TRADER_WATCHER_INTERVAL_MS` (default `15000`)
+- `TRADER_WATCHER_LIMIT` (default `100`)
+
+**Frontend env:** `NEXT_PUBLIC_BOTTOMUP_WS_URL` (default `wss://bottomupws-production.up.railway.app/`).
+
+**Common gotcha:** if you add a second publish for the same channel/id pair (e.g. `publish('analyst', '*', ...)` alongside the per-id call), the gateway's built-in wildcard fanout double-sends to `*` subscribers and the dedup cache thrashes (every row overwrites the same `analyst:*` slot). Always publish per-id only; let the gateway handle wildcard fanout.
+
 ## CTA policy — değiştirme
 
 Sadece iki CTA destekleniyor; yeni CTA eklemeden önce bu kuralı sor:
