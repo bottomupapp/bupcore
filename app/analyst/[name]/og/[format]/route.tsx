@@ -343,7 +343,7 @@ interface CardProps {
 }
 
 // ─── Twitter / X / Facebook 1200×675 ──────────────────────────────
-function TwitterCard({ name, ref_code, hero, avatar }: CardProps) {
+function TwitterCard({ name, ref_code, hero, avatar, t }: CardProps) {
   const heroColor = hero.tone === "up" ? TOKENS.acid : TOKENS.warn;
   return (
     <div
@@ -574,7 +574,7 @@ function TwitterCard({ name, ref_code, hero, avatar }: CardProps) {
 }
 
 // ─── Instagram square 1080×1080 ───────────────────────────────────
-function SquareCard({ name, ref_code, hero, avatar }: CardProps) {
+function SquareCard({ name, ref_code, hero, avatar, t }: CardProps) {
   const heroColor = hero.tone === "up" ? TOKENS.acid : TOKENS.warn;
   return (
     <div
@@ -801,7 +801,7 @@ function SquareCard({ name, ref_code, hero, avatar }: CardProps) {
 }
 
 // ─── Story / TikTok 1080×1920 ─────────────────────────────────────
-function StoryCard({ name, ref_code, hero, avatar }: CardProps) {
+function StoryCard({ name, ref_code, hero, avatar, t }: CardProps) {
   const heroColor = hero.tone === "up" ? TOKENS.acid : TOKENS.warn;
   return (
     <div
