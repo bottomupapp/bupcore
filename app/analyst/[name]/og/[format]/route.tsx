@@ -255,6 +255,13 @@ function renderHeroSub(
 // decoder bundled), and Google Fonts CSS2 serves WOFF2 to modern
 // user-agents. Pulling raw TTFs from upstream repos is the simplest
 // reliable path. Cached aggressively by Next's fetch.
+//
+// Latin fonts cover EN/TR/ES/PT/RU/VI/ID. CJK glyphs fall through to
+// satori's built-in Noto Sans CJK fallback (works for ZH/KO out of
+// the box). Arabic needs an explicit font — JetBrains Mono and the
+// satori fallback both lack Arabic glyphs and the route 502s without
+// it. We lazy-load Arabic only for `lang=ar` to avoid pulling ~400KB
+// for every render.
 const FONT_URLS = {
   archivo:
     "https://github.com/google/fonts/raw/main/ofl/archivoblack/ArchivoBlack-Regular.ttf",
@@ -262,6 +269,10 @@ const FONT_URLS = {
     "https://github.com/JetBrains/JetBrainsMono/raw/master/fonts/ttf/JetBrainsMono-Bold.ttf",
   monoMedium:
     "https://github.com/JetBrains/JetBrainsMono/raw/master/fonts/ttf/JetBrainsMono-Medium.ttf",
+  arabicDisplay:
+    "https://github.com/google/fonts/raw/main/ofl/notokufiarabic/NotoKufiArabic%5Bwght%5D.ttf",
+  arabicBody:
+    "https://github.com/google/fonts/raw/main/ofl/notosansarabic/NotoSansArabic%5Bwdth,wght%5D.ttf",
 } as const;
 
 async function loadFont(url: string): Promise<ArrayBuffer> {
@@ -292,11 +303,19 @@ export async function GET(
   }
   if (!detail) return new Response("Not found", { status: 404 });
 
-  const [archivo900, mono700, mono500] = await Promise.all([
+  const fontJobs: Array<Promise<ArrayBuffer>> = [
     loadFont(FONT_URLS.archivo),
     loadFont(FONT_URLS.monoBold),
     loadFont(FONT_URLS.monoMedium),
-  ]);
+  ];
+  if (locale === "ar") {
+    fontJobs.push(
+      loadFont(FONT_URLS.arabicDisplay),
+      loadFont(FONT_URLS.arabicBody),
+    );
+  }
+  const fontBuffers = await Promise.all(fontJobs);
+  const [archivo900, mono700, mono500, arDisplay, arBody] = fontBuffers;
 
   const hero = pickHero(detail);
   const traderName = fullName(detail.trader);
@@ -319,14 +338,33 @@ export async function GET(
       <TwitterCard {...cardProps} />
     );
 
+  // Order matters in satori: glyph lookup walks fonts top-to-bottom.
+  // For AR, register Arabic-supporting fonts under the SAME family
+  // names that the JSX uses (Archivo / JetBrains Mono) so glyphs not
+  // present in the Latin TTFs fall through. Saving size by lazy-load
+  // (only when locale=='ar').
+  const fonts: Array<{
+    name: string;
+    data: ArrayBuffer;
+    weight: 400 | 500 | 600 | 700 | 800 | 900;
+    style: "normal";
+  }> = [
+    { name: "Archivo", data: archivo900!, weight: 900, style: "normal" },
+    { name: "JetBrains Mono", data: mono700!, weight: 700, style: "normal" },
+    { name: "JetBrains Mono", data: mono500!, weight: 500, style: "normal" },
+  ];
+  if (arDisplay && arBody) {
+    fonts.push(
+      { name: "Archivo", data: arDisplay, weight: 900, style: "normal" },
+      { name: "JetBrains Mono", data: arBody, weight: 700, style: "normal" },
+      { name: "JetBrains Mono", data: arBody, weight: 500, style: "normal" },
+    );
+  }
+
   return new ImageResponse(node, {
     width,
     height,
-    fonts: [
-      { name: "Archivo", data: archivo900, weight: 900, style: "normal" },
-      { name: "JetBrains Mono", data: mono700, weight: 700, style: "normal" },
-      { name: "JetBrains Mono", data: mono500, weight: 500, style: "normal" },
-    ],
+    fonts,
     headers: {
       "Cache-Control":
         "public, max-age=60, s-maxage=60, stale-while-revalidate=300",
