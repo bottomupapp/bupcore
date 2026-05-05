@@ -286,9 +286,47 @@ const FONT_URLS = {
 } as const;
 
 async function loadFont(url: string): Promise<ArrayBuffer> {
-  const res = await fetch(url);
+  // Long-lived cache — font binaries are immutable per URL. Without
+  // this, every render hits GitHub's raw-content servers and the route
+  // becomes hostage to their tail-latency / occasional 5xx, which was
+  // crashing the Node runtime and producing 502s when the cache
+  // window from a previous render expired.
+  const res = await fetch(url, {
+    next: { revalidate: 60 * 60 * 24 * 7 },
+  });
   if (!res.ok) throw new Error(`Font fetch failed ${url} (${res.status})`);
   return res.arrayBuffer();
+}
+
+/**
+ * Fetch the trader's avatar with a hard timeout and return it as a
+ * data URL the way satori expects. Any failure (timeout, network,
+ * non-image, oversized) returns null so the card falls back to the
+ * Monogram letter — instead of letting satori's internal fetch fail
+ * mid-render and crash the Node runtime (which surfaces as a Railway
+ * 502 with no useful body).
+ */
+async function preloadAvatar(url: string | null): Promise<string | null> {
+  if (!url) return null;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 4000);
+  try {
+    const res = await fetch(url, {
+      signal: controller.signal,
+      next: { revalidate: 60 * 60 * 24 },
+    });
+    if (!res.ok) return null;
+    const ct = res.headers.get("content-type") ?? "";
+    if (!ct.startsWith("image/")) return null;
+    const buf = await res.arrayBuffer();
+    if (buf.byteLength > 2_000_000) return null; // 2MB ceiling
+    const b64 = Buffer.from(buf).toString("base64");
+    return `data:${ct};base64,${b64}`;
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 export async function GET(
@@ -324,8 +362,28 @@ export async function GET(
       loadFont(FONT_URLS.arabicBody),
     );
   }
-  const fontBuffers = await Promise.all(fontJobs);
-  const [archivo900, mono700, mono500, arDisplay, arBody] = fontBuffers;
+
+  let archivo900: ArrayBuffer | undefined,
+    mono700: ArrayBuffer | undefined,
+    mono500: ArrayBuffer | undefined,
+    arDisplay: ArrayBuffer | undefined,
+    arBody: ArrayBuffer | undefined;
+  try {
+    const fontBuffers = await Promise.all(fontJobs);
+    [archivo900, mono700, mono500, arDisplay, arBody] = fontBuffers;
+  } catch (err) {
+    return new Response(
+      `Font load failed: ${err instanceof Error ? err.message : String(err)}`,
+      { status: 500, headers: { "content-type": "text/plain" } },
+    );
+  }
+
+  // Pre-fetch the avatar to a data URL (or null on any failure). This
+  // keeps satori's internal image-fetch step deterministic — we've
+  // observed Railway 502s when satori fetched a slow/failing third-
+  // party avatar URL mid-render and the unhandled error bubbled up
+  // from the Node runtime.
+  const avatarDataUrl = await preloadAvatar(detail.trader.image);
 
   const hero = pickHero(detail);
   const traderName = fullName(detail.trader);
@@ -336,7 +394,7 @@ export async function GET(
     name: traderName,
     ref_code: refCode,
     hero,
-    avatar: detail.trader.image,
+    avatar: avatarDataUrl,
     t,
   };
   const node =
@@ -371,15 +429,25 @@ export async function GET(
     );
   }
 
-  return new ImageResponse(node, {
-    width,
-    height,
-    fonts,
-    headers: {
-      "Cache-Control":
-        "public, max-age=60, s-maxage=60, stale-while-revalidate=300",
-    },
-  });
+  try {
+    return new ImageResponse(node, {
+      width,
+      height,
+      fonts,
+      headers: {
+        "Cache-Control":
+          "public, max-age=60, s-maxage=60, stale-while-revalidate=300",
+      },
+    });
+  } catch (err) {
+    // satori (or its yoga/resvg pipeline) can throw on layout edge
+    // cases; surface the message instead of letting Node crash and
+    // Railway return a generic 502.
+    return new Response(
+      `Render failed: ${err instanceof Error ? err.message : String(err)}`,
+      { status: 500, headers: { "content-type": "text/plain" } },
+    );
+  }
 }
 
 interface CardProps {
