@@ -456,8 +456,18 @@ export async function GET(
     const resvg = new Resvg(svg, {
       fitTo: { mode: "width", value: width },
     });
-    const png = resvg.render().asPng();
-    return new Response(png, {
+    // `asPng()` returns a Node Buffer; modern @types/node types it as
+    // `Buffer<ArrayBufferLike>`, which TypeScript no longer accepts as
+    // a `BodyInit` argument to `new Response(...)`. Wrapping it in a
+    // fresh `Uint8Array` is a zero-copy view that satisfies the type
+    // system and the runtime contract.
+    const pngBuf = resvg.render().asPng();
+    const pngBytes = new Uint8Array(
+      pngBuf.buffer,
+      pngBuf.byteOffset,
+      pngBuf.byteLength,
+    );
+    return new Response(pngBytes, {
       status: 200,
       headers: {
         "content-type": "image/png",
