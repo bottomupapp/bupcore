@@ -26,12 +26,27 @@
  * The same Worker can later swap STUDIO_ORIGIN to point at the prod
  * Studio domain once /analyst graduates out of the lab.
  */
+// Path prefixes this worker proxies to Studio. `/analyst` is the
+// page itself; `/_next` is required so the Next.js build's CSS,
+// JS chunks and image-optimization endpoint resolve under
+// bottomup.app (otherwise the page renders unstyled). `/__nextjs`
+// covers Next.js dev/runtime endpoints we may surface later.
+const PROXY_PREFIXES = ["/analyst", "/_next", "/__nextjs"];
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    if (!url.pathname.startsWith("/analyst")) {
-      return new Response("Not found", { status: 404 });
+    // Anything not in the Studio surface gets bounced to the marketing
+    // site at www.bottomup.app. Required because we added a dummy
+    // proxied AAAA on the apex (so Worker routes can fire); without
+    // this fallback the apex root and any other path would 522 against
+    // the unreachable 100:: target.
+    if (!PROXY_PREFIXES.some((p) => url.pathname.startsWith(p))) {
+      return Response.redirect(
+        `https://www.bottomup.app${url.pathname}${url.search}`,
+        301,
+      );
     }
     if (!env.STUDIO_ORIGIN) {
       return new Response(
