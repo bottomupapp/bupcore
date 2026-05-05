@@ -1,0 +1,12 @@
+name = "bottomup-analyst-proxy"
+main = "analyst-worker.js"
+compatibility_date = "2026-05-01"
+
+# Route: bottomup.app/analyst* → this Worker
+routes = [
+  { pattern = "bottomup.app/analyst*", zone_name = "bottomup.app" }
+]
+
+# Set STUDIO_ORIGIN via:
+#   npx wrangler secret put STUDIO_ORIGIN --config cloudflare/analyst-wrangler.toml
+# value: https://work.bupcore.ai
