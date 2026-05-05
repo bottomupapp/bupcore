@@ -61,70 +61,145 @@ function fmtUsd(n: number, sign = false): string {
   return body;
 }
 
+function compute7d(detail: TraderDetail): {
+  wins: number;
+  losses: number;
+  pnl: number;
+  returnPct: number;
+  winRate: number | null;
+} {
+  const cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
+  let wins = 0;
+  let losses = 0;
+  let pnl = 0;
+  for (const t of detail.recent) {
+    if (!t.close_date) continue;
+    if (new Date(t.close_date).getTime() < cutoff) continue;
+    if (t.status === "success") wins += 1;
+    else if (t.status === "stopped") losses += 1;
+    pnl += t.pnl;
+  }
+  const decided = wins + losses;
+  const winRate = decided > 0 ? (wins / decided) * 100 : null;
+  // Same $10k starting balance assumption used elsewhere in the app.
+  const returnPct = (pnl / 10000) * 100;
+  return { wins, losses, pnl, returnPct, winRate };
+}
+
+/**
+ * Pick the trader's most marketable metric across windows. Prefers
+ * fresher signals (7D > 30D > all-time) when they're strong; falls
+ * back to all-time return when nothing meets the "wow" thresholds.
+ *
+ * Sub text never references trade count — focus is on the headline
+ * value and one supporting performance number.
+ */
 function pickHero(detail: TraderDetail): Hero {
   const all = detail.all_time;
   const m30 = detail.stats;
+  const w7 = compute7d(detail);
+
   const wrAll = (all.win_rate ?? 0) * 100;
   const wr30 = (m30.win_rate ?? 0) * 100;
+  const wr7 = w7.winRate ?? 0;
   const retAll = all.virtual_return_pct;
   const ret30 = m30.virtual_return_pct;
-  const pnl30 = m30.total_pnl;
+  const ret7 = w7.returnPct;
   const pnlAll = all.total_pnl;
+  const pnl30 = m30.total_pnl;
+  const pnl7 = w7.pnl;
+  // Fresher windows get a multiplier so a strong 7D number outranks
+  // a marginally-stronger all-time number.
+  const W7 = 1.4;
+  const W30 = 1.15;
+  const WALL = 1.0;
 
   type C = Hero & { score: number };
   const candidates: C[] = [];
 
-  if (wrAll >= 60 && all.trades >= 5) {
+  // ─── Returns ─────────────────────────────────────────────────────
+  if (ret7 >= 8) {
     candidates.push({
-      score: wrAll * (1 + Math.log10(Math.max(all.trades, 1)) / 5),
-      label: "ALL-TIME WIN RATE",
-      value: `${Math.round(wrAll)}%`,
-      sub: `${all.wins}W · ${all.losses}L · ${all.trades} trades`,
+      score: Math.min(ret7, 200) * W7,
+      label: "7D RETURN",
+      value: `+${ret7.toFixed(2)}%`,
+      sub: fmtUsd(pnl7, true),
       tone: "up",
     });
   }
-  if (wr30 >= 60 && m30.trades >= 3) {
+  if (ret30 >= 15) {
     candidates.push({
-      score: wr30 * 0.95,
-      label: "30D WIN RATE",
-      value: `${Math.round(wr30)}%`,
-      sub: `${m30.wins}W · ${m30.losses}L`,
-      tone: "up",
-    });
-  }
-  if (retAll >= 20) {
-    candidates.push({
-      score: Math.min(retAll, 200),
-      label: "ALL-TIME RETURN",
-      value: `+${retAll.toFixed(2)}%`,
-      sub: `${fmtUsd(pnlAll, true)} · ${all.trades} trades`,
-      tone: "up",
-    });
-  }
-  if (ret30 >= 20) {
-    candidates.push({
-      score: Math.min(ret30, 200) * 0.9,
+      score: Math.min(ret30, 200) * W30,
       label: "30D RETURN",
       value: `+${ret30.toFixed(2)}%`,
       sub: fmtUsd(pnl30, true),
       tone: "up",
     });
   }
-  if (pnl30 >= 5000) {
+  if (retAll >= 15) {
     candidates.push({
-      score: 60 + Math.log10(pnl30) * 5,
-      label: "30D NET PNL",
-      value: fmtUsd(pnl30, true),
-      sub: `${m30.trades} trades · ${Math.round(wr30)}% WR`,
+      score: Math.min(retAll, 200) * WALL,
+      label: "ALL-TIME RETURN",
+      value: `+${retAll.toFixed(2)}%`,
+      sub: fmtUsd(pnlAll, true),
       tone: "up",
     });
   }
-  if (pnlAll >= 5000) {
+
+  // ─── Net PnL ─────────────────────────────────────────────────────
+  if (pnl7 >= 1000) {
     candidates.push({
-      score: 55 + Math.log10(pnlAll) * 5,
+      score: (60 + Math.log10(pnl7) * 5) * W7,
+      label: "7D NET PNL",
+      value: fmtUsd(pnl7, true),
+      sub: `+${ret7.toFixed(2)}% RETURN`,
+      tone: "up",
+    });
+  }
+  if (pnl30 >= 3000) {
+    candidates.push({
+      score: (60 + Math.log10(pnl30) * 5) * W30,
+      label: "30D NET PNL",
+      value: fmtUsd(pnl30, true),
+      sub: `+${ret30.toFixed(2)}% RETURN`,
+      tone: "up",
+    });
+  }
+  if (pnlAll >= 3000) {
+    candidates.push({
+      score: (55 + Math.log10(pnlAll) * 5) * WALL,
       label: "ALL-TIME NET PNL",
       value: fmtUsd(pnlAll, true),
-      sub: `${all.trades} trades`,
+      sub: `+${retAll.toFixed(2)}% RETURN`,
+      tone: "up",
+    });
+  }
+
+  // ─── Win rate (need a meaningful sample on the window) ──────────
+  if (wr7 >= 70 && w7.wins + w7.losses >= 3) {
+    candidates.push({
+      score: wr7 * W7,
+      label: "7D WIN RATE",
+      value: `${Math.round(wr7)}%`,
+      sub: `${w7.wins}W · ${w7.losses}L`,
+      tone: "up",
+    });
+  }
+  if (wr30 >= 65 && m30.trades >= 5) {
+    candidates.push({
+      score: wr30 * W30,
+      label: "30D WIN RATE",
+      value: `${Math.round(wr30)}%`,
+      sub: `${m30.wins}W · ${m30.losses}L`,
+      tone: "up",
+    });
+  }
+  if (wrAll >= 60 && all.wins + all.losses >= 8) {
+    candidates.push({
+      score: wrAll * WALL,
+      label: "ALL-TIME WIN RATE",
+      value: `${Math.round(wrAll)}%`,
+      sub: `${all.wins}W · ${all.losses}L`,
       tone: "up",
     });
   }
@@ -135,12 +210,16 @@ function pickHero(detail: TraderDetail): Hero {
     void score;
     return rest;
   }
-  // Generic fallback — high-volume but not a wow stat
+
+  // Always-on fallback: whatever their all-time return is, even modest.
   return {
-    label: "TOTAL TRADES",
-    value: all.trades.toLocaleString("en-US"),
-    sub: `${all.wins}W · ${all.losses}L`,
-    tone: "up",
+    label: "ALL-TIME RETURN",
+    value:
+      retAll >= 0
+        ? `+${retAll.toFixed(2)}%`
+        : `−${Math.abs(retAll).toFixed(2)}%`,
+    sub: fmtUsd(pnlAll, true),
+    tone: retAll >= 0 ? "up" : "down",
   };
 }
 
@@ -354,7 +433,7 @@ function TwitterCard({ name, ref_code, hero, avatar }: CardProps) {
               display: "flex",
             }}
           >
-            VIRTUAL TRACK RECORD · BUPCORE.AI
+            VIRTUAL TRACK RECORD
           </div>
         </div>
         {/* right: hero stat */}
@@ -809,7 +888,7 @@ function StoryCard({ name, ref_code, hero, avatar }: CardProps) {
             display: "flex",
           }}
         >
-          VIRTUAL TRACK RECORD · BUPCORE.AI
+          VIRTUAL TRACK RECORD
         </div>
       </div>
 

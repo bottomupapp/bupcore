@@ -54,7 +54,7 @@ export default async function AnalystListPage({
         : "—",
       up: true,
     },
-    { k: "BUPCORE.AI", v: "ACTIVE", up: true },
+    { k: "BOTTOMUP", v: "LIVE", up: true },
     { k: "SOURCE", v: "REAL_TIME · 60S CACHE" },
   ];
 
@@ -198,7 +198,7 @@ export default async function AnalystListPage({
             letterSpacing: ".06em",
           }}
         >
-          <div>© {new Date().getFullYear()} BOTTOMUP.LAB · BUPCORE.AI</div>
+          <div>© {new Date().getFullYear()} BOTTOMUP</div>
           <div style={{ maxWidth: 600, textAlign: "right" }}>
             VIRTUAL_TRACK_RECORD · NOT_FINANCIAL_ADVICE · PAST_PERFORMANCE_≠_FUTURE_RESULTS
           </div>

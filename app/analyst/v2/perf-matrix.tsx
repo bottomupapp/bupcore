@@ -15,7 +15,7 @@ export function PerfMatrix({
         style={{ marginBottom: 14, display: "flex", justifyContent: "space-between" }}
       >
         <span>// PERFORMANCE_MATRIX</span>
-        <span style={{ color: "var(--ink-4)" }}>SOURCE: BUPCORE.AI</span>
+        <span style={{ color: "var(--ink-4)" }}>SOURCE: BOTTOMUP</span>
       </div>
       <div
         style={{
