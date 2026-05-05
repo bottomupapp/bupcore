@@ -64,7 +64,16 @@ export function useAnalystLive(id: string): {
           return;
         }
         if (!frame || frame.channel !== "analyst") return;
-        const row = frame.data as Analyst;
+        // The analyst channel carries two payload shapes:
+        //   1. trader-watcher snapshots: full Analyst row
+        //   2. replicator notifications: { kind: 'trades-changed', ... }
+        // This hook only consumes (1); (2) is handled by
+        // useAnalystInvalidate. Detect by presence of trader_id field.
+        const data = frame.data as Analyst | { kind?: string };
+        if (!data || typeof data !== "object" || !("trader_id" in data)) {
+          return;
+        }
+        const row = data as Analyst;
         const key = (row.name ?? row.trader_id).toLowerCase();
         setRows((prev) => {
           const next = new Map(prev);
@@ -112,4 +121,82 @@ export function useAnalystLive(id: string): {
   }, [id]);
 
   return { rows, lastUpdateAt, connected };
+}
+
+/**
+ * Subscribe to per-trader page-invalidation notifications. The
+ * replicator publishes `{kind:'trades-changed'}` on `analyst:<trader_id>`
+ * whenever a setup of theirs transitions to closed. The detail page
+ * reacts by calling router.refresh() so PerfMatrix / equity / monthly
+ * bars / recent trades re-render with fresh data.
+ *
+ * Fires `onInvalidate` debounced (250ms) — a batch of replicated
+ * setups for the same trader collapses into one refresh.
+ */
+export function useAnalystInvalidate(
+  traderId: string | null | undefined,
+  onInvalidate: () => void,
+): void {
+  const cbRef = useRef(onInvalidate);
+  cbRef.current = onInvalidate;
+
+  useEffect(() => {
+    if (!traderId) return;
+    const id = traderId.toLowerCase();
+    let cancelled = false;
+    let attempt = 0;
+    let sock: WebSocket | null = null;
+    let reconnect: ReturnType<typeof setTimeout> | null = null;
+    let debounce: ReturnType<typeof setTimeout> | null = null;
+
+    const connect = (): void => {
+      if (cancelled) return;
+      const ws = new WebSocket(WS_URL);
+      sock = ws;
+      ws.addEventListener("open", () => {
+        if (cancelled) return;
+        attempt = 0;
+        ws.send(JSON.stringify({ channel: "analyst", action: "bind", id }));
+      });
+      ws.addEventListener("message", (ev) => {
+        let frame: Frame | null = null;
+        try {
+          frame = JSON.parse(ev.data as string) as Frame;
+        } catch {
+          return;
+        }
+        if (!frame || frame.channel !== "analyst") return;
+        const data = frame.data as { kind?: string };
+        if (data?.kind !== "trades-changed") return;
+        if (debounce) clearTimeout(debounce);
+        debounce = setTimeout(() => cbRef.current(), 250);
+      });
+      ws.addEventListener("close", () => {
+        if (cancelled) return;
+        const delay = Math.min(8000, 500 * 2 ** Math.min(attempt, 4));
+        attempt += 1;
+        reconnect = setTimeout(connect, delay);
+      });
+    };
+
+    connect();
+
+    return () => {
+      cancelled = true;
+      if (reconnect) clearTimeout(reconnect);
+      if (debounce) clearTimeout(debounce);
+      if (sock && sock.readyState === WebSocket.OPEN) {
+        try {
+          sock.send(
+            JSON.stringify({ channel: "analyst", action: "unbind", id }),
+          );
+        } catch {
+          // socket already half-closed; ignore.
+        }
+        sock.close();
+      } else {
+        sock?.close();
+      }
+    };
+  }, [traderId]);
 }

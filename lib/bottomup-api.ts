@@ -128,8 +128,11 @@ export async function fetchTraderDetail(
     `/public/trader/${encodeURIComponent(name)}`,
     BUP_API_BASE,
   );
+  // No cache: the detail page is force-dynamic and gets `router.refresh()`
+  // pinged by the ws `analyst:<trader_id>` channel on every closed setup.
+  // Caching here would mean the refresh re-renders against stale data.
   const res = await fetch(url, {
-    next: { revalidate: 60 },
+    cache: "no-store",
     headers: { accept: "application/json" },
   });
   if (res.status === 404) return null;

@@ -10,9 +10,14 @@ import { TopCoins } from "../v2/top-coins";
 import { RecentTrades } from "../v2/recent-trades";
 import { StickyFoot } from "../v2/sticky-foot";
 import { LiveStrip } from "../v2/live-strip";
+import { AnalystAutoRefresh } from "../v2/auto-refresh";
 import { fmtPct, fmtR } from "../v2/format";
 
-export const revalidate = 60;
+// Detail data is recomputed from raw setups on every request and the
+// page is invalidated by ws on every closed trade — keep the page
+// dynamic so router.refresh() actually pulls fresh numbers. The list
+// page stays on revalidate=60.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -117,6 +122,7 @@ export default async function AnalystDetailPage({
 
   return (
     <>
+      <AnalystAutoRefresh traderId={detail.trader.id} />
       <TopBar crumb={`/ ANALYST / ${handle}`} />
       <TickerTape items={tape} />
       <Hero detail={detail} />
