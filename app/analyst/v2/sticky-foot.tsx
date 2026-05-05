@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowRight } from "./icons";
+import { ArrowRight, Plus } from "./icons";
 import { CopyCode } from "./copy-code";
 
 const APP_STORE_URL =
   "https://apps.apple.com/tr/app/bottomup-sofi-trade-finance/id1661474993";
+const GOOGLE_PLAY_URL =
+  "https://play.google.com/store/apps/details?id=com.bottomup.bottomupapp";
 
 export function StickyFoot({
   name,
@@ -91,9 +93,17 @@ export function StickyFoot({
             href={APP_STORE_URL}
             target="_blank"
             rel="noreferrer"
+            className="hair-btn"
+          >
+            <Plus /> APP STORE
+          </a>
+          <a
+            href={GOOGLE_PLAY_URL}
+            target="_blank"
+            rel="noreferrer"
             className="hair-btn solid"
           >
-            <ArrowRight /> INSTALL
+            <ArrowRight /> GOOGLE PLAY
           </a>
         </div>
       </div>

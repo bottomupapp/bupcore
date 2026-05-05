@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, Plus } from "./icons";
 
 const APP_STORE_URL =
@@ -42,11 +43,13 @@ export function TopBar({ crumb }: { crumb?: string }) {
       >
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
           <Link href="/analyst" style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src="/brand/logo-dark.png"
               alt="BottomUP"
-              style={{ height: 22, width: "auto", display: "block" }}
+              width={108}
+              height={22}
+              priority
+              style={{ display: "block" }}
             />
           </Link>
           <span style={{ height: 16, width: 1, background: "var(--line-2)" }} />
@@ -75,7 +78,7 @@ export function TopBar({ crumb }: { crumb?: string }) {
             rel="noreferrer"
             className="hair-btn solid"
           >
-            <ArrowRight /> INSTALL
+            <ArrowRight /> GOOGLE PLAY
           </a>
         </div>
       </div>
