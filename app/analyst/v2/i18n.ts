@@ -135,6 +135,9 @@ type StringKey =
   | "copied"
   | "follow"
   | "useCodeBound"
+  | "discountBadge"
+  | "discountTagline"
+  | "step03Discount"
   // Share modal
   | "shareCta"
   | "shareKit"
@@ -964,16 +967,52 @@ const STRINGS: Record<StringKey, Record<Locale, string>> = {
     ar: "تابع {name} على BOTTOMUP",
   },
   useCodeBound: {
-    en: "Use code at signup → bound on day one",
-    tr: "Kayıtta kodu kullan → ilk gün takipçi olur",
-    es: "Usa el código al registrarte → vinculado desde día uno",
-    pt: "Use o código no cadastro → vinculado no dia um",
-    ru: "Введите код при регистрации → привязка с первого дня",
-    vi: "Dùng mã khi đăng ký → liên kết ngay ngày đầu",
-    id: "Pakai kode saat daftar → langsung terhubung",
-    zh: "注册时填入代码 → 首日即关注",
-    ko: "가입 시 코드 입력 → 첫날부터 연결",
-    ar: "استخدم الكود عند التسجيل ← يتم الربط من اليوم الأول",
+    en: "Use code → 25% OFF monthly + auto-follow on day one",
+    tr: "Kodu kullan → aylık üyelikte %25 indirim + ilk günden takip",
+    es: "Usa el código → 25% OFF mensual + seguimiento desde día uno",
+    pt: "Use o código → 25% OFF mensal + follow no dia um",
+    ru: "Введите код → −25% к месячной подписке + автоподписка с первого дня",
+    vi: "Dùng mã → giảm 25% gói tháng + tự động theo dõi ngày đầu",
+    id: "Pakai kode → diskon 25% paket bulanan + auto-follow hari pertama",
+    zh: "使用代码 → 月度订阅 25% 折扣 + 首日自动关注",
+    ko: "코드 입력 → 월간 구독 25% 할인 + 첫날부터 자동 팔로우",
+    ar: "استخدم الكود ← خصم ٢٥٪ على الاشتراك الشهري + متابعة تلقائية من اليوم الأول",
+  },
+  discountBadge: {
+    en: "−25% MONTHLY",
+    tr: "%25 İNDİRİM AYLIK",
+    es: "−25% MENSUAL",
+    pt: "−25% MENSAL",
+    ru: "−25% В МЕСЯЦ",
+    vi: "−25% HÀNG THÁNG",
+    id: "−25% BULANAN",
+    zh: "月度 −25%",
+    ko: "월간 −25%",
+    ar: "−٢٥٪ شهرياً",
+  },
+  discountTagline: {
+    en: "Code unlocks 25% off the monthly plan + auto-follow at signup.",
+    tr: "Bu kod aylık üyelikte %25 indirim ve kayıtta otomatik takip sağlar.",
+    es: "El código activa 25% off mensual y auto-follow al registrarte.",
+    pt: "O código dá 25% off mensal e auto-follow no cadastro.",
+    ru: "Код даёт −25% на месячную подписку и автоподписку при регистрации.",
+    vi: "Mã giảm 25% gói tháng và tự động theo dõi khi đăng ký.",
+    id: "Kode memberi diskon 25% paket bulanan + auto-follow saat daftar.",
+    zh: "此代码可享月度订阅 25% 折扣并在注册时自动关注。",
+    ko: "이 코드로 월간 구독 25% 할인 + 가입 시 자동 팔로우.",
+    ar: "يمنح الكود خصم ٢٥٪ على الباقة الشهرية ومتابعة تلقائية عند التسجيل.",
+  },
+  step03Discount: {
+    en: "Auto-follow {name} + 25% OFF",
+    tr: "{name} oto-takip + %25 İNDİRİM",
+    es: "Sigue a {name} + 25% OFF",
+    pt: "Seguir {name} + 25% OFF",
+    ru: "Автоподписка на {name} + −25%",
+    vi: "Tự theo dõi {name} + −25%",
+    id: "Otomatis ikuti {name} + diskon 25%",
+    zh: "自动关注 {name} + 25% 折扣",
+    ko: "{name} 자동 팔로우 + 25% 할인",
+    ar: "متابعة {name} تلقائياً + خصم ٢٥٪",
   },
   shareCta: {
     en: "◉ SHARE",

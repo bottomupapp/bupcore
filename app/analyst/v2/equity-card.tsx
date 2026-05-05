@@ -17,9 +17,15 @@ export function EquityCard({ detail }: { detail: TraderDetail }) {
   const filtered = filterByRange(points, range);
   const eq = equityPaths(filtered);
 
-  const startBalance = filtered[0]?.balance ?? eq.endBalance;
-  const totalPnl = eq.endBalance - startBalance;
-  const returnPct = startBalance > 0 ? (totalPnl / startBalance) * 100 : 0;
+  // Anchor PnL/return to the VIRTUAL_BASE ($10k), not the equity-curve's
+  // first sample. The backend's virtual_return_pct uses $10k as the
+  // denominator (`total_pnl / 10000`); if we used the curve's first
+  // sample (which can be $9,997 due to a prior open trade dragging the
+  // sampled balance below the base), our headline % would diverge from
+  // the PerfMatrix card on the same page (16.39% vs 16.36% on awerte).
+  const VIRTUAL_BASE = 10_000;
+  const totalPnl = eq.endBalance - VIRTUAL_BASE;
+  const returnPct = (totalPnl / VIRTUAL_BASE) * 100;
   const tone = totalPnl >= 0 ? "var(--acid)" : "var(--warn)";
 
   const dateLabels = makeDateLabels(filtered);
@@ -55,7 +61,7 @@ export function EquityCard({ detail }: { detail: TraderDetail }) {
             <span style={{ color: tone }}>
               {fmtUsd(totalPnl, { sign: true })} ({fmtPct(returnPct)})
             </span>{" "}
-            · vs. {fmtUsd(startBalance)} start
+            · vs. {fmtUsd(VIRTUAL_BASE)} base
           </div>
         </div>
         <div style={{ display: "flex", gap: 0, border: "1px solid var(--line-2)" }}>

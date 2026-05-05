@@ -49,6 +49,11 @@ function PerfRow({
   const isUp = data.virtual_return_pct >= 0;
   const winRatePct = data.win_rate == null ? null : Math.round(data.win_rate * 100);
   const headLabel = primary === "30d" ? t("last30d") : t("allTime");
+  // Some closed trades land at ~$0 PnL and are not counted as either
+  // a win or a loss. Surface them so `wins + losses` reconciles with
+  // the headline `trades` count and readers don't think the math is
+  // off (e.g. awerte: 246W + 470L + 143neutral = 859).
+  const neutral = Math.max(data.trades - data.wins - data.losses, 0);
   return (
     <div className="stat-grid perf-row" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
       <PerfCell
@@ -78,6 +83,12 @@ function PerfRow({
           <>
             <span style={{ color: "var(--acid)" }}>{data.wins}W</span> ·{" "}
             <span style={{ color: "var(--warn)" }}>{data.losses}L</span>
+            {neutral > 0 ? (
+              <>
+                {" · "}
+                <span style={{ color: "var(--ink-3)" }}>{neutral}—</span>
+              </>
+            ) : null}
           </>
         }
         big={

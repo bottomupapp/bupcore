@@ -16,7 +16,13 @@ import { resolveLocale, tFor, type Locale } from "../../../v2/i18n";
  * best (high WR, high return, high PnL — see pickHero).
  */
 
-export const runtime = "edge";
+// Node runtime — `runtime = "edge"` 502'd on Railway's self-hosted
+// Next.js (the edge runtime worker either fails to start or can't
+// resolve the satori wasm in our docker image). next/og's
+// ImageResponse works equally well in Node runtime, just heavier.
+// 60s revalidate keeps re-render rate sane between trade closes.
+export const runtime = "nodejs";
+export const revalidate = 60;
 
 const FORMATS = {
   twitter: { width: 1200, height: 675 },
@@ -597,18 +603,19 @@ function TwitterCard({ name, ref_code, hero, avatar, t }: CardProps) {
         </div>
         <div
           style={{
-            padding: "16px 28px",
-            fontFamily: "JetBrains Mono",
-            fontWeight: 500,
-            fontSize: 13,
-            color: TOKENS.ink2,
-            letterSpacing: "0.14em",
+            padding: "12px 24px",
+            fontFamily: "Archivo",
+            fontWeight: 900,
+            fontSize: 28,
+            color: TOKENS.acid,
+            letterSpacing: "-0.02em",
             display: "flex",
             alignItems: "center",
-            borderLeft: `1px solid ${TOKENS.line2}`,
+            borderLeft: `2px solid ${TOKENS.acid}`,
+            background: `${TOKENS.acid}14`,
           }}
         >
-          {`${t("useAtSignup")} → BOTTOMUP.APP`}
+          {t("discountBadge")}
         </div>
       </div>
     </div>
@@ -823,6 +830,23 @@ function SquareCard({ name, ref_code, hero, avatar, t }: CardProps) {
           >
             {ref_code || "—"}
           </div>
+        </div>
+        <div
+          style={{
+            border: `3px solid ${TOKENS.acid}`,
+            background: TOKENS.acid,
+            color: TOKENS.bg,
+            padding: "20px 28px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontFamily: "Archivo",
+            fontWeight: 900,
+            fontSize: 38,
+            letterSpacing: "-0.02em",
+          }}
+        >
+          {t("discountBadge")}
         </div>
         <div
           style={{
@@ -1064,6 +1088,23 @@ function StoryCard({ name, ref_code, hero, avatar, t }: CardProps) {
           >
             {ref_code || "—"}
           </div>
+        </div>
+        <div
+          style={{
+            border: `4px solid ${TOKENS.acid}`,
+            background: TOKENS.acid,
+            color: TOKENS.bg,
+            padding: "26px 32px",
+            fontFamily: "Archivo",
+            fontWeight: 900,
+            fontSize: 56,
+            letterSpacing: "-0.03em",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {t("discountBadge")}
         </div>
         <div
           style={{

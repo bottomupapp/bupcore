@@ -165,9 +165,19 @@ export function Hero({
               )}
               <div>
                 <div style={{ fontSize: 13, color: "var(--ink-2)", fontWeight: 500 }}>
-                  {trader.bio ?? "—"}
-                  {trader.bio ? " · " : null}
-                  {t("allPnl")} {fmtUsd(all_time.total_pnl, { sign: true, compact: true })}
+                  {(() => {
+                    const realName = [trader.first_name, trader.last_name]
+                      .filter(Boolean)
+                      .join(" ")
+                      .trim();
+                    const parts: string[] = [];
+                    if (realName) parts.push(realName);
+                    if (trader.bio) parts.push(trader.bio);
+                    parts.push(
+                      `${t("allPnl")} ${fmtUsd(all_time.total_pnl, { sign: true, compact: true })}`,
+                    );
+                    return parts.join(" · ");
+                  })()}
                 </div>
                 <div
                   className="num"
@@ -244,41 +254,61 @@ export function Hero({
 
         {/* Referral CTA strip */}
         {trader.referral_code ? (
-          <div
-            className="referral-strip"
-            style={{
-              marginTop: 48,
-              display: "grid",
-              gridTemplateColumns: "auto 1fr auto",
-              alignItems: "stretch",
-              border: "1px solid var(--acid)",
-              background: "var(--bg)",
-            }}
-          >
+          <div style={{ marginTop: 48 }}>
             <div
+              className="referral-strip"
               style={{
-                padding: "16px 22px",
-                borderRight: "1px solid var(--line-2)",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
+                display: "grid",
+                gridTemplateColumns: "auto 1fr auto",
+                alignItems: "stretch",
+                border: "1px solid var(--acid)",
+                background: "var(--bg)",
               }}
             >
-              <div className="eyebrow" style={{ color: "var(--ink-3)" }}>{t("step01")}</div>
-              <div style={{ fontSize: 13, marginTop: 4 }}>{t("installBottomup")}</div>
+              <div
+                style={{
+                  padding: "16px 22px",
+                  borderRight: "1px solid var(--line-2)",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
+                <div className="eyebrow" style={{ color: "var(--ink-3)" }}>{t("step01")}</div>
+                <div style={{ fontSize: 13, marginTop: 4 }}>{t("installBottomup")}</div>
+              </div>
+              <CopyCode code={trader.referral_code} variant="step" locale={locale} />
+              <div
+                style={{
+                  padding: "16px 22px",
+                  borderLeft: "1px solid var(--line-2)",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  background: "var(--acid)",
+                  color: "var(--bg)",
+                }}
+              >
+                <div
+                  className="eyebrow"
+                  style={{ color: "var(--bg)", opacity: 0.75 }}
+                >
+                  {t("step03")} · {t("discountBadge")}
+                </div>
+                <div style={{ fontSize: 13, marginTop: 4, fontWeight: 700 }}>
+                  {t("step03Discount", { name })}
+                </div>
+              </div>
             </div>
-            <CopyCode code={trader.referral_code} variant="step" locale={locale} />
             <div
               style={{
-                padding: "16px 22px",
-                borderLeft: "1px solid var(--line-2)",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
+                marginTop: 10,
+                fontSize: 12,
+                color: "var(--ink-2)",
+                lineHeight: 1.5,
               }}
             >
-              <div className="eyebrow" style={{ color: "var(--ink-3)" }}>{t("step03")}</div>
-              <div style={{ fontSize: 13, marginTop: 4 }}>{t("autoFollow", { name })}</div>
+              {t("discountTagline")}
             </div>
           </div>
         ) : null}
