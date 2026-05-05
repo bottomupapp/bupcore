@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Users } from "lucide-react";
+import { ArrowLeft, Users } from "lucide-react";
 import { fetchTraderDetail, type TraderDetail } from "@/lib/bottomup-api";
 import { CopyCodeButton } from "../copy-code-button";
 import { EquityArea, MonthlyBars } from "./charts";
@@ -167,15 +167,6 @@ export default async function AnalystDetailPage({
                     </span>
                     followers
                   </span>
-                  <a
-                    href={`https://bottomup.app/together/profile/${detail.trader.id}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-1 text-zinc-300 hover:text-white hover:underline"
-                  >
-                    Open on bottomup.app
-                    <ExternalLink className="h-3.5 w-3.5" />
-                  </a>
                 </div>
               </div>
             </div>
@@ -189,16 +180,8 @@ export default async function AnalystDetailPage({
                       Follow {displayName(detail.trader)}
                     </div>
                     <p className="mt-0.5 text-sm text-zinc-300">
-                      Use this referral code at signup on the{" "}
-                      <a
-                        href="https://bottomup.app"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="font-medium text-white underline-offset-2 hover:underline"
-                      >
-                        BottomUP app
-                      </a>{" "}
-                      to follow them on day one.
+                      Use this referral code at signup on the BottomUP app to
+                      follow them on day one.
                     </p>
                   </div>
                   <CopyCodeButton
