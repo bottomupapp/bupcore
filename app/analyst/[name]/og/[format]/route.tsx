@@ -461,7 +461,16 @@ function TwitterCard({ name, ref_code, hero, avatar, t }: CardProps) {
         }}
       >
         {/* left: trader */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 16, flex: 1 }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 16,
+            flex: 1,
+            minWidth: 0,
+            overflow: "hidden",
+          }}
+        >
           <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
             {avatar ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -484,12 +493,13 @@ function TwitterCard({ name, ref_code, hero, avatar, t }: CardProps) {
               style={{
                 fontFamily: "Archivo",
                 fontWeight: 900,
-                fontSize: 96,
+                fontSize: 72,
                 lineHeight: 0.9,
                 letterSpacing: "-0.04em",
                 color: TOKENS.ink,
                 textTransform: "uppercase",
                 display: "flex",
+                overflow: "hidden",
               }}
             >
               {name}
@@ -516,8 +526,9 @@ function TwitterCard({ name, ref_code, hero, avatar, t }: CardProps) {
             alignItems: "flex-end",
             gap: 8,
             border: `2px solid ${heroColor}`,
-            padding: "28px 36px",
+            padding: "24px 32px",
             background: `${TOKENS.bg2}`,
+            flexShrink: 0,
           }}
         >
           <div
@@ -535,7 +546,7 @@ function TwitterCard({ name, ref_code, hero, avatar, t }: CardProps) {
             style={{
               fontFamily: "Archivo",
               fontWeight: 900,
-              fontSize: 120,
+              fontSize: 96,
               lineHeight: 0.95,
               color: heroColor,
               letterSpacing: "-0.04em",
@@ -1019,10 +1030,10 @@ function StoryCard({ name, ref_code, hero, avatar, t }: CardProps) {
             style={{
               fontFamily: "Archivo",
               fontWeight: 900,
-              fontSize: 280,
-              lineHeight: 0.92,
+              fontSize: 180,
+              lineHeight: 0.95,
               color: heroColor,
-              letterSpacing: "-0.05em",
+              letterSpacing: "-0.04em",
               display: "flex",
             }}
           >
