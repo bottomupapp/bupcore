@@ -9,6 +9,7 @@ import { LongShort } from "../v2/long-short";
 import { TopCoins } from "../v2/top-coins";
 import { RecentTrades } from "../v2/recent-trades";
 import { StickyFoot } from "../v2/sticky-foot";
+import { LiveStrip } from "../v2/live-strip";
 import { fmtPct, fmtR } from "../v2/format";
 
 export const revalidate = 60;
@@ -121,6 +122,13 @@ export default async function AnalystDetailPage({
       <Hero detail={detail} />
 
       <main style={{ maxWidth: 1440, margin: "0 auto", padding: "0 32px 120px" }}>
+        <LiveStrip
+          name={name_}
+          initial={{
+            followers: detail.trader.followers,
+            referral_code: detail.trader.referral_code,
+          }}
+        />
         <PerfMatrix d30={detail.stats} all={detail.all_time} />
 
         <section style={{ marginTop: 32 }}>

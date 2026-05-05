@@ -5,8 +5,8 @@ import {
   type AnalystOrder,
 } from "@/lib/bottomup-api";
 import { TopBar, TickerTape } from "./v2/top-bar";
-import { CopyCode } from "./v2/copy-code";
-import { fmtPct, fmtR, fmtUsd } from "./v2/format";
+import { LiveAnalystTable } from "./v2/live-table";
+import { fmtUsd } from "./v2/format";
 
 export const revalidate = 60;
 
@@ -179,126 +179,8 @@ export default async function AnalystListPage({
             no analysts found
           </div>
         ) : (
-          <div
-            style={{
-              marginTop: 24,
-              border: "1px solid var(--line-2)",
-              background: "var(--bg-2)",
-              overflowX: "auto",
-            }}
-          >
-            <table className="terminal">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>ANALYST</th>
-                  <th className="ralign">FOLLOWERS</th>
-                  <th className="ralign">30D PNL</th>
-                  <th className="ralign">30D WR</th>
-                  <th className="ralign">ALL PNL</th>
-                  <th className="ralign">ALL WR</th>
-                  <th>REF_CODE</th>
-                </tr>
-              </thead>
-              <tbody>
-                {analysts.map((a, i) => {
-                  const name = fullName(a);
-                  const handle = (a.name ?? a.trader_id);
-                  const href = `/analyst/${encodeURIComponent(handle)}`;
-                  const monthlyPnlTone =
-                    (a.stats.monthly_pnl ?? 0) >= 0 ? "var(--acid)" : "var(--warn)";
-                  const totalPnlTone =
-                    (a.stats.pnl ?? 0) >= 0 ? "var(--acid)" : "var(--warn)";
-                  return (
-                    <tr key={a.trader_id}>
-                      <td className="num" style={{ color: "var(--ink-3)" }}>
-                        {(i + 1).toString().padStart(2, "0")}
-                      </td>
-                      <td>
-                        <Link
-                          href={href}
-                          style={{ display: "flex", alignItems: "center", gap: 12 }}
-                        >
-                          {a.image ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={a.image}
-                              alt=""
-                              width={28}
-                              height={28}
-                              referrerPolicy="no-referrer"
-                              style={{
-                                width: 28,
-                                height: 28,
-                                border: "1px solid var(--line-2)",
-                                background: "var(--bg-3)",
-                                objectFit: "cover",
-                              }}
-                              loading="lazy"
-                            />
-                          ) : (
-                            <span
-                              style={{
-                                width: 28,
-                                height: 28,
-                                border: "1px solid var(--line-2)",
-                                background: "var(--bg-3)",
-                                color: "var(--ink-3)",
-                                display: "inline-grid",
-                                placeItems: "center",
-                                fontFamily: "var(--font-mono)",
-                                fontWeight: 700,
-                                fontSize: 11,
-                              }}
-                            >
-                              {name[0]?.toUpperCase() ?? "?"}
-                            </span>
-                          )}
-                          <span
-                            style={{ fontWeight: 600, fontSize: 13 }}
-                            className="lnk"
-                          >
-                            {name}
-                          </span>
-                        </Link>
-                      </td>
-                      <td className="ralign num" style={{ color: "var(--ink-2)" }}>
-                        {a.followers.toLocaleString("en-US")}
-                      </td>
-                      <td
-                        className="ralign num"
-                        style={{ color: monthlyPnlTone, fontWeight: 600 }}
-                      >
-                        {fmtUsd(a.stats.monthly_pnl, { sign: true, compact: true })}
-                      </td>
-                      <td className="ralign num" style={{ color: "var(--ink-2)" }}>
-                        {a.stats.monthly_win_rate == null
-                          ? "—"
-                          : `${Math.round(a.stats.monthly_win_rate)}%`}
-                      </td>
-                      <td
-                        className="ralign num"
-                        style={{ color: totalPnlTone, fontWeight: 600 }}
-                      >
-                        {fmtUsd(a.stats.pnl, { sign: true, compact: true })}
-                      </td>
-                      <td className="ralign num" style={{ color: "var(--ink-2)" }}>
-                        {a.stats.win_rate == null
-                          ? "—"
-                          : `${Math.round(a.stats.win_rate)}%`}
-                      </td>
-                      <td>
-                        {a.referral_code ? (
-                          <CopyCode code={a.referral_code} variant="compact" />
-                        ) : (
-                          <span style={{ color: "var(--ink-3)" }}>—</span>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+          <div style={{ marginTop: 24 }}>
+            <LiveAnalystTable initial={analysts} order={order} />
           </div>
         )}
 
