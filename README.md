@@ -1,5 +1,11 @@
 # Studio — Ekip planlama & ürün düşünme aracı
 
+> **Lab sayfaları runbook'u (oku, sorun yaşamadan değiştir):**
+> - [`docs/ANALYST.md`](docs/ANALYST.md) — `bottomup.app/analyst` zinciri (CF Worker → Studio → 3.0 backend public endpoint'leri), CTA policy, deploy checklist
+> - [`docs/DESIGN.md`](docs/DESIGN.md) — analyst sayfaları için BottomUP marka rehberi (dark theme, Smart Money gradient, App Store/Play CTA)
+> - [`cloudflare/`](cloudflare/) — `bottomup.app/analyst*` ve `bupcore.ai/product` Worker'ları
+> - Backend tarafı (analyst için public endpoint'ler) → karşı repo: [bottomup/docs/RAILWAY.md](https://github.com/denizbottomup/bottomup/blob/main/docs/RAILWAY.md)
+
 Jira alternatifi, UX olarak daha hafif. Tek yerde:
 
 - **Ideation board** — sticky note'larla fikir topla, oyla, etiketle, bir tıkla epic'e yükselt.
