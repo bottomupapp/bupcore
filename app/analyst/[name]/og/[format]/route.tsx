@@ -434,20 +434,26 @@ export async function GET(
     );
   }
 
+  // ImageResponse normally returns a streaming Response — the actual
+  // satori → yoga → resvg pipeline runs lazily as the framework reads
+  // the body, which means errors thrown during render escape any
+  // try/catch around the constructor (we kept hitting this: works
+  // for ~5min after deploy, then every fresh render 502s with no
+  // useful body). Force the render into a buffer here so any throw
+  // from the satori pipeline is caught synchronously and returned
+  // as a 500 with the actual message.
   try {
-    return new ImageResponse(node, {
-      width,
-      height,
-      fonts,
+    const imgRes = new ImageResponse(node, { width, height, fonts });
+    const buf = await imgRes.arrayBuffer();
+    return new Response(buf, {
+      status: 200,
       headers: {
+        "content-type": "image/png",
         "Cache-Control":
           "public, max-age=60, s-maxage=60, stale-while-revalidate=300",
       },
     });
   } catch (err) {
-    // satori (or its yoga/resvg pipeline) can throw on layout edge
-    // cases; surface the message instead of letting Node crash and
-    // Railway return a generic 502.
     return new Response(
       `Render failed: ${err instanceof Error ? err.message : String(err)}`,
       { status: 500, headers: { "content-type": "text/plain" } },
