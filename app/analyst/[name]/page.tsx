@@ -13,11 +13,12 @@ import { LiveStrip } from "../v2/live-strip";
 import { AnalystAutoRefresh } from "../v2/auto-refresh";
 import { fmtPct, fmtR } from "../v2/format";
 
-// Detail data is recomputed from raw setups on every request and the
-// page is invalidated by ws on every closed trade — keep the page
-// dynamic so router.refresh() actually pulls fresh numbers. The list
-// page stays on revalidate=60.
-export const dynamic = "force-dynamic";
+// Short ISR window. The detail page also gets `router.refresh()`
+// pinged by the ws `analyst:<trader_id>` channel on every closed
+// setup — between revalidate ticks, that path triggers fresh server
+// component evaluation. force-dynamic was tried briefly but produced
+// React #418 hydration errors with the streamed RSC payload.
+export const revalidate = 5;
 
 export async function generateMetadata({
   params,
