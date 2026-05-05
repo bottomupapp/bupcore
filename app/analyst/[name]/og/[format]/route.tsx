@@ -181,8 +181,8 @@ export async function GET(
 
   const [archivo900, mono700, mono500] = await Promise.all([
     loadFont("Archivo", 900),
-    loadFont("JetBrains+Mono", 700),
-    loadFont("JetBrains+Mono", 500),
+    loadFont("JetBrains Mono", 700),
+    loadFont("JetBrains Mono", 500),
   ]);
 
   const hero = pickHero(detail);
