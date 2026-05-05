@@ -64,12 +64,6 @@ export function useAnalystLive(id: string): {
           return;
         }
         if (!frame || frame.channel !== "analyst") return;
-        // Ignore the wildcard echo when we asked for one trader; ignore
-        // single-row echoes when we asked for "*". The gateway publishes
-        // both topics for every event, so without this the detail page
-        // would briefly see other traders' frames before filtering.
-        if (id !== "*" && frame.id === "*") return;
-        if (id === "*" && frame.id !== "*" && false) return; // accept all
         const row = frame.data as Analyst;
         const key = (row.name ?? row.trader_id).toLowerCase();
         setRows((prev) => {
