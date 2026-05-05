@@ -398,7 +398,7 @@ function TwitterCard({ name, ref_code, hero, avatar, t }: CardProps) {
             fontWeight: 700,
           }}
         >
-          // {t("analystCard")}
+          {`// ${t("analystCard")}`}
         </div>
       </div>
 
@@ -566,7 +566,7 @@ function TwitterCard({ name, ref_code, hero, avatar, t }: CardProps) {
             borderLeft: `1px solid ${TOKENS.line2}`,
           }}
         >
-          {t("useAtSignup")} → BOTTOMUP.APP
+          {`${t("useAtSignup")} → BOTTOMUP.APP`}
         </div>
       </div>
     </div>
@@ -857,7 +857,7 @@ function StoryCard({ name, ref_code, hero, avatar, t }: CardProps) {
             fontWeight: 700,
           }}
         >
-          // {t("analystCard")}
+          {`// ${t("analystCard")}`}
         </div>
       </div>
 
@@ -1034,7 +1034,7 @@ function StoryCard({ name, ref_code, hero, avatar, t }: CardProps) {
             marginTop: 6,
           }}
         >
-          BOTTOMUP.APP / ANALYST / {name.toUpperCase()}
+          {`BOTTOMUP.APP / ANALYST / ${name.toUpperCase()}`}
         </div>
       </div>
     </div>
