@@ -394,13 +394,14 @@ export async function GET(
     );
   }
 
-  // Avatar disabled — embedding the trader's avatar (whether via
-  // satori's inline fetch or our own pre-fetched data URL) was the
-  // most reliable trigger for the post-deploy 502 cascade. Falling
-  // back to the Monogram letter for now; we'll re-introduce avatars
-  // once we have a reliable image-encoding path.
-  const avatarDataUrl: string | null = null;
-  void preloadAvatar;
+  // Avatar embed — pre-fetch the trader's profile picture as a data
+  // URL so satori never has to make a network call mid-render. The
+  // earlier 502 cascade was rooted in resvg-wasm's heap corruption
+  // bug; native @resvg/resvg-js (Rust addon) is unaffected, so we
+  // can ship real avatars again. Failures fall back to <Monogram>.
+  const avatarDataUrl: string | null = await preloadAvatar(
+    detail.trader.image,
+  );
 
   const hero = pickHero(detail);
   const traderName = fullName(detail.trader);
