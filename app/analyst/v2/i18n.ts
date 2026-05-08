@@ -59,7 +59,7 @@ export function resolveLocale(raw: string | string[] | undefined): Locale {
   return (LOCALES as readonly string[]).includes(lc) ? (lc as Locale) : "en";
 }
 
-type StringKey =
+export type StringKey =
   // Page chrome
   | "analystCard"
   | "analystIndex"
@@ -158,6 +158,19 @@ type StringKey =
   | "hero7dWinRate"
   | "hero30dWinRate"
   | "heroAllWinRate"
+  | "hero30dEquity"
+  | "heroAllEquity"
+  // Share modal — metric picker chips
+  | "metricAuto"
+  | "metric30dPnl"
+  | "metricAllPnl"
+  | "metric30dReturn"
+  | "metricAllReturn"
+  | "metric30dWr"
+  | "metricAllWr"
+  | "metric30dEquity"
+  | "metricAllEquity"
+  | "metricPickerLabel"
   // Sub helpers
   | "subOfReturn"; // " RETURN" suffix used as `+12% RETURN`
 
@@ -1229,6 +1242,150 @@ const STRINGS: Record<StringKey, Record<Locale, string>> = {
     zh: "全期胜率",
     ko: "전체 승률",
     ar: "نسبة الفوز الكلية",
+  },
+  hero30dEquity: {
+    en: "30D · VIRTUAL EQUITY",
+    tr: "30G · SANAL BAKİYE",
+    es: "30D · CAPITAL VIRTUAL",
+    pt: "30D · CAPITAL VIRTUAL",
+    ru: "30Д · ВИРТ. КАПИТАЛ",
+    vi: "30N · VỐN ẢO",
+    id: "30H · EKUITAS VIRTUAL",
+    zh: "30天 · 虚拟权益",
+    ko: "30일 · 가상 자본",
+    ar: "٣٠ي · رصيد افتراضي",
+  },
+  heroAllEquity: {
+    en: "ALL-TIME · VIRTUAL EQUITY",
+    tr: "TÜM ZAMANLAR · SANAL BAKİYE",
+    es: "HISTÓRICO · CAPITAL VIRTUAL",
+    pt: "HISTÓRICO · CAPITAL VIRTUAL",
+    ru: "ЗА ВСЁ ВРЕМЯ · ВИРТ. КАПИТАЛ",
+    vi: "TỔNG · VỐN ẢO",
+    id: "TOTAL · EKUITAS VIRTUAL",
+    zh: "全期 · 虚拟权益",
+    ko: "전체 · 가상 자본",
+    ar: "كلي · رصيد افتراضي",
+  },
+  metricPickerLabel: {
+    en: "// METRIC",
+    tr: "// METRİK",
+    es: "// MÉTRICA",
+    pt: "// MÉTRICA",
+    ru: "// МЕТРИКА",
+    vi: "// CHỈ SỐ",
+    id: "// METRIK",
+    zh: "// 指标",
+    ko: "// 지표",
+    ar: "// مقياس",
+  },
+  metricAuto: {
+    en: "AUTO",
+    tr: "OTOMATİK",
+    es: "AUTO",
+    pt: "AUTO",
+    ru: "АВТО",
+    vi: "TỰ ĐỘNG",
+    id: "OTOMATIS",
+    zh: "自动",
+    ko: "자동",
+    ar: "تلقائي",
+  },
+  metric30dPnl: {
+    en: "30D PNL",
+    tr: "30G K/Z",
+    es: "PNL 30D",
+    pt: "PNL 30D",
+    ru: "PNL 30Д",
+    vi: "PNL 30N",
+    id: "PNL 30H",
+    zh: "30天盈亏",
+    ko: "30일 손익",
+    ar: "PNL ٣٠ي",
+  },
+  metricAllPnl: {
+    en: "ALL PNL",
+    tr: "TÜM K/Z",
+    es: "PNL TOTAL",
+    pt: "PNL TOTAL",
+    ru: "ВЕСЬ PNL",
+    vi: "PNL TỔNG",
+    id: "PNL TOTAL",
+    zh: "全期盈亏",
+    ko: "전체 손익",
+    ar: "PNL كلي",
+  },
+  metric30dReturn: {
+    en: "30D RETURN",
+    tr: "30G GETİRİ",
+    es: "RETORNO 30D",
+    pt: "RETORNO 30D",
+    ru: "ДОХОД 30Д",
+    vi: "LỢI NHUẬN 30N",
+    id: "RETURN 30H",
+    zh: "30天回报",
+    ko: "30일 수익률",
+    ar: "عائد ٣٠ي",
+  },
+  metricAllReturn: {
+    en: "ALL RETURN",
+    tr: "TÜM GETİRİ",
+    es: "RETORNO TOTAL",
+    pt: "RETORNO TOTAL",
+    ru: "ВЕСЬ ДОХОД",
+    vi: "LỢI NHUẬN TỔNG",
+    id: "RETURN TOTAL",
+    zh: "全期回报",
+    ko: "전체 수익률",
+    ar: "العائد الكلي",
+  },
+  metric30dWr: {
+    en: "30D WIN RATE",
+    tr: "30G BAŞARI",
+    es: "ACIERTO 30D",
+    pt: "ACERTO 30D",
+    ru: "ТОЧНОСТЬ 30Д",
+    vi: "TỶ LỆ THẮNG 30N",
+    id: "MENANG 30H",
+    zh: "30天胜率",
+    ko: "30일 승률",
+    ar: "نسبة الفوز ٣٠ي",
+  },
+  metricAllWr: {
+    en: "ALL WIN RATE",
+    tr: "TÜM BAŞARI",
+    es: "ACIERTO TOTAL",
+    pt: "ACERTO TOTAL",
+    ru: "ВСЯ ТОЧНОСТЬ",
+    vi: "TỶ LỆ THẮNG TỔNG",
+    id: "MENANG TOTAL",
+    zh: "全期胜率",
+    ko: "전체 승률",
+    ar: "نسبة الفوز الكلية",
+  },
+  metric30dEquity: {
+    en: "30D EQUITY",
+    tr: "30G BAKİYE",
+    es: "CAPITAL 30D",
+    pt: "CAPITAL 30D",
+    ru: "КАПИТАЛ 30Д",
+    vi: "VỐN 30N",
+    id: "EKUITAS 30H",
+    zh: "30天权益",
+    ko: "30일 자본",
+    ar: "رصيد ٣٠ي",
+  },
+  metricAllEquity: {
+    en: "ALL EQUITY",
+    tr: "TÜM BAKİYE",
+    es: "CAPITAL TOTAL",
+    pt: "CAPITAL TOTAL",
+    ru: "ВЕСЬ КАПИТАЛ",
+    vi: "VỐN TỔNG",
+    id: "EKUITAS TOTAL",
+    zh: "全期权益",
+    ko: "전체 자본",
+    ar: "كل الرصيد",
   },
   subOfReturn: {
     en: " RETURN",

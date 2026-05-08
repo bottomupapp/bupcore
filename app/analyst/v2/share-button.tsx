@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { tFor, type Locale } from "./i18n";
+import { tFor, type Locale, type StringKey } from "./i18n";
 
 const FORMATS = [
   {
@@ -22,6 +22,35 @@ const FORMATS = [
     sublabel: "1080 × 1920",
     aspect: 1080 / 1920,
   },
+];
+
+/**
+ * Hero stat the OG route should render. `auto` runs the marketability
+ * auto-pick (the original behavior); the rest force a specific window
+ * + metric so the trader can choose which story their card tells.
+ * Mirrors the `MetricKey` union in `og/[format]/route.tsx`.
+ */
+type MetricKey =
+  | "auto"
+  | "pnl-30d"
+  | "pnl-all"
+  | "return-30d"
+  | "return-all"
+  | "wr-30d"
+  | "wr-all"
+  | "equity-30d"
+  | "equity-all";
+
+const METRIC_OPTIONS: ReadonlyArray<{ key: MetricKey; labelKey: StringKey }> = [
+  { key: "auto", labelKey: "metricAuto" },
+  { key: "pnl-30d", labelKey: "metric30dPnl" },
+  { key: "return-30d", labelKey: "metric30dReturn" },
+  { key: "wr-30d", labelKey: "metric30dWr" },
+  { key: "equity-30d", labelKey: "metric30dEquity" },
+  { key: "pnl-all", labelKey: "metricAllPnl" },
+  { key: "return-all", labelKey: "metricAllReturn" },
+  { key: "wr-all", labelKey: "metricAllWr" },
+  { key: "equity-all", labelKey: "metricAllEquity" },
 ];
 
 /**
@@ -95,6 +124,7 @@ function ShareModal({
   onClose: () => void;
 }) {
   const t = tFor(locale);
+  const [metric, setMetric] = useState<MetricKey>("auto");
   return (
     <div
       onClick={onClose}
@@ -161,12 +191,47 @@ function ShareModal({
             color: "var(--ink-2)",
             fontSize: 13,
             maxWidth: 640,
-            marginBottom: 28,
+            marginBottom: 20,
             lineHeight: 1.5,
           }}
         >
           {t("shareTagline")}
         </p>
+        <div style={{ marginBottom: 24 }}>
+          <div
+            className="eyebrow"
+            style={{ color: "var(--ink-3)", marginBottom: 10 }}
+          >
+            {t("metricPickerLabel")}
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+            {METRIC_OPTIONS.map((m) => {
+              const active = m.key === metric;
+              return (
+                <button
+                  key={m.key}
+                  type="button"
+                  onClick={() => setMetric(m.key)}
+                  style={{
+                    padding: "6px 12px",
+                    border: `1px solid ${active ? "var(--acid)" : "var(--line-2)"}`,
+                    background: active ? "var(--acid)" : "transparent",
+                    color: active ? "var(--bg)" : "var(--ink-2)",
+                    fontFamily: "var(--font-mono)",
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    cursor: "pointer",
+                    transition: "all .12s ease",
+                  }}
+                >
+                  {t(m.labelKey)}
+                </button>
+              );
+            })}
+          </div>
+        </div>
         <div
           className="share-grid"
           style={{
@@ -176,7 +241,13 @@ function ShareModal({
           }}
         >
           {FORMATS.map((fmt) => (
-            <SharePreview key={fmt.key} name={name} format={fmt} locale={locale} />
+            <SharePreview
+              key={fmt.key}
+              name={name}
+              format={fmt}
+              locale={locale}
+              metric={metric}
+            />
           ))}
         </div>
       </div>
@@ -188,18 +259,21 @@ function SharePreview({
   name,
   format,
   locale,
+  metric,
 }: {
   name: string;
   format: (typeof FORMATS)[number];
   locale: Locale;
+  metric: MetricKey;
 }) {
   const t = tFor(locale);
   const [downloading, setDownloading] = useState(false);
   const [bust, setBust] = useState(0);
   const baseUrl = `/analyst/${encodeURIComponent(name)}/og/${format.key}`;
-  const langSuffix = locale === "en" ? "" : `lang=${locale}`;
-  const url =
-    langSuffix && !baseUrl.includes("?") ? `${baseUrl}?${langSuffix}` : baseUrl;
+  const params: string[] = [];
+  if (locale !== "en") params.push(`lang=${locale}`);
+  if (metric !== "auto") params.push(`metric=${metric}`);
+  const url = params.length > 0 ? `${baseUrl}?${params.join("&")}` : baseUrl;
   const previewUrl =
     bust > 0
       ? `${url}${url.includes("?") ? "&" : "?"}b=${bust}`
@@ -216,7 +290,8 @@ function SharePreview({
       const blobUrl = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = blobUrl;
-      a.download = `bottomup-${name}-${format.key}-${locale}.png`;
+      const metricSlug = metric === "auto" ? "" : `-${metric}`;
+      a.download = `bottomup-${name}-${format.key}${metricSlug}-${locale}.png`;
       document.body.appendChild(a);
       a.click();
       a.remove();

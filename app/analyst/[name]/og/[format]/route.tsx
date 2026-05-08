@@ -70,7 +70,38 @@ type HeroLabelKey =
   | "heroAllNetPnl"
   | "hero7dWinRate"
   | "hero30dWinRate"
-  | "heroAllWinRate";
+  | "heroAllWinRate"
+  | "hero30dEquity"
+  | "heroAllEquity";
+
+/**
+ * Metric selector — `auto` runs the marketability auto-pick; the
+ * named keys force a specific window/metric so traders can choose
+ * which story their share card tells. Validated against the URL
+ * query param and gracefully falls back to `auto` for unknown values.
+ */
+type MetricKey =
+  | "auto"
+  | "pnl-30d"
+  | "pnl-all"
+  | "return-30d"
+  | "return-all"
+  | "wr-30d"
+  | "wr-all"
+  | "equity-30d"
+  | "equity-all";
+
+const METRIC_KEYS: ReadonlySet<MetricKey> = new Set([
+  "auto",
+  "pnl-30d",
+  "pnl-all",
+  "return-30d",
+  "return-all",
+  "wr-30d",
+  "wr-all",
+  "equity-30d",
+  "equity-all",
+]);
 
 interface Hero {
   /** i18n key for the eyebrow/label above the value */
@@ -81,13 +112,19 @@ interface Hero {
    * Sub line. `kind: "wl"` → `${wins}W · ${losses}L` rendered locally.
    * `kind: "amount"` → just an already-formatted string (e.g. `+$2,983`).
    * `kind: "returnPct"` → `+X.XX% RETURN` joined with translated suffix.
+   * `kind: "equity"` → `FROM $10,000 BASE · +14.0% (+$1,400)` narrative
+   *   — anchored to the same $10k VIRTUAL_BASE the rest of the app uses.
    */
   sub:
     | { kind: "wl"; wins: number; losses: number }
     | { kind: "amount"; text: string }
-    | { kind: "returnPct"; pct: number };
+    | { kind: "returnPct"; pct: number }
+    | { kind: "equity"; from: number; to: number; pct: number };
   tone: "up" | "down";
 }
+
+/** Same VIRTUAL_BASE the equity card + perf-matrix anchor against. */
+const VIRTUAL_BASE = 10_000;
 
 function fullName(t: TraderDetail["trader"]): string {
   if (t.name) return t.name;
@@ -267,10 +304,105 @@ function renderHeroSub(
 ): string {
   if (hero.sub.kind === "amount") return hero.sub.text;
   if (hero.sub.kind === "wl") return `${hero.sub.wins}W · ${hero.sub.losses}L`;
+  if (hero.sub.kind === "equity") {
+    const sign = hero.sub.pct >= 0 ? "+" : "−";
+    const delta = hero.sub.to - hero.sub.from;
+    return `${fmtUsd(hero.sub.from)} → ${sign}${Math.abs(hero.sub.pct).toFixed(2)}% (${fmtUsd(delta, true)})`;
+  }
   // returnPct
   const pct = hero.sub.pct;
   const sign = pct >= 0 ? "+" : "−";
   return `${sign}${Math.abs(pct).toFixed(2)}%${t("subOfReturn")}`;
+}
+
+/**
+ * Build a Hero from an explicit metric key. Returns the marketability
+ * auto-pick when `metric === "auto"`. Each branch reads only data
+ * already gathered in `detail` — no extra fetches, no derivation that
+ * could disagree with what the page itself shows.
+ */
+function buildHero(detail: TraderDetail, metric: MetricKey): Hero {
+  if (metric === "auto") return pickHero(detail);
+
+  const m30 = detail.stats;
+  const all = detail.all_time;
+
+  switch (metric) {
+    case "pnl-30d":
+      return {
+        labelKey: "hero30dNetPnl",
+        value: fmtUsd(m30.total_pnl, true),
+        sub: { kind: "returnPct", pct: m30.virtual_return_pct },
+        tone: m30.total_pnl >= 0 ? "up" : "down",
+      };
+    case "pnl-all":
+      return {
+        labelKey: "heroAllNetPnl",
+        value: fmtUsd(all.total_pnl, true),
+        sub: { kind: "returnPct", pct: all.virtual_return_pct },
+        tone: all.total_pnl >= 0 ? "up" : "down",
+      };
+    case "return-30d":
+      return {
+        labelKey: "hero30dReturn",
+        value: `${m30.virtual_return_pct >= 0 ? "+" : "−"}${Math.abs(m30.virtual_return_pct).toFixed(2)}%`,
+        sub: { kind: "amount", text: fmtUsd(m30.total_pnl, true) },
+        tone: m30.virtual_return_pct >= 0 ? "up" : "down",
+      };
+    case "return-all":
+      return {
+        labelKey: "heroAllReturn",
+        value: `${all.virtual_return_pct >= 0 ? "+" : "−"}${Math.abs(all.virtual_return_pct).toFixed(2)}%`,
+        sub: { kind: "amount", text: fmtUsd(all.total_pnl, true) },
+        tone: all.virtual_return_pct >= 0 ? "up" : "down",
+      };
+    case "wr-30d": {
+      const wr = m30.win_rate == null ? null : m30.win_rate * 100;
+      return {
+        labelKey: "hero30dWinRate",
+        value: wr == null ? "—" : `${Math.round(wr)}%`,
+        sub: { kind: "wl", wins: m30.wins, losses: m30.losses },
+        tone: "up",
+      };
+    }
+    case "wr-all": {
+      const wr = all.win_rate == null ? null : all.win_rate * 100;
+      return {
+        labelKey: "heroAllWinRate",
+        value: wr == null ? "—" : `${Math.round(wr)}%`,
+        sub: { kind: "wl", wins: all.wins, losses: all.losses },
+        tone: "up",
+      };
+    }
+    case "equity-30d": {
+      const finalBal = VIRTUAL_BASE + m30.total_pnl;
+      return {
+        labelKey: "hero30dEquity",
+        value: fmtUsd(finalBal),
+        sub: {
+          kind: "equity",
+          from: VIRTUAL_BASE,
+          to: finalBal,
+          pct: m30.virtual_return_pct,
+        },
+        tone: m30.total_pnl >= 0 ? "up" : "down",
+      };
+    }
+    case "equity-all": {
+      const finalBal = VIRTUAL_BASE + all.total_pnl;
+      return {
+        labelKey: "heroAllEquity",
+        value: fmtUsd(finalBal),
+        sub: {
+          kind: "equity",
+          from: VIRTUAL_BASE,
+          to: finalBal,
+          pct: all.virtual_return_pct,
+        },
+        tone: all.total_pnl >= 0 ? "up" : "down",
+      };
+    }
+  }
 }
 
 // Static TTF URLs. satori (next/og) cannot parse WOFF2 (no brotli
@@ -358,6 +490,10 @@ export async function GET(
   const url = new URL(req.url);
   const locale: Locale = resolveLocale(url.searchParams.get("lang") ?? "en");
   const t = tFor(locale);
+  const metricRaw = url.searchParams.get("metric") ?? "auto";
+  const metric: MetricKey = METRIC_KEYS.has(metricRaw as MetricKey)
+    ? (metricRaw as MetricKey)
+    : "auto";
 
   let detail: TraderDetail | null = null;
   try {
@@ -403,7 +539,7 @@ export async function GET(
     detail.trader.image,
   );
 
-  const hero = pickHero(detail);
+  const hero = buildHero(detail, metric);
   const traderName = fullName(detail.trader);
   const refCode = detail.trader.referral_code ?? "";
   const { width, height } = FORMATS[f];
