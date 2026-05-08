@@ -43,14 +43,15 @@ export function RecentTrades({
           no closed trades
         </div>
       ) : (
-        <table className="terminal">
+        <div className="table-scroll">
+        <table className="terminal recent-trades-table">
           <thead>
             <tr>
-              <th>#</th>
+              <th className="col-num">#</th>
               <th>TIMESTAMP</th>
               <th>SYMBOL</th>
               <th>SIDE</th>
-              <th>STATUS</th>
+              <th className="col-status">STATUS</th>
               <th className="ralign">R</th>
               <th className="ralign">PNL_USD</th>
             </tr>
@@ -62,7 +63,7 @@ export function RecentTrades({
               const num = (totalTrades - i).toString().padStart(4, "0");
               return (
                 <tr key={t.id}>
-                  <td className="num" style={{ color: "var(--ink-3)" }}>
+                  <td className="num col-num" style={{ color: "var(--ink-3)" }}>
                     {num}
                   </td>
                   <td className="num" style={{ color: "var(--ink-2)" }}>
@@ -101,7 +102,7 @@ export function RecentTrades({
                       </span>
                     )}
                   </td>
-                  <td>
+                  <td className="col-status">
                     <span
                       style={{
                         fontSize: 10,
@@ -124,6 +125,7 @@ export function RecentTrades({
             })}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   );

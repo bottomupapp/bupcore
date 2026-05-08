@@ -39,18 +39,8 @@ export function TopBar({
         borderBottom: "1px solid var(--line-2)",
       }}
     >
-      <div
-        style={{
-          maxWidth: 1440,
-          margin: "0 auto",
-          padding: "14px 32px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 16,
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+      <div className="top-bar-shell">
+        <div style={{ display: "flex", alignItems: "center", gap: 14, minWidth: 0 }}>
           <Link href="/analyst" style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <Image
               src="/brand/logo-dark.png"
@@ -61,13 +51,22 @@ export function TopBar({
               style={{ display: "block" }}
             />
           </Link>
-          <span style={{ height: 16, width: 1, background: "var(--line-2)" }} />
-          <span className="eyebrow" style={{ color: "var(--ink-2)" }}>
+          <span style={{ height: 16, width: 1, background: "var(--line-2)", flexShrink: 0 }} />
+          <span
+            className="eyebrow"
+            style={{
+              color: "var(--ink-2)",
+              minWidth: 0,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
             {crumb ?? "/ ANALYST"}
           </span>
         </div>
-        <div className="top-bar-right" style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <span className="num" style={{ fontSize: 11, color: "var(--ink-3)", letterSpacing: ".06em" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
+          <span className="num top-bar-clock">
             <span className="blink" style={{ color: "var(--acid)" }}>
               ●
             </span>{" "}
@@ -78,7 +77,7 @@ export function TopBar({
             href={APP_STORE_URL}
             target="_blank"
             rel="noreferrer"
-            className="hair-btn"
+            className="hair-btn top-bar-cta"
           >
             <Plus /> APP STORE
           </a>
@@ -86,7 +85,7 @@ export function TopBar({
             href={GOOGLE_PLAY_URL}
             target="_blank"
             rel="noreferrer"
-            className="hair-btn solid"
+            className="hair-btn solid top-bar-cta"
           >
             <ArrowRight /> GOOGLE PLAY
           </a>

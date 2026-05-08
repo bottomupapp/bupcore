@@ -81,13 +81,13 @@ export function LiveAnalystTable({
         <table className="terminal">
           <thead>
             <tr>
-              <th>#</th>
+              <th className="col-num">#</th>
               <th>{t("colAnalyst")}</th>
-              <th className="ralign">{t("colFollowers")}</th>
+              <th className="ralign col-followers">{t("colFollowers")}</th>
               <th className="ralign">{t("colThirtyDPnl")}</th>
-              <th className="ralign">{t("colThirtyDWr")}</th>
-              <th className="ralign">{t("colAllPnl")}</th>
-              <th className="ralign">{t("colAllWr")}</th>
+              <th className="ralign col-thirty-wr">{t("colThirtyDWr")}</th>
+              <th className="ralign col-all-pnl">{t("colAllPnl")}</th>
+              <th className="ralign col-all-wr">{t("colAllWr")}</th>
               <th>{t("colRefCode")}</th>
             </tr>
           </thead>
@@ -102,7 +102,7 @@ export function LiveAnalystTable({
                 (a.stats.pnl ?? 0) >= 0 ? "var(--pos)" : "var(--neg)";
               return (
                 <tr key={a.trader_id}>
-                  <td className="num" style={{ color: "var(--ink-3)" }}>
+                  <td className="num col-num" style={{ color: "var(--ink-3)" }}>
                     {(i + 1).toString().padStart(2, "0")}
                   </td>
                   <td>
@@ -150,7 +150,7 @@ export function LiveAnalystTable({
                       </span>
                     </Link>
                   </td>
-                  <td className="ralign num" style={{ color: "var(--ink-2)" }}>
+                  <td className="ralign num col-followers" style={{ color: "var(--ink-2)" }}>
                     {a.followers.toLocaleString("en-US")}
                   </td>
                   <td
@@ -159,18 +159,18 @@ export function LiveAnalystTable({
                   >
                     {fmtUsd(a.stats.monthly_pnl, { sign: true, compact: true })}
                   </td>
-                  <td className="ralign num" style={{ color: "var(--ink-2)" }}>
+                  <td className="ralign num col-thirty-wr" style={{ color: "var(--ink-2)" }}>
                     {a.stats.monthly_win_rate == null
                       ? "—"
                       : `${Math.round(a.stats.monthly_win_rate)}%`}
                   </td>
                   <td
-                    className="ralign num"
+                    className="ralign num col-all-pnl"
                     style={{ color: totalPnlTone, fontWeight: 600 }}
                   >
                     {fmtUsd(a.stats.pnl, { sign: true, compact: true })}
                   </td>
-                  <td className="ralign num" style={{ color: "var(--ink-2)" }}>
+                  <td className="ralign num col-all-wr" style={{ color: "var(--ink-2)" }}>
                     {a.stats.win_rate == null
                       ? "—"
                       : `${Math.round(a.stats.win_rate)}%`}

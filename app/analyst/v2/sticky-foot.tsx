@@ -97,7 +97,7 @@ export function StickyFoot({
             href={APP_STORE_URL}
             target="_blank"
             rel="noreferrer"
-            className="hair-btn"
+            className="hair-btn sticky-foot-cta"
           >
             <Plus /> APP STORE
           </a>
@@ -105,7 +105,7 @@ export function StickyFoot({
             href={GOOGLE_PLAY_URL}
             target="_blank"
             rel="noreferrer"
-            className="hair-btn solid"
+            className="hair-btn solid sticky-foot-cta"
           >
             <ArrowRight /> GOOGLE PLAY
           </a>

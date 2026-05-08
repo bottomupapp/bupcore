@@ -33,13 +33,14 @@ export function TopCoins({ coins }: { coins: TraderCoinStat[] }) {
           no coin breakdown
         </div>
       ) : (
-        <table className="terminal">
+        <div className="table-scroll">
+        <table className="terminal top-coins-table">
           <thead>
             <tr>
               <th>SYMBOL</th>
-              <th className="ralign">TRADES</th>
+              <th className="ralign col-trades">TRADES</th>
               <th className="ralign">WR</th>
-              <th>R DISTRIBUTION</th>
+              <th className="col-distribution">R DISTRIBUTION</th>
               <th className="ralign">PNL</th>
             </tr>
           </thead>
@@ -60,7 +61,7 @@ export function TopCoins({ coins }: { coins: TraderCoinStat[] }) {
                       </span>
                     </div>
                   </td>
-                  <td className="ralign num" style={{ color: "var(--ink-2)" }}>
+                  <td className="ralign num col-trades" style={{ color: "var(--ink-2)" }}>
                     {c.trades}
                   </td>
                   <td
@@ -69,7 +70,7 @@ export function TopCoins({ coins }: { coins: TraderCoinStat[] }) {
                   >
                     {c.win_rate.toFixed(1)}%
                   </td>
-                  <td>
+                  <td className="col-distribution">
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div
                         style={{
@@ -105,6 +106,7 @@ export function TopCoins({ coins }: { coins: TraderCoinStat[] }) {
             })}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   );

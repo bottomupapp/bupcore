@@ -68,19 +68,12 @@ export default async function AnalystListPage({
       <TopBar crumb={`/ ${t("analystsTitle")}`} locale={locale} />
       <TickerTape items={tape} />
 
-      <main style={{ maxWidth: 1440, margin: "0 auto", padding: "48px 32px 120px" }}>
+      <main className="list-main">
         <section style={{ maxWidth: 900 }}>
           <div className="eyebrow" style={{ color: "var(--ink-3)" }}>
             // BOTTOMUP_TERMINAL · {t("analystIndex")}
           </div>
-          <h1
-            className="display"
-            style={{
-              fontSize: 96,
-              margin: "16px 0 12px",
-              color: "var(--ink)",
-            }}
-          >
+          <h1 className="display list-headline">
             {t("analystsTitle")}
           </h1>
           <p
@@ -188,6 +181,7 @@ export default async function AnalystListPage({
         )}
 
         <footer
+          className="list-footer"
           style={{
             marginTop: 64,
             paddingTop: 24,
@@ -202,7 +196,7 @@ export default async function AnalystListPage({
           }}
         >
           <div>© {new Date().getFullYear()} BOTTOMUP</div>
-          <div style={{ maxWidth: 600, textAlign: "right" }}>
+          <div className="list-footer-meta" style={{ maxWidth: 600, textAlign: "right" }}>
             {t("virtualTrackRecord").replace(/ /g, "_")} · NOT_FINANCIAL_ADVICE · PAST_PERFORMANCE_≠_FUTURE_RESULTS
           </div>
         </footer>

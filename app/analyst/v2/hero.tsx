@@ -84,15 +84,7 @@ export function Hero({
         <rect width="100%" height="100%" fill="url(#heroGrid)" />
       </svg>
 
-      <div
-        style={{
-          position: "relative",
-          zIndex: 2,
-          maxWidth: 1440,
-          margin: "0 auto",
-          padding: "64px 32px 48px",
-        }}
-      >
+      <div className="detail-hero-shell">
         <Link
           href="/analyst"
           className="lnk eyebrow"
@@ -195,15 +187,7 @@ export function Hero({
           </div>
 
           {/* 30D NET PNL block */}
-          <div
-            style={{
-              border: "1px solid var(--acid)",
-              background: "rgba(10,10,10,.72)",
-              backdropFilter: "blur(8px)",
-              padding: "24px 28px",
-              minWidth: 320,
-            }}
-          >
+          <div className="hero-pnl-card">
             <div className="eyebrow" style={{ color: "var(--acid)" }}>
               <span className="blink">▮</span> {t("thirtyDNetPnlEyebrow")}
             </div>

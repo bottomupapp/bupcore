@@ -131,7 +131,7 @@ export default async function AnalystDetailPage({
       <TickerTape items={tape} />
       <Hero detail={detail} locale={locale} />
 
-      <main style={{ maxWidth: 1440, margin: "0 auto", padding: "0 32px 120px" }}>
+      <main className="detail-main">
         <LiveStrip
           name={name_}
           initial={{
@@ -169,6 +169,7 @@ export default async function AnalystDetailPage({
         </section>
 
         <footer
+          className="list-footer"
           style={{
             marginTop: 64,
             paddingTop: 24,
@@ -183,7 +184,7 @@ export default async function AnalystDetailPage({
           }}
         >
           <div>© {new Date().getFullYear()} BOTTOMUP</div>
-          <div style={{ maxWidth: 600, textAlign: "right" }}>
+          <div className="list-footer-meta" style={{ maxWidth: 600, textAlign: "right" }}>
             {t("virtualTrackRecord").replace(/ /g, "_")} · NOT_FINANCIAL_ADVICE · PAST_PERFORMANCE_≠_FUTURE_RESULTS
           </div>
         </footer>

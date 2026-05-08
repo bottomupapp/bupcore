@@ -160,6 +160,75 @@
 .analyst-v2 table.terminal tr:hover td { background: var(--bg-2); }
 .analyst-v2 .ralign { text-align: right; }
 
+/* List page — responsive shell so the hero, sort row and table all
+   adapt down to ~360px without horizontal page scroll. The detail
+   page (hero/perf-matrix/etc.) has its own breakpoints below. */
+.analyst-v2 .list-main {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: clamp(28px, 6vw, 48px) clamp(16px, 4vw, 32px) 96px;
+}
+
+/* Detail page — main column padding scales down on small screens so
+   the equity card/perf-matrix/tables don't get pinched. The hero
+   above this column has its own padding shell that does the same. */
+.analyst-v2 .detail-main {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 32px) 96px;
+}
+.analyst-v2 .detail-hero-shell {
+  position: relative;
+  z-index: 2;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: clamp(40px, 8vw, 64px) clamp(16px, 4vw, 32px) 48px;
+}
+
+/* Hero PNL block — keep wide on desktop, shrink under mobile so the
+   minWidth doesn't push the section past the viewport */
+.analyst-v2 .hero-pnl-card {
+  border: 1px solid var(--acid);
+  background: rgba(10, 10, 10, .72);
+  backdrop-filter: blur(8px);
+  padding: 24px 28px;
+  min-width: 320px;
+}
+
+/* Detail tables (top-coins / recent-trades) need an explicit
+   horizontal scroll wrapper so the inner table can be wider than the
+   viewport without dragging the rest of the page along. */
+.analyst-v2 .table-scroll {
+  overflow-x: auto;
+}
+.analyst-v2 .list-headline {
+  font-size: clamp(56px, 14vw, 96px);
+  margin: 16px 0 12px;
+  color: var(--ink);
+}
+
+/* Top bar — keep brand + crumb + lang picker on every breakpoint;
+   compress padding and drop the app store CTAs once the row would
+   otherwise wrap. */
+.analyst-v2 .top-bar-shell {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 14px clamp(16px, 4vw, 32px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.analyst-v2 .top-bar-clock {
+  font-size: 11px;
+  color: var(--ink-3);
+  letter-spacing: .06em;
+}
+
+/* List table — at narrow widths we lose the # column and the
+   "ALL" lifetime stats so the most-recent 30D performance + ref
+   code stays readable without horizontal scroll. */
+
 /* responsive */
 @media (max-width: 1024px) {
   .analyst-v2 .grid-mosaic { grid-template-columns: 1fr !important; }
@@ -168,12 +237,86 @@
   .analyst-v2 .hero-headline { font-size: 96px !important; }
   .analyst-v2 .share-grid { grid-template-columns: 1fr 1fr !important; }
 }
+/* Compact table padding for tablets — keep all columns but tighten
+   the cells so the row stays readable down to ~720px. */
+@media (max-width: 900px) {
+  .analyst-v2 .top-bar-cta { display: none !important; }
+  .analyst-v2 table.terminal th,
+  .analyst-v2 table.terminal td { padding: 12px 10px; font-size: 12px; }
+}
+/* Mobile — column hiding + hero/footer stack, ref chip compaction.
+   followers + all-time stats drop so the most-recent 30D performance
+   + ref code stay readable in 360-420px viewports without horizontal
+   scroll. */
 @media (max-width: 640px) {
   .analyst-v2 .perf-row { grid-template-columns: 1fr !important; }
   .analyst-v2 .hero-headline { font-size: 56px !important; line-height: 0.95 !important; }
   .analyst-v2 .hero-pnl { font-size: 56px !important; }
-  .analyst-v2 .top-bar-right { display: none !important; }
+  .analyst-v2 .hero-pnl-card { min-width: 0 !important; padding: 20px 22px !important; width: 100%; }
+  .analyst-v2 .top-bar-clock { display: none !important; }
   .analyst-v2 .pad { padding: 24px !important; }
   .analyst-v2 .referral-strip { grid-template-columns: 1fr !important; }
   .analyst-v2 .share-grid { grid-template-columns: 1fr !important; }
+  .analyst-v2 .list-footer {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  .analyst-v2 .list-footer-meta {
+    text-align: left !important;
+    max-width: 100% !important;
+  }
+
+  /* Detail tables — drop the lifetime/timestamp/distribution columns
+     that don't carry their weight on a 360px screen. The remaining
+     columns fit without the page itself scrolling sideways. */
+  .analyst-v2 .top-coins-table .col-trades,
+  .analyst-v2 .top-coins-table .col-distribution { display: none; }
+  .analyst-v2 .recent-trades-table .col-num,
+  .analyst-v2 .recent-trades-table .col-status { display: none; }
+
+  /* Sticky-foot — the two app-store CTAs eat the row, drop them and
+     keep the trader id + ref code chip; users can install via the
+     hero referral block. */
+  .analyst-v2 .sticky-foot-cta { display: none !important; }
+
+  .analyst-v2 table.terminal th,
+  .analyst-v2 table.terminal td { padding: 12px 8px; }
+  .analyst-v2 table.terminal th:first-child,
+  .analyst-v2 table.terminal td:first-child { padding-left: 12px; }
+  .analyst-v2 table.terminal th:last-child,
+  .analyst-v2 table.terminal td:last-child { padding-right: 12px; }
+  .analyst-v2 table.terminal .col-num,
+  .analyst-v2 table.terminal .col-followers,
+  .analyst-v2 table.terminal .col-all-pnl,
+  .analyst-v2 table.terminal .col-all-wr { display: none; }
+  /* compact ref-code chip inside the dense table cell */
+  .analyst-v2 table.terminal .hair-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+    letter-spacing: .08em;
+  }
+  /* shrink the analyst avatar + lift the name link gap so the row's
+     three remaining cells fit at 360-400px without horizontal scroll */
+  .analyst-v2 table.terminal td a img,
+  .analyst-v2 table.terminal td a span[style*="placeItems"] {
+    width: 22px !important;
+    height: 22px !important;
+  }
+  .analyst-v2 table.terminal td a {
+    gap: 8px !important;
+  }
+  /* clamp the analyst link so a long name truncates with ellipsis
+     instead of forcing the column wider than the viewport */
+  .analyst-v2 table.terminal td a .lnk {
+    font-size: 12px !important;
+    max-width: 88px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+@media (max-width: 420px) {
+  .analyst-v2 table.terminal .col-thirty-wr { display: none; }
 }
