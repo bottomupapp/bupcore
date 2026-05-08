@@ -629,9 +629,38 @@ interface CardProps {
   t: ReturnType<typeof tFor>;
 }
 
+/**
+ * Pick a display font size for the trader name so the rendered text
+ * stays within `maxWidth`. Archivo Black uppercase glyphs run ~0.62 ×
+ * fontSize wide on average — this is intentionally a touch wider than
+ * the visual "looks-like" 0.55 because heavy display weights add side
+ * bearing that satori counts. When the name predicted at base size
+ * would overflow, we scale linearly down to a 50% floor — beyond that
+ * the layout would look too small and we'd rather let the text clip.
+ *
+ * Without this, long handles like "MUHAFIZBEN" overflow into the
+ * hero stat card on the Twitter format (1200×675); the right card
+ * then visually clips the trailing letters.
+ */
+function pickNameFontSize(name: string, baseSize: number, maxWidth: number): number {
+  // Empirical char ratio for Archivo Black uppercase rendered by
+  // satori — wider than the visual "looks like" 0.55 because heavy
+  // display weights add tracking + side bearing. 0.7 keeps a tight
+  // safety margin so 10-char names like "MUHAFIZBEN" don't clip.
+  const predicted = name.length * baseSize * 0.7;
+  if (predicted <= maxWidth) return baseSize;
+  const scaled = Math.floor((maxWidth / predicted) * baseSize);
+  return Math.max(Math.floor(baseSize * 0.45), scaled);
+}
+
 // ─── Twitter / X / Facebook 1200×675 ──────────────────────────────
 function TwitterCard({ name, ref_code, hero, avatar, t }: CardProps) {
   const heroColor = hero.tone === "up" ? TOKENS.pos : TOKENS.neg;
+  // Twitter card budgets ~380px for the name (1200 - 56*2 padding -
+  // 88 avatar - 20 gap - 48 col gap - ~400 hero card). Names longer
+  // than ~9 chars get scaled down so the hero card on the right
+  // doesn't visually clip them.
+  const nameFontSize = pickNameFontSize(name, 72, 370);
   return (
     <div
       style={{
@@ -723,12 +752,13 @@ function TwitterCard({ name, ref_code, hero, avatar, t }: CardProps) {
               style={{
                 fontFamily: "Archivo",
                 fontWeight: 900,
-                fontSize: 72,
+                fontSize: nameFontSize,
                 lineHeight: 0.9,
                 letterSpacing: "-0.04em",
                 color: TOKENS.ink,
                 textTransform: "uppercase",
                 display: "flex",
+                overflow: "hidden",
               }}
             >
               {name}
@@ -864,6 +894,9 @@ function TwitterCard({ name, ref_code, hero, avatar, t }: CardProps) {
 // ─── Instagram square 1080×1080 ───────────────────────────────────
 function SquareCard({ name, ref_code, hero, avatar, t }: CardProps) {
   const heroColor = hero.tone === "up" ? TOKENS.pos : TOKENS.neg;
+  // Square card name sits beside a 120 avatar in a row that's
+  // 952px wide (1080 - 64*2 padding). After avatar+gap: ~800px budget.
+  const nameFontSize = pickNameFontSize(name, 110, 800);
   return (
     <div
       style={{
@@ -950,7 +983,7 @@ function SquareCard({ name, ref_code, hero, avatar, t }: CardProps) {
           style={{
             fontFamily: "Archivo",
             fontWeight: 900,
-            fontSize: 110,
+            fontSize: nameFontSize,
             lineHeight: 0.9,
             letterSpacing: "-0.04em",
             textTransform: "uppercase",
@@ -1108,6 +1141,9 @@ function SquareCard({ name, ref_code, hero, avatar, t }: CardProps) {
 // ─── Story / TikTok 1080×1920 ─────────────────────────────────────
 function StoryCard({ name, ref_code, hero, avatar, t }: CardProps) {
   const heroColor = hero.tone === "up" ? TOKENS.pos : TOKENS.neg;
+  // Story stacks avatar above name, both centered. Name has the full
+  // 952px row (1080 - 64*2 padding) to itself.
+  const nameFontSize = pickNameFontSize(name, 140, 940);
   return (
     <div
       style={{
@@ -1197,13 +1233,14 @@ function StoryCard({ name, ref_code, hero, avatar, t }: CardProps) {
           style={{
             fontFamily: "Archivo",
             fontWeight: 900,
-            fontSize: 140,
+            fontSize: nameFontSize,
             lineHeight: 0.9,
             letterSpacing: "-0.04em",
             textTransform: "uppercase",
             color: TOKENS.ink,
             textAlign: "center",
             display: "flex",
+            overflow: "hidden",
           }}
         >
           {name}
