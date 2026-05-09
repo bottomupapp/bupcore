@@ -148,8 +148,6 @@ export function Hero({
             )}
             <div className="eyebrow" style={{ marginBottom: 16, color: "var(--ink-3)" }}>
               ANALYST_ID <span style={{ color: "var(--ink-2)" }}>// {id}</span>
-              {" · "}
-              {trader.followers.toLocaleString("en-US")} {t("followers")}
             </div>
             <h1
               className="display hero-headline"

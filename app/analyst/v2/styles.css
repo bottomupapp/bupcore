@@ -288,7 +288,6 @@
   .analyst-v2 table.terminal th:last-child,
   .analyst-v2 table.terminal td:last-child { padding-right: 12px; }
   .analyst-v2 table.terminal .col-num,
-  .analyst-v2 table.terminal .col-followers,
   .analyst-v2 table.terminal .col-all-pnl,
   .analyst-v2 table.terminal .col-all-wr { display: none; }
   /* compact ref-code chip inside the dense table cell */

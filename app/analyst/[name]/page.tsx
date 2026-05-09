@@ -107,10 +107,6 @@ export default async function AnalystDetailPage({
       v: fmtR(detail.all_time.total_r),
       up: detail.all_time.total_r >= 0,
     },
-    {
-      k: t("followers"),
-      v: detail.trader.followers.toLocaleString("en-US") + " ↑",
-    },
     detail.coins[0]
       ? {
           k: "TOP COIN",
@@ -132,14 +128,7 @@ export default async function AnalystDetailPage({
       <Hero detail={detail} locale={locale} />
 
       <main className="detail-main">
-        <LiveStrip
-          name={name_}
-          initial={{
-            followers: detail.trader.followers,
-            referral_code: detail.trader.referral_code,
-          }}
-          locale={locale}
-        />
+        <LiveStrip name={name_} locale={locale} />
         <PerfMatrix d30={detail.stats} all={detail.all_time} locale={locale} />
 
         <section style={{ marginTop: 32 }}>

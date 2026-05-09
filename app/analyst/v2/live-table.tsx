@@ -24,7 +24,6 @@ const ORDER_FIELD: Record<AnalystOrder, (a: Analyst) => number | string | null> 
   pnl: (a) => a.stats.pnl,
   win_rate: (a) => a.stats.win_rate,
   rate: (a) => a.stats.rate,
-  followers: (a) => a.followers,
   name: (a) => fullName(a),
 };
 
@@ -85,7 +84,6 @@ export function LiveAnalystTable({
             <tr>
               <th className="col-num">#</th>
               <th>{t("colAnalyst")}</th>
-              <th className="ralign col-followers">{t("colFollowers")}</th>
               <th className="ralign">{t("colThirtyDPnl")}</th>
               <th className="ralign col-thirty-wr">{t("colThirtyDWr")}</th>
               <th className="ralign col-all-pnl">{t("colAllPnl")}</th>
@@ -151,9 +149,6 @@ export function LiveAnalystTable({
                         {name}
                       </span>
                     </Link>
-                  </td>
-                  <td className="ralign num col-followers" style={{ color: "var(--ink-2)" }}>
-                    {a.followers.toLocaleString("en-US")}
                   </td>
                   <td
                     className="ralign num"

@@ -41,7 +41,6 @@ export type AnalystOrder =
   | "pnl"
   | "win_rate"
   | "rate"
-  | "followers"
   | "name";
 
 export async function fetchAnalysts(

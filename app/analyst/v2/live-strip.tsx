@@ -8,19 +8,17 @@ import { tFor, type Locale } from "./i18n";
 
 /**
  * Detail-page live strip. Subscribes to `analyst:<name>` and surfaces
- * the precomputed `trader_stats` fields (followers + 30D PNL + win
- * rate + ROI). These are different from PerfMatrix — that block
+ * the precomputed `trader_stats` fields (30D PNL + ROI + win rate +
+ * all-time PNL). These are different from PerfMatrix — that block
  * recomputes from raw trades (heavier, daily-cron backed). This strip
- * is the one that actually moves between cron runs (followers is a
- * live count, monthly_pnl_rate updates as fresh setups close).
+ * is the one that actually moves between cron runs as fresh setups
+ * close.
  */
 export function LiveStrip({
   name,
-  initial,
   locale = "en",
 }: {
   name: string;
-  initial: { followers: number; referral_code: string | null } | null;
   locale?: Locale;
 }) {
   const t = tFor(locale);
@@ -28,12 +26,10 @@ export function LiveStrip({
   const { rows, lastUpdateAt, connected } = useAnalystLive(handle);
   const live = rows.get(handle) as Analyst | undefined;
 
-  const followers = live?.followers ?? initial?.followers ?? 0;
   const monthlyPnl = live?.stats.monthly_pnl ?? null;
   const monthlyRoi = live?.stats.monthly_roi ?? null;
   const monthlyWr = live?.stats.monthly_win_rate ?? null;
   const allPnl = live?.stats.pnl ?? null;
-  const allWr = live?.stats.win_rate ?? null;
 
   return (
     <section style={{ marginTop: 24 }}>
@@ -55,12 +51,11 @@ export function LiveStrip({
         className="stat-grid"
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(5, 1fr)",
+          gridTemplateColumns: "repeat(4, 1fr)",
           border: "1px solid var(--line-2)",
           background: "var(--bg-2)",
         }}
       >
-        <Tile label={t("followers")} value={followers.toLocaleString("en-US")} />
         <Tile
           label={t("thirtyDPnl")}
           value={

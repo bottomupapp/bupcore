@@ -17,7 +17,6 @@ const ORDER_OPTIONS: Array<{ value: AnalystOrder; labelKey: string }> = [
   { value: "monthly_win_rate", labelKey: "sort30dWr" },
   { value: "win_rate", labelKey: "sortAllWr" },
   { value: "pnl", labelKey: "sortAllPnl" },
-  { value: "followers", labelKey: "sortFollowers" },
   { value: "name", labelKey: "sortName" },
 ];
 
