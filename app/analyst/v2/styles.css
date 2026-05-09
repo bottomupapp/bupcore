@@ -235,6 +235,7 @@
   .analyst-v2 .perf-row    { grid-template-columns: 1fr 1fr !important; }
   .analyst-v2 .hero-stack  { grid-template-columns: 1fr !important; }
   .analyst-v2 .hero-headline { font-size: 96px !important; }
+  .analyst-v2 .hero-avatar { width: 88px !important; height: 88px !important; font-size: 44px !important; }
   .analyst-v2 .share-grid { grid-template-columns: 1fr 1fr !important; }
 }
 /* Compact table padding for tablets — keep all columns but tighten
@@ -253,6 +254,7 @@
   .analyst-v2 .hero-headline { font-size: 56px !important; line-height: 0.95 !important; }
   .analyst-v2 .hero-pnl { font-size: 56px !important; }
   .analyst-v2 .hero-pnl-card { min-width: 0 !important; padding: 20px 22px !important; width: 100%; }
+  .analyst-v2 .hero-avatar { width: 72px !important; height: 72px !important; font-size: 36px !important; margin-bottom: 16px !important; }
   .analyst-v2 .top-bar-clock { display: none !important; }
   .analyst-v2 .pad { padding: 24px !important; }
   .analyst-v2 .referral-strip { grid-template-columns: 1fr !important; }

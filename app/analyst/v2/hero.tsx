@@ -110,6 +110,42 @@ export function Hero({
           }}
         >
           <div>
+            {trader.image ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={trader.image}
+                alt={name}
+                className="hero-avatar"
+                style={{
+                  width: 112,
+                  height: 112,
+                  border: "1px solid var(--line-2)",
+                  display: "block",
+                  marginBottom: 20,
+                  objectFit: "cover",
+                }}
+                referrerPolicy="no-referrer"
+              />
+            ) : (
+              <span
+                className="hero-avatar"
+                style={{
+                  width: 112,
+                  height: 112,
+                  border: "1px solid var(--line-2)",
+                  background: "var(--bg-2)",
+                  color: "var(--ink-3)",
+                  display: "grid",
+                  placeItems: "center",
+                  fontFamily: "var(--font-mono)",
+                  fontWeight: 700,
+                  fontSize: 56,
+                  marginBottom: 20,
+                }}
+              >
+                {name[0]?.toUpperCase() ?? "?"}
+              </span>
+            )}
             <div className="eyebrow" style={{ marginBottom: 16, color: "var(--ink-3)" }}>
               ANALYST_ID <span style={{ color: "var(--ink-2)" }}>// {id}</span>
               {" · "}
@@ -121,67 +157,32 @@ export function Hero({
             >
               {handle}
             </h1>
-            <div
-              style={{
-                marginTop: 24,
-                display: "flex",
-                gap: 14,
-                alignItems: "center",
-                flexWrap: "wrap",
-              }}
-            >
-              {trader.image ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={trader.image}
-                  alt={name}
-                  style={{ width: 44, height: 44, border: "1px solid var(--line-2)" }}
-                  referrerPolicy="no-referrer"
-                />
-              ) : (
-                <span
-                  style={{
-                    width: 44,
-                    height: 44,
-                    border: "1px solid var(--line-2)",
-                    background: "var(--bg-2)",
-                    color: "var(--ink-3)",
-                    display: "inline-grid",
-                    placeItems: "center",
-                    fontFamily: "var(--font-mono)",
-                    fontWeight: 700,
-                  }}
-                >
-                  {name[0]?.toUpperCase() ?? "?"}
-                </span>
-              )}
-              <div>
-                <div style={{ fontSize: 13, color: "var(--ink-2)", fontWeight: 500 }}>
-                  {(() => {
-                    const realName = [trader.first_name, trader.last_name]
-                      .filter(Boolean)
-                      .join(" ")
-                      .trim();
-                    const parts: string[] = [];
-                    if (realName) parts.push(realName);
-                    if (trader.bio) parts.push(trader.bio);
-                    parts.push(
-                      `${t("allPnl")} ${fmtUsd(all_time.total_pnl, { sign: true, compact: true })}`,
-                    );
-                    return parts.join(" · ");
-                  })()}
-                </div>
-                <div
-                  className="num"
-                  style={{
-                    fontSize: 11,
-                    color: "var(--ink-3)",
-                    letterSpacing: ".06em",
-                    marginTop: 2,
-                  }}
-                >
-                  {fmtPct(all_time.virtual_return_pct)} {t("heroAllReturn")}
-                </div>
+            <div style={{ marginTop: 24 }}>
+              <div style={{ fontSize: 13, color: "var(--ink-2)", fontWeight: 500 }}>
+                {(() => {
+                  const realName = [trader.first_name, trader.last_name]
+                    .filter(Boolean)
+                    .join(" ")
+                    .trim();
+                  const parts: string[] = [];
+                  if (realName) parts.push(realName);
+                  if (trader.bio) parts.push(trader.bio);
+                  parts.push(
+                    `${t("allPnl")} ${fmtUsd(all_time.total_pnl, { sign: true, compact: true })}`,
+                  );
+                  return parts.join(" · ");
+                })()}
+              </div>
+              <div
+                className="num"
+                style={{
+                  fontSize: 11,
+                  color: "var(--ink-3)",
+                  letterSpacing: ".06em",
+                  marginTop: 2,
+                }}
+              >
+                {fmtPct(all_time.virtual_return_pct)} {t("heroAllReturn")}
               </div>
             </div>
           </div>
