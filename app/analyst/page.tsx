@@ -46,7 +46,9 @@ export default async function AnalystListPage({
   let analysts: Analyst[] = [];
   let error: string | null = null;
   try {
-    analysts = await fetchAnalysts(60, order);
+    // 90-day activity gate: hide traders dormant for 3+ months so the
+    // public list doesn't surface stale or never-traded profiles.
+    analysts = await fetchAnalysts(60, order, 90);
   } catch (err) {
     error = err instanceof Error ? err.message : String(err);
   }

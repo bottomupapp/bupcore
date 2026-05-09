@@ -47,10 +47,14 @@ export type AnalystOrder =
 export async function fetchAnalysts(
   limit = 50,
   orderBy: AnalystOrder = "monthly_pnl",
+  activeWithinDays?: number,
 ): Promise<Analyst[]> {
   const url = new URL("/public/analysts", BUP_API_BASE);
   url.searchParams.set("limit", String(limit));
   url.searchParams.set("order_by", orderBy);
+  if (activeWithinDays && activeWithinDays > 0) {
+    url.searchParams.set("active_within_days", String(activeWithinDays));
+  }
 
   const res = await fetch(url, {
     next: { revalidate: 60 },
