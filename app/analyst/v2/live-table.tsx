@@ -10,7 +10,10 @@ import { tFor, type Locale } from "./i18n";
 
 function fullName(a: Analyst): string {
   if (a.name) return a.name;
-  return [a.first_name, a.last_name].filter(Boolean).join(" ").trim() || "—";
+  const real = [a.first_name, a.last_name].filter(Boolean).join(" ").trim();
+  if (real) return real;
+  if (a.referral_code) return a.referral_code;
+  return "—";
 }
 
 const ORDER_FIELD: Record<AnalystOrder, (a: Analyst) => number | string | null> = {
@@ -46,10 +49,9 @@ export function LiveAnalystTable({
   const merged = useMemo(() => {
     const map = new Map<string, Analyst>();
     for (const a of initial) {
-      const key = (a.name ?? a.trader_id).toLowerCase();
-      map.set(key, a);
+      map.set(a.trader_id, a);
     }
-    for (const [key, a] of live) map.set(key, a);
+    for (const a of live.values()) map.set(a.trader_id, a);
     const list = Array.from(map.values());
     const fn = ORDER_FIELD[order];
     if (order === "name") {
@@ -94,7 +96,7 @@ export function LiveAnalystTable({
           <tbody>
             {merged.map((a, i) => {
               const name = fullName(a);
-              const handle = a.name ?? a.trader_id;
+              const handle = a.name || a.referral_code || a.trader_id;
               const href = `/analyst/${encodeURIComponent(handle)}`;
               const monthlyPnlTone =
                 (a.stats.monthly_pnl ?? 0) >= 0 ? "var(--pos)" : "var(--neg)";

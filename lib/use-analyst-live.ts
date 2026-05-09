@@ -22,7 +22,7 @@ type Frame =
  * - `id = "*"`            → directory page (every analyst row)
  * - `id = "<name>"`       → detail page (one analyst, lowercased server-side)
  *
- * Returns a map keyed by trader name (lowercased) → freshest Analyst row,
+ * Returns a map keyed by trader_id → freshest Analyst row,
  * plus a stamp recording when the last frame arrived. Components splice
  * matching rows on top of the SSR-rendered initial data so the page never
  * goes blank during a reconnect.
@@ -74,10 +74,9 @@ export function useAnalystLive(id: string): {
           return;
         }
         const row = data as Analyst;
-        const key = (row.name ?? row.trader_id).toLowerCase();
         setRows((prev) => {
           const next = new Map(prev);
-          next.set(key, row);
+          next.set(row.trader_id, row);
           return next;
         });
         setLastUpdateAt(Date.now());

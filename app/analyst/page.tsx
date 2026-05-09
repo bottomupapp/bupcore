@@ -27,7 +27,10 @@ function isOrder(value: string | undefined): value is AnalystOrder {
 
 function fullName(a: Analyst): string {
   if (a.name) return a.name;
-  return [a.first_name, a.last_name].filter(Boolean).join(" ").trim() || "—";
+  const real = [a.first_name, a.last_name].filter(Boolean).join(" ").trim();
+  if (real) return real;
+  if (a.referral_code) return a.referral_code;
+  return "—";
 }
 
 export default async function AnalystListPage({
