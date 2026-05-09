@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowRight, Plus } from "./icons";
+import { AppleLogo, GooglePlayLogo } from "./icons";
 import { CopyCode } from "./copy-code";
 import { tFor, type Locale } from "./i18n";
 
@@ -99,7 +99,7 @@ export function StickyFoot({
             rel="noreferrer"
             className="hair-btn sticky-foot-cta"
           >
-            <Plus /> APP STORE
+            <AppleLogo /> APP STORE
           </a>
           <a
             href={GOOGLE_PLAY_URL}
@@ -107,7 +107,7 @@ export function StickyFoot({
             rel="noreferrer"
             className="hair-btn solid sticky-foot-cta"
           >
-            <ArrowRight /> GOOGLE PLAY
+            <GooglePlayLogo /> GOOGLE PLAY
           </a>
         </div>
       </div>

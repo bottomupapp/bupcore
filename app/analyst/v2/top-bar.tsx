@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Plus } from "./icons";
+import { AppleLogo, GooglePlayLogo } from "./icons";
 import { LangPicker } from "./lang-picker";
 import { tFor, type Locale } from "./i18n";
 
@@ -79,7 +79,7 @@ export function TopBar({
             rel="noreferrer"
             className="hair-btn top-bar-cta"
           >
-            <Plus /> APP STORE
+            <AppleLogo /> APP STORE
           </a>
           <a
             href={GOOGLE_PLAY_URL}
@@ -87,7 +87,7 @@ export function TopBar({
             rel="noreferrer"
             className="hair-btn solid top-bar-cta"
           >
-            <ArrowRight /> GOOGLE PLAY
+            <GooglePlayLogo /> GOOGLE PLAY
           </a>
         </div>
       </div>
