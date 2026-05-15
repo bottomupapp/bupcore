@@ -12,12 +12,15 @@
  *        STUDIO_ORIGIN = https://work.bupcore.ai
  *      (Or the underlying *.up.railway.app URL if you prefer to skip
  *      the bupcore.ai hop.)
- *   3. Settings → Triggers → Routes → Add one route per prefix
- *      (zone: bottomup.app):
+ *   3. Routes are managed via `analyst-wrangler.toml` — `wrangler deploy`
+ *      registers all of them. Current routes (zone: bottomup.app):
  *        bottomup.app/analyst*
  *        bottomup.app/okx-closed-session*
+ *        www.bottomup.app/okx-closed-session*    ← worker 301s → apex
  *        bottomup.app/_next/*
  *        bottomup.app/__nextjs/*
+ *      Keep all five in wrangler.toml — a deploy that omits them
+ *      WILL silently drop the routes and the page renders unstyled.
  *   4. Apex DNS: bottomup.app currently has no A/AAAA at @, so the
  *      route would never match. Add a *proxied* dummy AAAA at @:
  *        Type: AAAA, Name: @, Content: 100::, Proxy: orange cloud.
@@ -46,6 +49,19 @@ const PROXY_PREFIXES = [
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+
+    // If the request hit us on www.bottomup.app (the OKX pitch route
+    // has a www variant), bounce to the apex so the page's /_next/*
+    // assets resolve under the host that owns the Worker routes.
+    // Without this, the HTML would load from www but the chunks/fonts
+    // would 404/522 against the www host that has no _next route.
+    // Apex serves the entire surface end-to-end.
+    if (url.hostname.startsWith("www.")) {
+      return Response.redirect(
+        `https://bottomup.app${url.pathname}${url.search}`,
+        301,
+      );
+    }
 
     // Anything not in the Studio surface gets bounced to the marketing
     // site at www.bottomup.app. Required because we added a dummy
