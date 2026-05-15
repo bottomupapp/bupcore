@@ -2,9 +2,12 @@ name = "bottomup-analyst-proxy"
 main = "analyst-worker.js"
 compatibility_date = "2026-05-01"
 
-# Route: bottomup.app/analyst* → this Worker
+# Routes: bottomup.app/{analyst,okx-closed-session}* → this Worker.
+# `_next` / `__nextjs` are handled by the worker's PROXY_PREFIXES list
+# and need their own routes too (added in Cloudflare UI or below).
 routes = [
-  { pattern = "bottomup.app/analyst*", zone_name = "bottomup.app" }
+  { pattern = "bottomup.app/analyst*", zone_name = "bottomup.app" },
+  { pattern = "bottomup.app/okx-closed-session*", zone_name = "bottomup.app" }
 ]
 
 # Set STUDIO_ORIGIN via:

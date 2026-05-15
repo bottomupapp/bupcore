@@ -12,9 +12,12 @@
  *        STUDIO_ORIGIN = https://work.bupcore.ai
  *      (Or the underlying *.up.railway.app URL if you prefer to skip
  *      the bupcore.ai hop.)
- *   3. Settings → Triggers → Routes → Add route:
- *        Route: bottomup.app/analyst*
- *        Zone:  bottomup.app
+ *   3. Settings → Triggers → Routes → Add one route per prefix
+ *      (zone: bottomup.app):
+ *        bottomup.app/analyst*
+ *        bottomup.app/okx-closed-session*
+ *        bottomup.app/_next/*
+ *        bottomup.app/__nextjs/*
  *   4. Apex DNS: bottomup.app currently has no A/AAAA at @, so the
  *      route would never match. Add a *proxied* dummy AAAA at @:
  *        Type: AAAA, Name: @, Content: 100::, Proxy: orange cloud.
@@ -27,11 +30,18 @@
  * Studio domain once /analyst graduates out of the lab.
  */
 // Path prefixes this worker proxies to Studio. `/analyst` is the
-// page itself; `/_next` is required so the Next.js build's CSS,
-// JS chunks and image-optimization endpoint resolve under
-// bottomup.app (otherwise the page renders unstyled). `/__nextjs`
-// covers Next.js dev/runtime endpoints we may surface later.
-const PROXY_PREFIXES = ["/analyst", "/_next", "/__nextjs"];
+// public analyst directory; `/okx-closed-session` is the unindexed
+// OKX partnership pitch deck. `/_next` is required so the Next.js
+// build's CSS, JS chunks and image-optimization endpoint resolve
+// under bottomup.app (otherwise the page renders unstyled).
+// `/__nextjs` covers Next.js dev/runtime endpoints we may surface
+// later.
+const PROXY_PREFIXES = [
+  "/analyst",
+  "/okx-closed-session",
+  "/_next",
+  "/__nextjs",
+];
 
 export default {
   async fetch(request, env) {
