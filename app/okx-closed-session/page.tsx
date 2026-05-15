@@ -111,9 +111,9 @@ export default function OkxClosedSession() {
                 <div className="sub">USDT onboarded onto OKX through BottomUP signups</div>
               </div>
               <div>
-                <div className="k">Effective yield</div>
-                <div className="v">0.76 bps</div>
-                <div className="sub">Commission per $1 routed — 7.6% of OKX&apos;s 10 bps standard taker fee</div>
+                <div className="k">Affiliate rate today</div>
+                <div className="v">$100 / $1M</div>
+                <div className="sub">Our current OKX deal &mdash; 1 bp, ~10% of OKX&apos;s 10 bps standard taker fee</div>
               </div>
             </div>
           </div>
@@ -143,13 +143,13 @@ export default function OkxClosedSession() {
               </div>
               <div>
                 <div className="k">Annual volume needed</div>
-                <div className="v">~$105B</div>
-                <div className="sub">USDT, at today&apos;s 0.76 bps yield &mdash; 67&times; our cumulative footprint</div>
+                <div className="v">~$80B</div>
+                <div className="sub">USDT, at today&apos;s $100-per-$1M rate &mdash; 51&times; our cumulative footprint</div>
               </div>
               <div>
                 <div className="k">Monthly run rate</div>
-                <div className="v">~$8.8B</div>
-                <div className="sub">USDT/month by pilot end &mdash; a structured yield bump (to ~3 bps) drops this to ~$2.2B/mo</div>
+                <div className="v">~$6.7B</div>
+                <div className="sub">USDT/month by pilot end &mdash; a structured rate bump (to ~3 bps / 30% share) drops this to ~$2.2B/mo</div>
               </div>
             </div>
             <p
@@ -161,12 +161,15 @@ export default function OkxClosedSession() {
                 color: "var(--ink-2)",
               }}
             >
-              The math is straightforward at the current 0.76 bps yield: $8M annual
-              commission / 0.0076% ≈ $105B annual volume. The structural lever in
+              At today&apos;s $100-per-$1M OKX affiliate rate (1 bp, ~10% of
+              OKX&apos;s 10 bps standard taker fee), $8M annual commission needs
+              ~$80B annual volume &mdash; ~$6.7B/month. The structural lever in
               our proposal (referral attribution + a clean rev-share on OKX&apos;s
-              standard fee, ~3 bps net to BottomUP) cuts the required volume by ~4&times;
-              to roughly $26B/year &mdash; achievable inside Series A horizon if the
-              wallet + referral rails ship in six weeks.
+              standard fee, ~3 bps net to BottomUP &mdash; the 30% share affiliate
+              programmes at this scale typically offer) cuts the required volume
+              ~3&times; to roughly $27B/year, or ~$2.2B/month &mdash; achievable
+              inside Series A horizon if the wallet + referral rails ship in six
+              weeks.
             </p>
           </div>
         </section>
