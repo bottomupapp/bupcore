@@ -1,3 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
+const BUP_LOGOMARK =
+  "https://www.bottomup.app/_next/image?url=%2Flogos%2Flogomark-color.png&w=64&q=75";
+const BUP_WORDMARK =
+  "https://www.bottomup.app/_next/image?url=%2Flogos%2Flogotype-color-light.png&w=256&q=75";
+
 export default function OkxClosedSession() {
   const stamp = new Date().toLocaleDateString("en-GB", {
     day: "2-digit",
@@ -10,12 +16,19 @@ export default function OkxClosedSession() {
       <header className="topbar">
         <div className="shell topbar-inner">
           <div className="brand">
-            <span className="okx-mark">OKX</span>
-            <span className="x">×</span>
-            <span>BOTTOMUP</span>
+            <img className="bup-mark" src={BUP_LOGOMARK} alt="BottomUP" />
+            <img className="bup-word" src={BUP_WORDMARK} alt="BottomUP" />
           </div>
-          <div className="stamp">
-            <span className="dot" /> CLOSED SESSION <span className="clock">— {stamp}</span>
+          <div className="host-stamp">
+            <span className="label">
+              <span className="dot" /> Closed session
+            </span>
+            <span className="sep" />
+            <span className="label">
+              Hosted at <span className="okx-word">OKX</span>
+            </span>
+            <span className="sep" />
+            <span className="label">{stamp}</span>
           </div>
         </div>
       </header>
@@ -25,33 +38,39 @@ export default function OkxClosedSession() {
           <div className="shell">
             <div className="hero-grid">
               <div>
-                <div className="eyebrow">Private briefing · For OKX leadership</div>
+                <div className="eyebrow">Closed product session · Hosted at OKX HQ</div>
                 <h1 className="display hero-headline">
                   The App Store<br />
                   of Smart Money,<br />
-                  <span className="acid">routed into OKX.</span>
+                  <span className="acid">ready to route into OKX.</span>
                 </h1>
                 <p className="hero-sub">
-                  BottomUP turns Turkey&apos;s top traders, algo builders and AI agent
-                  creators into a recurring revenue funnel for OKX Global. Three
-                  products, one wallet integration, one referral graph, three
-                  revenue lines &mdash; sold to creators who already have the audience.
+                  BottomUP is a creator economy for traders. Today we&apos;re here
+                  to walk OKX through three products we&apos;re shipping &mdash;
+                  Trader Marketplace, Social+, and Foxy &mdash; and the
+                  integration shape that would let Turkey&apos;s top traders,
+                  algo builders and AI-agent makers reach OKX Global&apos;s
+                  audience on day one.
                 </p>
               </div>
 
               <aside className="hero-meta">
                 <div className="meta-row">
                   <span className="k">Session</span>
-                  <span className="v">OKX × BottomUP, closed door</span>
+                  <span className="v">BottomUP product showcase, closed door</span>
                 </div>
                 <div className="meta-row">
-                  <span className="k">Asking</span>
-                  <span className="v">Wallet + referral + co-marketing</span>
+                  <span className="k">Hosted by</span>
+                  <span className="v">OKX, at their HQ</span>
                 </div>
                 <div className="meta-row">
-                  <span className="k">Live</span>
+                  <span className="k">Presented by</span>
+                  <span className="v">BottomUP team</span>
+                </div>
+                <div className="meta-row">
+                  <span className="k">Live today</span>
                   <span className="v">
-                    <span className="acid">bottomup.app/analyst</span> &middot; 2.2.1 in stores
+                    <span className="acid">bottomup.app/analyst</span> &middot; v2.2.1 in stores
                   </span>
                 </div>
                 <div className="meta-row">
@@ -65,9 +84,13 @@ export default function OkxClosedSession() {
 
         <section>
           <div className="shell">
-            <div className="eyebrow">The opportunity in one strip</div>
-            <h2 className="display" style={{ fontSize: "clamp(28px, 4vw, 44px)", margin: "10px 0 36px" }}>
-              Turkey ships traders. OKX needs volume.
+            <div className="eyebrow">Why we built BottomUP &middot; the one-strip story</div>
+            <h2
+              className="display"
+              style={{ fontSize: "clamp(28px, 4vw, 44px)", margin: "10px 0 36px" }}
+            >
+              Turkey ships traders.<br />
+              We turn them into a product line.
             </h2>
             <div className="stat-strip">
               <div>
@@ -77,18 +100,18 @@ export default function OkxClosedSession() {
               </div>
               <div>
                 <div className="k">Mobile install base</div>
-                <div className="v">2.2.1</div>
+                <div className="v">v2.2.1</div>
                 <div className="sub">iOS + Play, live across 10 locales</div>
               </div>
               <div>
-                <div className="k">Rev-share to OKX</div>
-                <div className="v">30%</div>
-                <div className="sub">on marketplace + 30% on referral trading volume</div>
+                <div className="k">Proposed split</div>
+                <div className="v">70 / 30</div>
+                <div className="sub">creator share &middot; platform line (BottomUP + exchange partner)</div>
               </div>
               <div>
                 <div className="k">Time to wire</div>
                 <div className="v">≤ 6 wk</div>
-                <div className="sub">OKX Wallet auto-trade + referral attribution</div>
+                <div className="sub">wallet auto-trade + referral attribution, end-to-end</div>
               </div>
             </div>
           </div>
@@ -110,10 +133,10 @@ export default function OkxClosedSession() {
                 <span className="tag">Product 01</span>
                 <h3>The Store</h3>
                 <p className="one-liner">
-                  Traders, algo bot builders and AI agent makers list their crypto
-                  and TradFi products. They set the price. We do payments,
-                  discovery, fraud, payouts. They get an audience that already
-                  trades on OKX.
+                  Traders, algo bot builders and AI-agent makers list their crypto
+                  and TradFi products on BottomUP. They set the price. We handle
+                  payments, discovery, fraud and payouts. They reach an audience
+                  that already trades.
                 </p>
               </div>
 
@@ -127,7 +150,7 @@ export default function OkxClosedSession() {
                   <div>
                     <div className="k">Platform take</div>
                     <div className="v">30%</div>
-                    <div className="sub">BottomUP &amp; OKX revenue line</div>
+                    <div className="sub">BottomUP line &mdash; shared with the exchange partner</div>
                   </div>
                 </div>
 
@@ -137,8 +160,8 @@ export default function OkxClosedSession() {
                     Featured slots in product listings, push and email blasts to
                     all users or targeted cohorts, in-app banner placements,
                     community spotlights. <strong>Creators pay BottomUP to reach
-                    BottomUP users</strong> &mdash; a second revenue line on top of the
-                    marketplace cut.
+                    BottomUP users</strong> &mdash; a second revenue line on top of
+                    the marketplace cut.
                   </p>
                 </div>
 
@@ -146,7 +169,7 @@ export default function OkxClosedSession() {
                   <h4>Communities, listed and shoppable</h4>
                   <p>
                     Whole trading communities can be listed alongside individual
-                    creators. Buyers unlock every trader inside, with full
+                    creators. Buyers unlock every trader inside with full
                     performance metrics, and choose who to follow. Communities
                     that bring their own referral graph pay BottomUP a monthly
                     invoice instead of revenue-sharing &mdash; they pick the model.
@@ -154,13 +177,14 @@ export default function OkxClosedSession() {
                 </div>
 
                 <div className="pcard">
-                  <h4>OKX Wallet → auto-trade</h4>
+                  <h4>Wallet → auto-trade (the integration we&apos;d love to build with OKX)</h4>
                   <p>
-                    Users connect their <strong>OKX wallet</strong> and the products
-                    they bought execute autonomously. <strong>70% of trading volume
-                    from BottomUP-referred users goes to creators; 30% to
-                    BottomUP&apos;s line with OKX.</strong> Volume becomes a recurring
-                    rail, not a one-shot purchase.
+                    Users connect their <strong>OKX wallet</strong> once and the
+                    products they bought execute autonomously on their account.
+                    <strong> 70% of trading volume from BottomUP-referred users
+                    goes to creators; 30% sits on the BottomUP platform line,
+                    shared with the exchange partner.</strong> Volume becomes a
+                    recurring rail, not a one-shot sale.
                   </p>
                 </div>
               </div>
@@ -204,10 +228,11 @@ export default function OkxClosedSession() {
                 <div className="pcard">
                   <h4>Buyers see the trades, live</h4>
                   <p>
-                    Users who own a trader from the marketplace get the trader&apos;s
-                    positions piped into Social+ in real-time. No more screenshots
-                    of TradingView in a paid Telegram group &mdash; the position,
-                    the chat and the auto-trade execution sit on one screen.
+                    Users who own a trader from the marketplace get the
+                    trader&apos;s positions piped into Social+ in real time. No
+                    more screenshots of TradingView in a paid Telegram group
+                    &mdash; the position, the chat and the auto-trade execution
+                    sit on one screen.
                   </p>
                 </div>
                 <div className="pcard">
@@ -250,10 +275,10 @@ export default function OkxClosedSession() {
                 <h3>The shield<br />on the trade.</h3>
                 <p className="one-liner">
                   Foxy ingests exchange feeds, on-chain intelligence, derivatives
-                  positioning, macro calendar and ML-derived signals &mdash; then
-                  sits next to the creator when they post a trade. It scores risk,
-                  warns on tail events, and optimises take-profit and stop levels
-                  on positions already open.
+                  positioning, the macro calendar and ML-derived signals &mdash;
+                  then sits next to the creator when they post a trade. It scores
+                  risk, warns on tail events, and optimises take-profit and stop
+                  levels on positions already open.
                 </p>
               </div>
 
@@ -279,8 +304,8 @@ export default function OkxClosedSession() {
                     Before a creator shares a trade with their buyers, Foxy
                     computes a risk score. <strong>&ldquo;Trump speaks in 4 hours
                     &mdash; widen your stop, halve your size, or skip the
-                    trade.&rdquo;</strong> Macro-aware. Correlation-aware. Trained on
-                    cross-asset history, not just last week&apos;s candles.
+                    trade.&rdquo;</strong> Macro-aware. Correlation-aware. Trained
+                    on cross-asset history, not just last week&apos;s candles.
                   </p>
                 </div>
 
@@ -288,19 +313,19 @@ export default function OkxClosedSession() {
                   <h4>TP / SL optimisation on open positions</h4>
                   <p>
                     For trades already live, Foxy keeps optimising take-profit
-                    and stop-loss as conditions change &mdash; suggesting
+                    and stop-loss as conditions change &mdash; surfacing
                     adjustments to the creator and, with consent, pushing them
-                    into the OKX-connected auto-trade rail.
+                    into the wallet-connected auto-trade rail.
                   </p>
                 </div>
 
                 <div className="pcard">
-                  <h4>Why this matters to OKX</h4>
+                  <h4>What this would mean for an exchange partner</h4>
                   <p>
                     Better creator risk &rarr; lower buyer churn &rarr; longer
-                    auto-trade lifetime &rarr; <strong>more sustained volume on
-                    OKX</strong>. Foxy is the difference between a viral creator
-                    cohort and a durable one.
+                    auto-trade lifetime &rarr; <strong>more sustained on-exchange
+                    volume</strong>. Foxy is the difference between a viral
+                    creator cohort and a durable one.
                   </p>
                 </div>
               </div>
@@ -308,15 +333,15 @@ export default function OkxClosedSession() {
           </div>
         </section>
 
-        {/* INTEGRATION ASK */}
+        {/* PROPOSAL */}
         <section>
           <div className="shell">
             <div className="sec-head">
               <div>
                 <div className="sec-num">∎</div>
-                <h2 className="display">What we&apos;re<br />asking OKX for.</h2>
+                <h2 className="display">Where we&apos;d love<br />OKX&apos;s help.</h2>
               </div>
-              <div className="eyebrow">Three concrete asks &mdash; technical, commercial, distribution</div>
+              <div className="eyebrow">Three concrete proposals &mdash; technical, commercial, distribution</div>
             </div>
 
             <div className="ask">
@@ -324,31 +349,31 @@ export default function OkxClosedSession() {
                 <div className="num">01</div>
                 <h4>OKX Wallet auto-trade rail</h4>
                 <p>
-                  A green-lit integration so BottomUP users can connect their OKX
-                  wallet once and let bought products execute on their account.
-                  This is the single largest unlock &mdash; without it, Trader
+                  A supported integration path so BottomUP users can connect
+                  their OKX wallet once and let bought products execute on their
+                  account. This is the largest unlock &mdash; without it, Trader
                   Marketplace is a content store; with it, it&apos;s a recurring
                   volume engine.
                 </p>
               </div>
               <div className="ask-card">
                 <div className="num">02</div>
-                <h4>Referral attribution &amp; rev share</h4>
+                <h4>Referral attribution &amp; revenue share</h4>
                 <p>
                   BottomUP-referred users tagged at signup, with a clean reporting
-                  feed. <strong>70% of fee revenue to the creator, 30% to OKX &amp;
-                  BottomUP&apos;s shared line.</strong> Communities that bring their own
-                  referral can opt into a monthly invoice model instead.
+                  feed. <strong>70% of fee revenue to the creator, 30% on a shared
+                  BottomUP + exchange line.</strong> Communities that bring their
+                  own referral graph can opt into a monthly invoice model instead.
                 </p>
               </div>
               <div className="ask-card">
                 <div className="num">03</div>
                 <h4>Co-marketing into OKX Global geos</h4>
                 <p>
-                  Turkey&apos;s creator pipeline is real &mdash; the audience is in
-                  every OKX Global market. A joint launch (push, in-app, social,
-                  PR) plugs Turkish algo and AI-agent makers directly into LATAM,
-                  MENA, SEA and CIS user bases on day one.
+                  Turkey&apos;s creator pipeline is real &mdash; the audience is
+                  in every OKX Global market. A joint launch (push, in-app,
+                  social, PR) plugs Turkish algo and AI-agent makers directly
+                  into LATAM, MENA, SEA and CIS user bases on day one.
                 </p>
               </div>
             </div>
@@ -360,16 +385,17 @@ export default function OkxClosedSession() {
           <div className="shell">
             <div className="cta-strip">
               <div>
-                <h3>Next step: wire the wallet,<br />ship a pilot cohort.</h3>
+                <h3>If today went well: a 30-creator<br />pilot in six weeks.</h3>
                 <p>
-                  We propose a 30-creator pilot &mdash; the top Turkish traders
-                  already on BottomUP &mdash; with the OKX wallet rail live and
-                  referral attribution on. Measurable in weekly volume, not
-                  vanity metrics.
+                  We&apos;re proposing a pilot with the top 30 Turkish traders
+                  already on BottomUP &mdash; wallet rail live, referral
+                  attribution on. Measurable in weekly volume, not vanity
+                  metrics. Anything less than that, we&apos;d still love to keep
+                  the conversation going.
                 </p>
               </div>
               <div className="row">
-                <span className="pill solid">Discuss the pilot</span>
+                <span className="pill solid">Let&apos;s scope the pilot</span>
                 <span className="pill">deniz@bottomup.app</span>
               </div>
             </div>
@@ -378,7 +404,7 @@ export default function OkxClosedSession() {
 
         <footer className="foot">
           <div className="shell foot-row">
-            <span>© BottomUP · OKX Closed Session</span>
+            <span>© BottomUP · Closed session, hosted at OKX HQ</span>
             <span>This page is unindexed &middot; do not redistribute</span>
             <span>{stamp}</span>
           </div>

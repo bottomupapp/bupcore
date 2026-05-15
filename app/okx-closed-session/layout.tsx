@@ -17,9 +17,9 @@ const archivo = Archivo({
 });
 
 export const metadata: Metadata = {
-  title: "OKX × BottomUP — Closed Session",
+  title: "BottomUP at OKX — Closed Session",
   description:
-    "BottomUP × OKX private session: Trader Marketplace, Social+, and Foxy. Turkey's trading creators routed into OKX Global, with on-chain auto-trade and AI risk supervision.",
+    "BottomUP product showcase, hosted at OKX HQ. Three products on the table: Trader Marketplace, Social+, and Foxy. Turkey's trading creators, on-chain auto-trade, AI risk supervision.",
   robots: { index: false, follow: false },
 };
 
@@ -29,7 +29,7 @@ export default function OkxDeckLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className={`okx-deck ${jetbrains.variable} ${archivo.variable}`}>
+    <div lang="en" className={`okx-deck ${jetbrains.variable} ${archivo.variable}`}>
       {children}
     </div>
   );
