@@ -30,7 +30,7 @@ export default function OkxClosedSession() {
       </header>
 
       <main>
-        {/* OPENER 1 — Kasım 2027 */}
+        {/* OPENER 1 */}
         <section className="opener">
           <div className="shell">
             <div className="eyebrow">Kapalı oturum · OKX merkezinde</div>
@@ -41,7 +41,7 @@ export default function OkxClosedSession() {
           </div>
         </section>
 
-        {/* OPENER 2 — $13.5M */}
+        {/* OPENER 2 */}
         <section className="opener">
           <div className="shell">
             <div className="eyebrow">2027 yılı toplam ciro hedefimiz</div>
@@ -52,7 +52,7 @@ export default function OkxClosedSession() {
           </div>
         </section>
 
-        {/* OPENER 3 — Peki nasıl olacak? */}
+        {/* OPENER 3 */}
         <section className="opener">
           <div className="shell">
             <h1 className="opener-display question">
@@ -62,57 +62,60 @@ export default function OkxClosedSession() {
           </div>
         </section>
 
-        {/* 01 / PERSONA — KULLANICILAR (B2C + B2B) */}
+        {/* 01 / PERSONA */}
         <section>
           <div className="shell">
             <div className="sec-head">
               <div className="sec-num">01 / Persona</div>
               <h2 className="display">Kullanıcılar.</h2>
-              <div className="eyebrow">B2C ve B2B — her segmente ayrı strateji</div>
+              <div className="eyebrow">B2C ve B2B. Her segmentin kendi stratejisi var.</div>
             </div>
 
             <h3 className="subhead">B2C</h3>
             <div className="persona-grid">
               <div className="segment-card">
-                <h4>Hiç borsa kullanmamış</h4>
+                <h4>Hayatında borsa görmemiş</h4>
                 <p>
-                  Sıfırdan KYC + cüzdan + tek-tıkla auto-copy. Trade bilmeyen
-                  biri 5 dakika içinde ilk getirisini alır.
+                  Hiç borsa hesabı açmamış kullanıcı. KYC, cüzdan ve copy-trade
+                  tek akışta &mdash; beş dakikada hesabı çalışmaya başlıyor.
                 </p>
               </div>
               <div className="segment-card">
-                <h4>TradFi yatırımcısı</h4>
+                <h4>Klasik yatırımcı</h4>
                 <p>
-                  Banka mevduatı, bireysel emeklilik fonu. Konvansiyonel
-                  araçlardan kripto / alternatif asset&apos;lere geçiş köprüsü.
+                  Banka mevduatında, BES&apos;te ya da fonda parası olan
+                  kullanıcı. Klasik araçtan kriptoya geçişte aradığı güvenli
+                  kapı biziz.
                 </p>
               </div>
               <div className="segment-card">
-                <h4>Büyük cüzdan / HNW</h4>
+                <h4>Yüksek bakiyeli</h4>
                 <p>
-                  Premium deneyim, white-glove onboarding, private creator
-                  erişimi, dedicated risk denetimi.
+                  Büyük cüzdan sahibi kullanıcı. Özel onboarding, kapalı
+                  creator listesine erişim, kişiye özel risk takibi.
                 </p>
               </div>
               <div className="segment-card">
                 <h4>Aktif retail trader</h4>
                 <p>
-                  Edge ve topluluk arayan, zaten OKX kullanan kullanıcı. Foxy +
-                  creator topluluğu = profesyonel toolkit.
+                  OKX&apos;i zaten kullanan, kendi setup&apos;ı olan trader.
+                  Foxy ve creator topluluğu sayesinde işine ek bir avantaj
+                  alıyor.
                 </p>
               </div>
               <div className="segment-card">
-                <h4>Creator takipçisi</h4>
+                <h4>Bir creator&apos;ı takip eden</h4>
                 <p>
-                  Favori trader&apos;ı bir butonla kopyala. Telegram
-                  screenshot&apos;ı yerine bağlanmış auto-trade.
+                  Beğendiği trader&apos;ı zaten izliyor. Telegram&apos;dan
+                  screenshot beklemek yerine BottomUP&apos;ta tek tuşla aynı
+                  işlemi açıyor.
                 </p>
               </div>
               <div className="segment-card">
                 <h4>Pasif gelir arayan</h4>
                 <p>
-                  Set-and-forget portföy. %5+/ay rolling getiri taahhüdüyle
-                  sürekli işleyen sistem.
+                  Aktif trade etmek istemiyor. Portföyünü kuruyor, bırakıyor;
+                  aylık ortalama %5+ taahhüdü çalışmaya devam ediyor.
                 </p>
               </div>
             </div>
@@ -122,36 +125,39 @@ export default function OkxClosedSession() {
               <div className="segment-card">
                 <h4>Bankalar</h4>
                 <p>
-                  Trading desk + private banking için Foxy AI risk + sinyal API.
-                  Wealth client&apos;larına copy-trading altyapısı.
+                  Trading masası ve private banking tarafı için Foxy&apos;nin
+                  risk + sinyal API&apos;leri. Müşterilerine BottomUP altyapısı
+                  ile copy-trading sunuyorlar.
                 </p>
               </div>
               <div className="segment-card">
                 <h4>Hedge fonlar</h4>
                 <p>
-                  Foxy&apos;nin data fabric&apos;i (Arkham, Coinglass, makro) +
-                  sinyal altyapısı, API olarak satılır.
+                  Foxy&apos;nin veri katmanı &mdash; Arkham, Coinglass, makro
+                  takvim, ML sinyalleri &mdash; doğrudan API olarak alıyorlar.
                 </p>
               </div>
               <div className="segment-card">
                 <h4>Faktöring şirketleri</h4>
                 <p>
-                  Kripto alacak skorlama, OTC takas riski analitiği, on-chain
-                  karşı taraf risk feed&apos;i.
+                  Kripto alacak skorlama, OTC takas riski analizi, on-chain
+                  karşı taraf izleme. Mevcut süreçlerine entegre ediyorlar.
                 </p>
               </div>
               <div className="segment-card">
-                <h4>Brokerage / aracı kurum</h4>
+                <h4>Aracı kurumlar</h4>
                 <p>
-                  White-label trader marketplace + social platform. Kendi
-                  kullanıcılarına BottomUP deneyimi.
+                  Kendi markaları altında trader marketplace ve sosyal platform.
+                  Kullanıcılar BottomUP deneyimini bizim ürünümüzü görmeden
+                  alıyor.
                 </p>
               </div>
               <div className="segment-card">
-                <h4>Wealth management</h4>
+                <h4>Varlık yönetimi şirketleri</h4>
                 <p>
-                  Copy-trading-as-a-service. Müşteri portföyleri için seçilmiş
-                  creator havuzu + risk denetimi.
+                  Müşterilerine BottomUP üzerinden copy-trading hizmeti
+                  satıyorlar. Seçilmiş creator listesi ve risk takibi bizden
+                  geliyor.
                 </p>
               </div>
             </div>
@@ -164,51 +170,50 @@ export default function OkxClosedSession() {
             <div className="sec-head">
               <div className="sec-num">02 / Creator</div>
               <h2 className="display">Creator.</h2>
-              <div className="eyebrow">BottomUP&apos;ta listeleyip satabilen üreticiler · %70 onlara, %30 platform hattı</div>
+              <div className="eyebrow">BottomUP&apos;ta satış yapan üreticiler &middot; %70 onlara, %30 platform hattına</div>
             </div>
 
             <p className="lead">
-              Algoritmasını, AI ajanını, sinyalini, eğitimini ya da topluluğunu
-              BottomUP&apos;ta listeleyen herkes creator&apos;dır. Fiyatı
-              kendileri belirler; ödemeler, keşif, fraud ve payout
+              Algo&apos;sunu, AI ajanını, sinyalini, eğitim setini ya da
+              topluluğunu BottomUP&apos;ta satışa açan herkes creator. Fiyatı
+              kendileri belirler; ödeme, keşif, fraud kontrolü ve payout tarafı
               bizde.
             </p>
 
             <div className="persona-grid">
               <div className="segment-card">
-                <h4>Algo bot geliştiriciler</h4>
+                <h4>Algo geliştiriciler</h4>
                 <p>
-                  Mean-reversion, momentum, arbitraj &mdash; kendi
-                  geliştirdikleri otomatik trading sistemlerini paketleyip
-                  satar.
+                  Mean-reversion, momentum, arbitraj. Geliştirdikleri otomatik
+                  trading sistemini paketleyip satıyorlar.
                 </p>
               </div>
               <div className="segment-card">
                 <h4>AI ajan üreticileri</h4>
                 <p>
-                  LLM tabanlı, otonom karar veren ajanlar &mdash; kullanıcının
-                  cüzdanında doğal dil ile pozisyon yönetir.
+                  LLM tabanlı, otonom karar veren ajanlar. Kullanıcının
+                  cüzdanında doğal dil ile pozisyon açıp kapatıyor.
                 </p>
               </div>
               <div className="segment-card">
-                <h4>İnsan trader-influencer</h4>
+                <h4>İnsan trader&apos;lar</h4>
                 <p>
-                  Kendi pozisyonunu paylaşan, takipçisinin auto-copy&apos;ye
-                  bağlandığı manuel trader&apos;lar.
+                  Kendi pozisyonunu açık paylaşan, takipçisi auto-copy ile
+                  doğrudan bağlanan manuel trader.
                 </p>
               </div>
               <div className="segment-card">
                 <h4>Sinyal &amp; eğitim üreticileri</h4>
                 <p>
-                  Periyodik sinyal akışı, video eğitim setleri, premium içerik
-                  &mdash; abonelik bazlı.
+                  Düzenli sinyal akışı, video eğitim setleri, abonelikli
+                  premium içerik.
                 </p>
               </div>
               <div className="segment-card">
                 <h4>Topluluk operatörleri</h4>
                 <p>
-                  İçinde çoklu trader barındıran topluluğu listeler. Kullanıcı
-                  topluluğun bütününü tek paket olarak satın alır.
+                  İçinde çoklu trader barındıran topluluğu listeliyor.
+                  Kullanıcı topluluğun tamamını tek paket olarak alıyor.
                 </p>
               </div>
             </div>
@@ -225,9 +230,9 @@ export default function OkxClosedSession() {
             </div>
 
             <p className="lead">
-              Creator ürünlerini listeler, <strong>fiyatı kendileri belirler</strong>,
-              biz ödemeleri/keşfi/payout&apos;ları hallederiz. Onlar zaten trade
-              eden global bir kitleye ulaşır.
+              Creator ürününü listeler, <strong>fiyatı kendisi koyar</strong>.
+              Ödeme, keşif, payout &mdash; hepsi bizde. Karşılığında zaten
+              trade eden, dünya genelinde bir kitleye ulaşır.
             </p>
 
             <div className="pcards">
@@ -247,22 +252,24 @@ export default function OkxClosedSession() {
               </div>
 
               <div className="pcard">
-                <h4>Dahili reklam envanteri</h4>
+                <h4>Reklam envanteri</h4>
                 <p>
-                  Featured listing, push & email blast, in-app banner, topluluk
-                  spot&apos;u. <strong>Creator&apos;lar BottomUP kullanıcılarına
-                  ulaşmak için bize ödüyor</strong> &mdash; marketplace
-                  kesintisinin üstüne ikinci gelir hattı.
+                  Listing&apos;de öne çıkarma, push ve email gönderimi, uygulama
+                  içi banner, topluluk spotu.{" "}
+                  <strong>Creator BottomUP kullanıcısına ulaşmak için reklam
+                  alıyor</strong> &mdash; satış komisyonunun üstüne ikinci gelir
+                  hattı.
                 </p>
               </div>
 
               <div className="pcard">
                 <h4>Cüzdan → otomatik trade</h4>
                 <p>
-                  Kullanıcı OKX cüzdanını bir kez bağlar; aldığı ürünler
-                  hesabında otomatik çalışır. <strong>Referans hacminin
-                  %70&apos;i creator&apos;a, %30&apos;u platform hattına.</strong>{" "}
-                  Tek seferlik satış değil, sürekli gelir hattı.
+                  Kullanıcı OKX cüzdanını bir kez bağlıyor; satın aldığı ürünler
+                  hesabında otomatik işliyor.{" "}
+                  <strong>Bizim referansımızdan gelen hacmin %70&apos;i
+                  creator&apos;a, %30&apos;u platforma.</strong>{" "}
+                  Tek seferlik satış değil, sürekli işleyen bir gelir hattı.
                 </p>
               </div>
             </div>
@@ -277,39 +284,39 @@ export default function OkxClosedSession() {
               <h2 className="display">
                 Social<span className="acid">+</span>
               </h2>
-              <div className="eyebrow">Trader ve takipçileri için native ev</div>
+              <div className="eyebrow">Trader ve takipçilerinin asıl evi</div>
             </div>
 
             <p className="lead">
-              Trader&apos;lar takipçilerini sahip olmadıkları Telegram ve
-              Discord odalarında dolaştırmamalı. <strong>Social+, chat&apos;in,
-              içeriğin ve canlı trade&apos;in aynı üründe yaşadığı bir
-              platform.</strong>
+              Trader, takipçisini başkasının evinde &mdash; Telegram&apos;da,
+              Discord&apos;da &mdash; gezdirmemeli. <strong>Social+ chat,
+              içerik ve canlı trade&apos;in tek ekrana toplandığı yer.</strong>
             </p>
 
             <div className="pcards three">
               <div className="pcard">
                 <h4>Tek platform, her format</h4>
                 <p>
-                  Spot, futures, hisse, FX, makro &mdash; her konuya bir kanal.
-                  Video, shorts, canlı session, eğitim seti, planlı yayın &mdash;{" "}
-                  <strong>chat ile aynı feed&apos;de</strong>.
+                  Spot, futures, hisse, FX, makro &mdash; istediği konuya bir
+                  kanal açıyor. Video, shorts, canlı yayın, eğitim, planlı seans
+                  &mdash; <strong>hepsi chat ile aynı akışta</strong>.
                 </p>
               </div>
               <div className="pcard">
-                <h4>Alıcı, işlemi canlı görür</h4>
+                <h4>Alıcı işlemi canlı görür</h4>
                 <p>
-                  Marketplace&apos;ten trader satın alan kullanıcı pozisyonu
-                  real-time görür. <strong>Pozisyon, chat, auto-trade tek
-                  ekranda.</strong>
+                  Marketplace&apos;ten trader alan kullanıcı,
+                  trader&apos;ın pozisyonunu canlı izliyor.{" "}
+                  <strong>Pozisyon, chat ve auto-trade aynı ekranda.</strong>
                 </p>
               </div>
               <div className="pcard">
-                <h4>Her dil, her coğrafya</h4>
+                <h4>Her dil, her ülke</h4>
                 <p>
-                  Her mesaj, post ve caption AI ile çevriliyor. Creator kendi
-                  dilinde yazar, takipçi kendi dilinde okur. <strong>OKX
-                  Global&apos;ın coğrafyası tek klavyeden ulaşılabilir.</strong>
+                  Mesaj, post, caption &mdash; hepsi AI ile çevriliyor. Creator
+                  kendi dilinde yazıyor, takipçi kendi dilinde okuyor.{" "}
+                  <strong>OKX Global&apos;ın olduğu her pazara tek
+                  klavyeden ulaşılıyor.</strong>
                 </p>
               </div>
             </div>
@@ -322,19 +329,19 @@ export default function OkxClosedSession() {
             <div className="sec-head">
               <div className="sec-num">03 / Ürün · Foxy</div>
               <h2 className="display">Foxy.</h2>
-              <div className="eyebrow">Platformdaki her işlem için AI yardımcısı ve risk denetmeni</div>
+              <div className="eyebrow">Her işlemin yanında duran AI ve risk asistanı</div>
             </div>
 
             <p className="lead">
-              Foxy borsa feed&apos;lerini, on-chain veriyi, türev
-              pozisyonlamayı, makro takvimi ve ML sinyallerini tek feature
-              store&apos;da birleştirir &mdash; sonra <strong>creator işlem
-              paylaşırken yanında durur.</strong>
+              Foxy borsa fiyatlarını, on-chain veriyi, türev pozisyonlarını,
+              makro takvimi ve ML sinyallerini <strong>tek bir veri katmanında
+              topluyor</strong>. Creator işlem paylaşırken yanında, kullanıcı
+              işlem alırken arkasında duruyor.
             </p>
 
             <div className="pcards">
               <div className="pcard wide">
-                <h4>Veri kumaşı &mdash; gerçek zamanlı + tarihsel, tek feature store</h4>
+                <h4>Tek veri katmanı &mdash; canlı + tarihsel</h4>
                 <div className="sources">
                   <span>OKX API</span>
                   <span>Binance API</span>
@@ -346,34 +353,35 @@ export default function OkxClosedSession() {
               </div>
 
               <div className="pcard">
-                <h4>Creator-tarafı risk skoru</h4>
+                <h4>Creator için risk skoru</h4>
                 <p>
-                  Creator işlemi takipçilerine paylaşmadan önce Foxy riski
-                  hesaplar. <strong>&ldquo;Trump 4 saat sonra konuşacak &mdash;
-                  stop&apos;unu genişlet, size&apos;ı yarıla, ya da işlemi
-                  atla.&rdquo;</strong> Makro + korelasyon bilinçli.
+                  Creator işlemi paylaşmadan önce Foxy risk skorunu hesaplıyor.{" "}
+                  <strong>&ldquo;Trump 4 saat sonra konuşacak. Stop&apos;unu
+                  genişlet, pozisyonu yarıya indir ya da bu işlemi
+                  atla.&rdquo;</strong>{" "}
+                  Makro ve korelasyona dikkat eden bir model.
                 </p>
               </div>
 
               <div className="pcard">
-                <h4>TP/SL optimizasyonu</h4>
+                <h4>Açık pozisyonda TP / SL ayarı</h4>
                 <p>
-                  Açık pozisyonlarda Foxy koşullar değiştikçe TP ve stop&apos;u
-                  yeniden hesaplar; onay verilirse wallet bağlantılı auto-trade
-                  rail&apos;ine push&apos;lar.
+                  Pozisyon açıkken Foxy şartlar değiştikçe TP ve stop
+                  seviyelerini yeniden hesaplıyor. Onay verilirse cüzdan
+                  bağlantılı auto-trade&apos;e iletiliyor.
                 </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 04 / BÜYÜME — AAARRR + Math */}
+        {/* 04 / BÜYÜME */}
         <section>
           <div className="shell">
             <div className="sec-head">
               <div className="sec-num">04 / Büyüme</div>
               <h2 className="display">Bugünden $13.5M&apos;a.</h2>
-              <div className="eyebrow">AAARRR funnel · APAC · LATAM · MENA</div>
+              <div className="eyebrow">AAARRR funnel &middot; APAC &middot; LATAM &middot; MENA</div>
             </div>
 
             <h3 className="subhead">Bugünkü ayak izimiz</h3>
@@ -381,17 +389,17 @@ export default function OkxClosedSession() {
               <div>
                 <div className="k">İşlem hacmi</div>
                 <div className="v">$1.56B</div>
-                <div className="sub">Tüm zamanlar, BottomUP referansıyla OKX&apos;e yönlendirilen USDT</div>
+                <div className="sub">Tüm zamanlar, BottomUP referansıyla OKX&apos;e gelen USDT</div>
               </div>
               <div>
                 <div className="k">Geri ödenen komisyon</div>
                 <div className="v">$118K</div>
-                <div className="sub">$118,282.8 USDT — OKX&apos;in BottomUP&apos;a ödediği toplam</div>
+                <div className="sub">$118,282.8 USDT &mdash; OKX&apos;in bize toplam ödemesi</div>
               </div>
               <div>
                 <div className="k">Açılan mevduat</div>
                 <div className="v">$3.74M</div>
-                <div className="sub">BottomUP üzerinden OKX&apos;e onboard edilen USDT</div>
+                <div className="sub">BottomUP üzerinden OKX&apos;e yatırılan USDT</div>
               </div>
               <div>
                 <div className="k">Bugünkü oran</div>
@@ -400,60 +408,60 @@ export default function OkxClosedSession() {
               </div>
             </div>
 
-            <h3 className="subhead">AAARRR &mdash; strateji ve aksiyon</h3>
+            <h3 className="subhead">AAARRR &mdash; her aşamada strateji ve aksiyon</h3>
             <div className="funnel-grid">
               <div className="funnel-card">
                 <span className="stage">A · Awareness</span>
                 <h4>Bölgesel görünürlük</h4>
                 <p>
-                  APAC, LATAM, MENA&apos;da yerel partner trader
-                  workshop&apos;ları, OKX co-PR, regional medya ve etkinlik
-                  ortaklıkları.
+                  APAC, LATAM ve MENA&apos;da yerel trader iş birlikleri, OKX
+                  ile ortak PR çıkışları, bölgesel medya ve etkinlik anlaşmaları.
                 </p>
               </div>
               <div className="funnel-card">
                 <span className="stage">A · Acquisition</span>
-                <h4>Wallet-first sign-up</h4>
+                <h4>Cüzdan-öncelikli kayıt</h4>
                 <p>
-                  OKX wallet connect tek tıkla; creator audience leverage,
-                  referral graph, regional brand ambassador&apos;lar.
+                  OKX cüzdan bağlantısı tek tıkla. Creator&apos;lardan gelen
+                  kitle, üçlü referans ağı, bölgesel marka temsilcileri.
                 </p>
               </div>
               <div className="funnel-card">
                 <span className="stage">A · Activation</span>
                 <h4>İlk 30 gün, ilk getiri</h4>
                 <p>
-                  İlk satın almadan veya auto-trade bağlanmadan ürün değer
-                  realize etmiyor &mdash; onboarding bunu garanti eder.
+                  Kullanıcı bir ürün almadan ya da auto-trade&apos;i bağlamadan
+                  değer almıyor. Onboarding bu ikisini ilk 30 günde mutlaka
+                  oluşturuyor.
                 </p>
               </div>
               <div className="funnel-card">
                 <span className="stage">R · Retention</span>
                 <h4>%5+ aylık taban</h4>
                 <p>
-                  Performans taahhüdü (KORUMA bölümünde tam math). 12 aylık
-                  rolling ortalama %5&apos;in altına inmez.
+                  Performans taahhüdü. 12 ayın ortalaması aylık %5&apos;in
+                  altına düşmüyor. Detaylı hesap KORUMA bölümünde.
                 </p>
               </div>
               <div className="funnel-card">
                 <span className="stage">R · Revenue</span>
-                <h4>Segment başına ARPU</h4>
+                <h4>Segment başına gelir</h4>
                 <p>
-                  HNW yüksek-ARPU, retail orta-ARPU, B2B fixed kontrat. Karma
-                  hedef $13.5M.
+                  Yüksek bakiyeli kullanıcı yüksek getiri, retail orta getiri,
+                  B2B sabit sözleşme. Karma toplam $13.5M.
                 </p>
               </div>
               <div className="funnel-card">
                 <span className="stage">R · Referral</span>
-                <h4>Üçlü referral graph</h4>
+                <h4>Üçlü referans ağı</h4>
                 <p>
-                  Kullanıcı → kullanıcı, creator → kullanıcı, community →
-                  kullanıcı. Her üç hat da revenue share&apos;e bağlı.
+                  Kullanıcı, creator ve topluluk &mdash; üçü de yeni kullanıcı
+                  getiriyor, üçü de gelir paylaşımına bağlı.
                 </p>
               </div>
             </div>
 
-            <h3 className="subhead">$13.5M math</h3>
+            <h3 className="subhead">$13.5M&apos;ın hesabı</h3>
             <div className="stat-strip">
               <div>
                 <div className="k">Toplam 2027 ciro</div>
@@ -466,25 +474,26 @@ export default function OkxClosedSession() {
                 <div className="sub">OKX referans hacminden komisyon</div>
               </div>
               <div>
-                <div className="k">Bugünkü rate&apos;te hacim</div>
+                <div className="k">Bugünkü oranda gereken hacim</div>
                 <div className="v">~$80B</div>
-                <div className="sub">USDT/yıl · 1 bp · ~$6.7B/ay</div>
+                <div className="sub">USDT/yıl &middot; 1 bp &middot; ~$6.7B/ay</div>
               </div>
               <div>
-                <div className="k">3 bps rate&apos;te hacim</div>
+                <div className="k">3 bps oranında gereken hacim</div>
                 <div className="v">~$27B</div>
-                <div className="sub">USDT/yıl · %30 share · ~$2.2B/ay</div>
+                <div className="sub">USDT/yıl &middot; %30 pay &middot; ~$2.2B/ay</div>
               </div>
             </div>
             <p className="section-bridge">
-              Bugünkü 1 bp oranda (OKX&apos;in 10 bps standart taker fee&apos;sinin
-              ~%10&apos;u) $8M borsa-hattı için ~$80B yıllık hacim gerekir
-              (~$6.7B/ay). Yapısal kaldıraç &mdash; referral attribution + temiz
-              rev-share, BottomUP&apos;a net ~3 bps (~%30 share, bu ölçekteki
-              affiliate programlarının standardı) &mdash; gereken hacmi 3&times;
-              azaltır: yıllık ~$27B, ayda ~$2.2B. Kalan $5.5M ciro Trader
-              Marketplace satışları + Social+ ad inventory + Foxy B2B kontrat
-              hatlarından gelir.
+              Bugünkü 1 bp oranda (OKX&apos;in 10 bps taker fee&apos;sinin
+              yaklaşık %10&apos;u) $8M&apos;lık borsa geliri için yıllık ~$80B
+              hacim gerekiyor &mdash; ayda ~$6.7B. Önerimiz şu: referans takibi
+              + standart oranlı pay (BottomUP&apos;a net ~3 bps, yani %30 pay,
+              bu ölçekteki affiliate programlarının tipik aralığı). Bu
+              değişiklikle gereken hacim üç kat düşüyor: yılda ~$27B, ayda
+              ~$2.2B. Kalan $5.5M ciro Trader Marketplace satışlarından,
+              Social+ reklam envanterinden ve Foxy&apos;nin B2B
+              sözleşmelerinden geliyor.
             </p>
 
             <h3 className="subhead">OKX&apos;in desteğine ihtiyacımız olan üç nokta</h3>
@@ -493,26 +502,27 @@ export default function OkxClosedSession() {
                 <div className="num">01</div>
                 <h4>OKX Cüzdan auto-trade altyapısı</h4>
                 <p>
-                  Kullanıcı OKX cüzdanını bir kez bağlasın; aldığı ürünler
-                  hesabında otomatik çalışsın. En büyük unlock burada.
+                  Kullanıcı OKX cüzdanını bir kez bağlasın, satın aldığı
+                  ürünler hesabında otomatik çalışsın. Modelin tamamını açan
+                  parça bu.
                 </p>
               </div>
               <div className="ask-card">
                 <div className="num">02</div>
-                <h4>Referral atıf + gelir paylaşımı</h4>
+                <h4>Referans takibi + gelir paylaşımı</h4>
                 <p>
-                  BottomUP-referanslı kullanıcılar signup&apos;ta etiketlensin,
-                  temiz raporlama feed&apos;i olsun. %30 share BottomUP + borsa
-                  hattı paylaşımında.
+                  BottomUP referansıyla gelen kullanıcılar kayıt sırasında
+                  etiketlensin, net bir raporlama akışı olsun. BottomUP ile
+                  borsa arasında %30 paylaşım.
                 </p>
               </div>
               <div className="ask-card">
                 <div className="num">03</div>
-                <h4>APAC + LATAM + MENA co-marketing</h4>
+                <h4>APAC + LATAM + MENA ortak çıkış</h4>
                 <p>
-                  OKX Global&apos;ın güçlü olduğu bölgelerde ortak launch
-                  &mdash; push, in-app, sosyal, yerel medya. Creator&apos;lar
-                  gün bir&apos;de bu pazarlarda görünür.
+                  OKX Global&apos;ın güçlü olduğu üç bölgede ortak lansman:
+                  push, uygulama içi, sosyal medya, yerel basın.
+                  Creator&apos;lar ilk gün bu pazarlarda görünür hale geliyor.
                 </p>
               </div>
             </div>
@@ -531,32 +541,32 @@ export default function OkxClosedSession() {
             </div>
 
             <p className="lead">
-              BottomUP&apos;tan ne satın alırsa alsın, kullanıcının portföyü{" "}
-              <strong>12 aylık rolling ortalamada aylık %5 getirinin altına
-              inmez.</strong> Bir ay %4, başka ay %6 olabilir &mdash; yıllık
-              ortalama %5 tabanı korunur.
+              BottomUP&apos;tan hangi ürünü alırsa alsın, kullanıcının portföyü{" "}
+              <strong>12 ayın ortalamasında aylık %5 getirinin altına
+              düşmüyor.</strong> Bir ay %4, başka ay %6 olabilir; 12 ayın
+              ortalaması %5 tabanını her zaman tutuyor.
             </p>
 
             <div className="stat-strip">
               <div>
                 <div className="k">Aylık taban</div>
                 <div className="v">%5</div>
-                <div className="sub">12 aylık rolling ortalama</div>
+                <div className="sub">12 ayın ortalaması</div>
               </div>
               <div>
-                <div className="k">Yıllık compound</div>
+                <div className="k">Yıllık bileşik</div>
                 <div className="v">%79.6</div>
-                <div className="sub">(1.05)¹² − 1 &mdash; PnL hesapta kalırsa</div>
+                <div className="sub">(1.05)¹² − 1 &mdash; kazanç hesapta kalırsa</div>
               </div>
               <div>
-                <div className="k">Yıllık simple</div>
+                <div className="k">Yıllık düz</div>
                 <div className="v">%60</div>
-                <div className="sub">%5 × 12 &mdash; çekildiğinde</div>
+                <div className="sub">%5 × 12 &mdash; ay sonu çekilirse</div>
               </div>
               <div>
                 <div className="k">Pencere</div>
                 <div className="v">12 ay</div>
-                <div className="sub">Rolling ortalama hesaplama penceresi</div>
+                <div className="sub">Ortalamanın alındığı süre</div>
               </div>
             </div>
 
@@ -565,32 +575,33 @@ export default function OkxClosedSession() {
               <div className="pcard">
                 <h4>Foxy filtresi</h4>
                 <p>
-                  Creator/ürün performansı 7/24 izlenir. Eşik altı durumda
-                  listing&apos;den otomatik düşer; yeni kullanıcı bu ürüne
-                  giremez.
+                  Foxy creator ve ürünün performansını 7/24 izliyor. Eşik altına
+                  düşen ürün otomatik olarak listeden çıkıyor; yeni kullanıcı o
+                  ürüne giremiyor.
                 </p>
               </div>
               <div className="pcard">
-                <h4>Performance pool</h4>
+                <h4>Performans havuzu</h4>
                 <p>
-                  Aşağı sapmalarda fark BottomUP performans havuzundan
-                  kapatılır. Kullanıcı için underperformance riski yok.
+                  Aşağı sapan ürünlerde fark BottomUP&apos;ın performans
+                  havuzundan kapatılıyor. Kötü performansın yükünü kullanıcı
+                  taşımıyor.
                 </p>
               </div>
               <div className="pcard">
-                <h4>Replacement &amp; refund</h4>
+                <h4>Geri ödeme veya değişim</h4>
                 <p>
-                  Yıllık ortalaması %5&apos;in altında kalan ürünlerde kullanıcı
-                  tam refund alır veya başka ürünle değiştirir.
+                  Yıllık ortalaması %5&apos;in altına düşen üründe kullanıcı
+                  parasını geri alıyor ya da başka bir ürünle değiştiriyor.
                 </p>
               </div>
             </div>
 
             <p className="section-bridge">
-              Bu taahhüt BottomUP&apos;ı vazgeçilmez yapar. Kullanıcı sürekli
-              pozitif getiri alıyorsa hesabını boşaltma sebebi kalmaz; OKX&apos;teki
-              hacim sürekli işler. Viral creator cohort ile kalıcı creator
-              cohort arasındaki fark budur.
+              Bu taahhüt BottomUP&apos;ı vazgeçilmez kılıyor. Kullanıcı her ay
+              artıda kalıyorsa parasını çıkarmak için bir sebebi kalmıyor;
+              OKX&apos;teki hacim sürekli akıyor. Viral creator dalgası ile
+              kalıcı creator kütlesi arasındaki fark tam olarak burada.
             </p>
           </div>
         </section>
@@ -602,12 +613,13 @@ export default function OkxClosedSession() {
               <div>
                 <h3>
                   Bugün iyi giderse:<br />
-                  6 haftada 30 creator&apos;lık pilot.
+                  6 hafta içinde 30 creator&apos;lık pilot.
                 </h3>
                 <p>
-                  BottomUP&apos;ta zaten olan top 30 creator ile pilot
-                  öneriyoruz &mdash; cüzdan rail&apos;i canlı, referral atıf
-                  açık. Vanity metric değil, haftalık hacimde ölçülebilir.
+                  BottomUP&apos;ta zaten olan ilk 30 creator ile pilot
+                  başlatıyoruz: cüzdan altyapısı canlı, referans takibi açık.
+                  Süslü grafik değil, haftalık hacim üzerinden ölçülebilir bir
+                  test.
                 </p>
               </div>
               <div className="row">
@@ -621,7 +633,7 @@ export default function OkxClosedSession() {
         <footer className="foot">
           <div className="shell foot-row">
             <span>© BottomUP · OKX merkezinde kapalı oturum</span>
-            <span>Bu sayfa indexli değil &middot; paylaşmayın</span>
+            <span>Bu sayfa arama motorlarına kapalı &middot; paylaşmayın</span>
             <span>{stamp}</span>
           </div>
         </footer>
