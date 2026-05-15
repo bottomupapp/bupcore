@@ -5,9 +5,9 @@ const BUP_WORDMARK =
   "https://www.bottomup.app/_next/image?url=%2Flogos%2Flogotype-color-light.png&w=256&q=75";
 
 export default function OkxClosedSession() {
-  const stamp = new Date().toLocaleDateString("en-GB", {
+  const stamp = new Date().toLocaleDateString("tr-TR", {
     day: "2-digit",
-    month: "short",
+    month: "long",
     year: "numeric",
   });
 
@@ -21,11 +21,11 @@ export default function OkxClosedSession() {
           </div>
           <div className="host-stamp">
             <span className="label">
-              <span className="dot" /> Closed session
+              <span className="dot" /> Kapalı oturum
             </span>
             <span className="sep" />
             <span className="label">
-              Hosted at <span className="okx-word">OKX</span>
+              Ev sahibi <span className="okx-word">OKX</span>
             </span>
             <span className="sep" />
             <span className="label">{stamp}</span>
@@ -34,47 +34,48 @@ export default function OkxClosedSession() {
       </header>
 
       <main>
+        {/* HERO */}
         <section className="hero">
           <div className="shell">
             <div className="hero-grid">
               <div>
-                <div className="eyebrow">Closed product session · Hosted at OKX HQ</div>
+                <div className="eyebrow">Kapalı ürün oturumu · OKX merkezinde</div>
                 <h1 className="display hero-headline">
-                  The App Store<br />
-                  of Smart Money,<br />
-                  <span className="acid">ready to route into OKX.</span>
+                  AKILLI PARANIN<br />
+                  APP STORE&apos;U,<br />
+                  <span className="acid">OKX İLE BÜYÜYECEK.</span>
                 </h1>
                 <p className="hero-sub">
-                  BottomUP is a creator economy for traders. Today we&apos;re here
-                  to walk OKX through three products we&apos;re shipping &mdash;
-                  Trader Marketplace, Social+, and Foxy &mdash; and the
-                  integration shape that would let Turkey&apos;s top traders,
-                  algo builders and AI-agent makers reach OKX Global&apos;s
-                  audience on day one.
+                  BottomUP, trader&apos;lar için bir creator economy. Bugün
+                  üç ürünümüzü gösteriyoruz — <strong>Trader Marketplace</strong>,{" "}
+                  <strong>Social+</strong> ve <strong>Foxy</strong> — ve
+                  Türkiye&apos;nin en iyi trader&apos;larını, algo
+                  geliştiricilerini ve AI ajan üreticilerini OKX Global&apos;ın
+                  kitlesine bağlayacak entegrasyon önerimizi paylaşacağız.
                 </p>
               </div>
 
               <aside className="hero-meta">
                 <div className="meta-row">
-                  <span className="k">Session</span>
-                  <span className="v">BottomUP product showcase, closed door</span>
+                  <span className="k">Oturum</span>
+                  <span className="v">BottomUP ürün sunumu, kapalı kapı</span>
                 </div>
                 <div className="meta-row">
-                  <span className="k">Hosted by</span>
-                  <span className="v">OKX, at their HQ</span>
+                  <span className="k">Ev sahibi</span>
+                  <span className="v">OKX, merkez ofiste</span>
                 </div>
                 <div className="meta-row">
-                  <span className="k">Presented by</span>
-                  <span className="v">BottomUP team</span>
+                  <span className="k">Sunan</span>
+                  <span className="v">BottomUP ekibi</span>
                 </div>
                 <div className="meta-row">
-                  <span className="k">Live today</span>
+                  <span className="k">Bugün canlı</span>
                   <span className="v">
-                    <span className="acid">bottomup.app/analyst</span> &middot; v2.2.1 in stores
+                    <span className="acid">bottomup.app/analyst</span> · v2.2.1 store&apos;larda
                   </span>
                 </div>
                 <div className="meta-row">
-                  <span className="k">Stack</span>
+                  <span className="k">Yığın</span>
                   <span className="v">Mobile (iOS+Android), Studio web, Foxy ML core</span>
                 </div>
               </aside>
@@ -82,309 +83,268 @@ export default function OkxClosedSession() {
           </div>
         </section>
 
-        {/* TODAY'S OKX FOOTPRINT — real numbers from BottomUP's OKX affiliate dashboard */}
+        {/* TODAY ON OKX — real cumulative numbers */}
         <section>
           <div className="shell">
-            <div className="eyebrow">TODAY ON OKX · PROOF THE PIPE WORKS</div>
-            <h2
-              className="display"
-              style={{ fontSize: "clamp(28px, 4vw, 44px)", margin: "10px 0 36px" }}
-            >
-              $1.56B ROUTED.<br />
-              $118K BACK TO US.<br />
-              <span className="acid">THE RELATIONSHIP ALREADY EARNS.</span>
-            </h2>
+            <div className="section-head">
+              <div className="eyebrow">Bugünkü ayak izimiz · ilişki halihazırda kazandırıyor</div>
+              <h2 className="display">
+                $1.56B HACİM YÖNLENDİRDİK.<br />
+                <span className="acid">$118K GERİ ALDIK.</span>
+              </h2>
+            </div>
             <div className="stat-strip">
               <div>
-                <div className="k">Trading volume</div>
+                <div className="k">İşlem hacmi</div>
                 <div className="v">$1.56B</div>
-                <div className="sub">All-time USDT routed onto OKX through BottomUP referrals</div>
+                <div className="sub">Tüm zamanlar, BottomUP referansıyla OKX&apos;e yönlendirilen USDT</div>
               </div>
               <div>
-                <div className="k">Commission paid back</div>
+                <div className="k">Geri ödenen komisyon</div>
                 <div className="v">$118K</div>
-                <div className="sub">$118,282.8 USDT — all-time commission OKX has paid BottomUP</div>
+                <div className="sub">$118,282.8 USDT — OKX&apos;in BottomUP&apos;a ödediği toplam komisyon</div>
               </div>
               <div>
-                <div className="k">Deposits originated</div>
+                <div className="k">Açılan mevduat</div>
                 <div className="v">$3.74M</div>
-                <div className="sub">USDT onboarded onto OKX through BottomUP signups</div>
+                <div className="sub">BottomUP üzerinden OKX&apos;e onboard edilen USDT</div>
               </div>
               <div>
-                <div className="k">Affiliate rate today</div>
+                <div className="k">Bugünkü oranımız</div>
                 <div className="v">$100 / $1M</div>
-                <div className="sub">Our current OKX deal &mdash; 1 bp, ~10% of OKX&apos;s 10 bps standard taker fee</div>
+                <div className="sub">Mevcut OKX anlaşması — 1 bp, OKX&apos;in 10 bps standart taker fee&apos;sinin ~%10&apos;u</div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* SERIES A PROJECTION — $14M ARR target, $8M from exchange line */}
+        {/* SERIES A — $14M ARR */}
         <section>
           <div className="shell">
-            <div className="eyebrow">SERIES A TARGET · $14M ARR</div>
-            <h2
-              className="display"
-              style={{ fontSize: "clamp(28px, 4vw, 44px)", margin: "10px 0 36px" }}
-            >
-              $8M OF $14M COMES<br />
-              <span className="acid">THROUGH THIS ROOM.</span>
-            </h2>
+            <div className="section-head">
+              <div className="eyebrow">Series A hedefi · $14M ARR</div>
+              <h2 className="display">
+                $14M&apos;NIN $8M&apos;I<br />
+                <span className="acid">BU ODADAN DOĞACAK.</span>
+              </h2>
+            </div>
             <div className="stat-strip">
               <div>
-                <div className="k">Series A ARR target</div>
+                <div className="k">Series A hedef ARR</div>
                 <div className="v">$14M</div>
-                <div className="sub">~$6M from marketplace + Social+ + Foxy &middot; $8M from exchange line</div>
+                <div className="sub">~$6M marketplace + Social+ + Foxy &middot; $8M borsa hattından</div>
               </div>
               <div>
-                <div className="k">From the exchange line</div>
+                <div className="k">Borsa hattından</div>
                 <div className="v">$8M</div>
-                <div className="sub">Annual commission BottomUP needs to earn from OKX-referred volume</div>
+                <div className="sub">BottomUP&apos;un OKX referans hacminden kazanması gereken yıllık komisyon</div>
               </div>
               <div>
-                <div className="k">Annual volume needed</div>
+                <div className="k">Gereken yıllık hacim</div>
                 <div className="v">~$80B</div>
-                <div className="sub">USDT, at today&apos;s $100-per-$1M rate &mdash; 51&times; our cumulative footprint</div>
+                <div className="sub">USDT, bugünkü $100/$1M oranında &mdash; kümülatif ayak izimizin 51 katı</div>
               </div>
               <div>
-                <div className="k">Monthly run rate</div>
+                <div className="k">Aylık koşu hızı</div>
                 <div className="v">~$6.7B</div>
-                <div className="sub">USDT/month by pilot end &mdash; a structured rate bump (to ~3 bps / 30% share) drops this to ~$2.2B/mo</div>
+                <div className="sub">USDT/ay pilot sonunda &mdash; yapısal oran artışı (~3 bps / %30 pay) bunu ~$2.2B/aya çeker</div>
               </div>
             </div>
-            <p
-              style={{
-                marginTop: 28,
-                maxWidth: "78ch",
-                fontSize: 13,
-                lineHeight: 1.65,
-                color: "var(--ink-2)",
-              }}
-            >
-              At today&apos;s $100-per-$1M OKX affiliate rate (1 bp, ~10% of
-              OKX&apos;s 10 bps standard taker fee), $8M annual commission needs
-              ~$80B annual volume &mdash; ~$6.7B/month. The structural lever in
-              our proposal (referral attribution + a clean rev-share on OKX&apos;s
-              standard fee, ~3 bps net to BottomUP &mdash; the 30% share affiliate
-              programmes at this scale typically offer) cuts the required volume
-              ~3&times; to roughly $27B/year, or ~$2.2B/month &mdash; achievable
-              inside Series A horizon if the wallet + referral rails ship in six
-              weeks.
+            <p className="section-bridge">
+              Bugünkü <strong>$100-her-$1M</strong> OKX affiliate oranında (1 bp,
+              OKX&apos;in 10 bps standart taker fee&apos;sinin ~%10&apos;u), $8M
+              yıllık komisyon ~$80B yıllık hacim demek &mdash; ayda ~$6.7B.
+              Önerimizdeki yapısal kaldıraç (referral attribution + OKX&apos;in
+              standart fee&apos;sinden temiz bir rev-share, BottomUP&apos;a net
+              ~3 bps &mdash; bu ölçekteki affiliate programlarının tipik %30
+              payı) gereken hacmi ~3× azaltarak yıllık ~$27B&apos;a, ayda
+              ~$2.2B&apos;a indirir &mdash; wallet + referral altyapısı altı
+              hafta içinde devreye girerse Series A süresi içinde ulaşılabilir.
             </p>
           </div>
         </section>
 
-        {/* PRODUCT 1 — TRADER MARKETPLACE */}
+        {/* PRODUCT 01 — TRADER MARKETPLACE */}
         <section>
           <div className="shell">
             <div className="sec-head">
-              <div>
-                <div className="sec-num">01 / 03</div>
-                <h2 className="display">Trader<br />Marketplace.</h2>
-              </div>
-              <div className="eyebrow">Storefront for algo, AI agents, signals &amp; communities</div>
+              <div className="sec-num">01 / 03 · Ürün</div>
+              <h2 className="display">Trader Marketplace.</h2>
+              <div className="eyebrow">Algo, AI ajan, sinyal ve toplulukların mağazası</div>
             </div>
 
-            <div className="product">
-              <div className="lhs">
-                <span className="tag">Product 01</span>
-                <h3>The Store</h3>
-                <p className="one-liner">
-                  Traders, algo bot builders and AI-agent makers list their crypto
-                  and TradFi products on BottomUP. They set the price. We handle
-                  payments, discovery, fraud and payouts. They reach an audience
-                  that already trades.
-                </p>
-              </div>
+            <p className="lead">
+              Trader&apos;lar, algo bot geliştiricileri ve AI ajan üreticileri
+              kripto ve TradFi ürünlerini BottomUP&apos;ta listeler.{" "}
+              <strong>Fiyatı kendileri belirler.</strong> Ödemeler, keşif, fraud
+              ve payout&apos;ları biz hallederiz. Onlar zaten trade eden bir
+              kitleye ulaşır.
+            </p>
 
-              <div className="rhs">
+            <div className="pcards">
+              <div className="pcard wide">
                 <div className="split">
                   <div>
-                    <div className="k">Creator take</div>
-                    <div className="v">70%</div>
-                    <div className="sub">of every sale &mdash; price is theirs to set</div>
+                    <div className="k">Creator payı</div>
+                    <div className="v">%70</div>
+                    <div className="sub">her satıştan — fiyat onların</div>
                   </div>
                   <div>
-                    <div className="k">Platform take</div>
-                    <div className="v">30%</div>
-                    <div className="sub">BottomUP line &mdash; shared with the exchange partner</div>
+                    <div className="k">Platform payı</div>
+                    <div className="v">%30</div>
+                    <div className="sub">BottomUP hattı — borsa ortağıyla paylaşılır</div>
                   </div>
                 </div>
+              </div>
 
-                <div className="pcard">
-                  <h4>Built-in ad inventory creators buy from us</h4>
-                  <p>
-                    Featured slots in product listings, push and email blasts to
-                    all users or targeted cohorts, in-app banner placements,
-                    community spotlights. <strong>Creators pay BottomUP to reach
-                    BottomUP users</strong> &mdash; a second revenue line on top of
-                    the marketplace cut.
-                  </p>
-                </div>
+              <div className="pcard">
+                <h4>Dahili reklam envanteri</h4>
+                <p>
+                  Listing&apos;de öne çıkma, tüm kullanıcılara ya da hedef
+                  kitleye push & email blast, in-app banner, topluluk spot&apos;u.{" "}
+                  <strong>Creator&apos;lar BottomUP kullanıcılarına ulaşmak için
+                  bize ödüyor</strong> &mdash; marketplace kesintisinin üstüne
+                  ikinci bir gelir hattı.
+                </p>
+              </div>
 
-                <div className="pcard">
-                  <h4>Communities, listed and shoppable</h4>
-                  <p>
-                    Whole trading communities can be listed alongside individual
-                    creators. Buyers unlock every trader inside with full
-                    performance metrics, and choose who to follow. Communities
-                    that bring their own referral graph pay BottomUP a monthly
-                    invoice instead of revenue-sharing &mdash; they pick the model.
-                  </p>
-                </div>
+              <div className="pcard">
+                <h4>Topluluklar — listelenir, satılır</h4>
+                <p>
+                  Tüm trading toplulukları bireysel creator&apos;ların yanında
+                  listelenebilir. Satın alan, içerideki her trader&apos;ı tüm
+                  performans metrikleriyle görür ve takip edeceğini seçer. Kendi
+                  referral graph&apos;ını getiren topluluklar aylık invoice
+                  modeline geçebilir &mdash; modeli seçen onlar.
+                </p>
+              </div>
 
-                <div className="pcard">
-                  <h4>Wallet → auto-trade (the integration we&apos;d love to build with OKX)</h4>
-                  <p>
-                    Users connect their <strong>OKX wallet</strong> once and the
-                    products they bought execute autonomously on their account.
-                    <strong> 70% of trading volume from BottomUP-referred users
-                    goes to creators; 30% sits on the BottomUP platform line,
-                    shared with the exchange partner.</strong> Volume becomes a
-                    recurring rail, not a one-shot sale.
-                  </p>
-                </div>
+              <div className="pcard wide">
+                <h4>Cüzdan → otomatik trade · OKX ile birlikte kurmak istediğimiz entegrasyon</h4>
+                <p>
+                  Kullanıcı <strong>OKX cüzdanını</strong> bir kez bağlar; aldığı
+                  ürünler hesabında otomatik çalışır.{" "}
+                  <strong>BottomUP referansıyla gelen hacmin %70&apos;i
+                  creator&apos;a, %30&apos;u BottomUP platform hattına gider
+                  &mdash; borsa ortağıyla paylaşılır.</strong> Hacim, tek seferlik
+                  satış değil, sürekli işleyen bir gelir hattına dönüşür.
+                </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* PRODUCT 2 — SOCIAL+ */}
+        {/* PRODUCT 02 — SOCIAL+ */}
         <section>
           <div className="shell">
             <div className="sec-head">
-              <div>
-                <div className="sec-num">02 / 03</div>
-                <h2 className="display">Social<span className="acid">+</span></h2>
-              </div>
-              <div className="eyebrow">A native home for human traders &amp; their followers</div>
+              <div className="sec-num">02 / 03 · Ürün</div>
+              <h2 className="display">
+                Social<span className="acid">+</span>
+              </h2>
+              <div className="eyebrow">Trader ve takipçileri için native ev</div>
             </div>
 
-            <div className="product">
-              <div className="lhs">
-                <span className="tag">Product 02</span>
-                <h3>Kill the<br />Telegram tax.</h3>
-                <p className="one-liner">
-                  Human traders shouldn&apos;t herd their audience through Telegram
-                  and Discord rooms they don&apos;t own. Social+ is a free chat,
-                  content and live-trading surface where the trader, their feed
-                  and their store live in the same product.
+            <p className="lead">
+              İnsan trader&apos;lar takipçilerini sahip olmadıkları Telegram ve
+              Discord odalarında dolaştırmamalı.{" "}
+              <strong>Social+, chat&apos;in, içeriğin ve canlı trade&apos;in
+              aynı üründe yaşadığı bir platform.</strong>
+            </p>
+
+            <div className="pcards three">
+              <div className="pcard">
+                <h4>Tek platform, her format</h4>
+                <p>
+                  Spot, futures, hisse, FX, makro &mdash; her konuya bir kanal.
+                  Günlük market videoları, shorts, canlı trading session, eğitim
+                  seti, planlı yayın &mdash; <strong>hepsi chat ile aynı
+                  feed&apos;de</strong>.
                 </p>
               </div>
-
-              <div className="rhs">
-                <div className="pcard">
-                  <h4>One platform, every format</h4>
-                  <p>
-                    Open a channel for any subject &mdash; spot crypto, futures,
-                    equities, FX, macro. Followers see daily market videos,
-                    shorts, live trading sessions, education sets, scheduled
-                    streams &mdash; <strong>all in the same feed as the chat</strong>.
-                  </p>
-                </div>
-                <div className="pcard">
-                  <h4>Buyers see the trades, live</h4>
-                  <p>
-                    Users who own a trader from the marketplace get the
-                    trader&apos;s positions piped into Social+ in real time. No
-                    more screenshots of TradingView in a paid Telegram group
-                    &mdash; the position, the chat and the auto-trade execution
-                    sit on one screen.
-                  </p>
-                </div>
-                <div className="pcard">
-                  <h4>Push the moment, not the message</h4>
-                  <p>
-                    Traders go live &rarr; followers get a push. New education
-                    drop &rarr; push. Scheduled stream in 10 minutes &rarr; push.
-                    Engagement isn&apos;t a Telegram broadcast; it&apos;s a real
-                    notification channel BottomUP owns.
-                  </p>
-                </div>
-                <div className="pcard">
-                  <h4>Speak Turkish, read Chinese, sell to everyone</h4>
-                  <p>
-                    Every message, post and caption is auto-translated by our AI
-                    layer. A trader writes in Turkish; followers in Brazil,
-                    Indonesia, the UAE read it natively. <strong>OKX Global&apos;s
-                    geographic surface, addressable from one keyboard.</strong>
-                  </p>
-                </div>
+              <div className="pcard">
+                <h4>Alıcı, işlemi canlı görür</h4>
+                <p>
+                  Marketplace&apos;ten trader satın alan kullanıcı,
+                  trader&apos;ın pozisyonlarını Social+&apos;a real-time akıtır.
+                  TradingView screenshot&apos;u Telegram&apos;da yok artık
+                  &mdash; <strong>pozisyon, chat ve auto-trade tek
+                  ekranda</strong>.
+                </p>
+              </div>
+              <div className="pcard">
+                <h4>Türkçe yaz, dünya okusun</h4>
+                <p>
+                  Her mesaj, post ve caption AI ile çevriliyor. Trader Türkçe
+                  yazıyor; Brezilya, Endonezya, BAE&apos;deki takipçi kendi
+                  dilinde okuyor. <strong>OKX Global&apos;ın coğrafyası tek bir
+                  klavyeden ulaşılabilir.</strong>
+                </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* PRODUCT 3 — FOXY */}
+        {/* PRODUCT 03 — FOXY */}
         <section>
           <div className="shell">
             <div className="sec-head">
-              <div>
-                <div className="sec-num">03 / 03</div>
-                <h2 className="display">Foxy.</h2>
-              </div>
-              <div className="eyebrow">AI co-pilot &amp; risk supervisor for every trade on the platform</div>
+              <div className="sec-num">03 / 03 · Ürün</div>
+              <h2 className="display">Foxy.</h2>
+              <div className="eyebrow">Platformdaki her işlem için AI yardımcısı ve risk denetmeni</div>
             </div>
 
-            <div className="product">
-              <div className="lhs">
-                <span className="tag">Product 03</span>
-                <h3>The shield<br />on the trade.</h3>
-                <p className="one-liner">
-                  Foxy ingests exchange feeds, on-chain intelligence, derivatives
-                  positioning, the macro calendar and ML-derived signals &mdash;
-                  then sits next to the creator when they post a trade. It scores
-                  risk, warns on tail events, and optimises take-profit and stop
-                  levels on positions already open.
+            <p className="lead">
+              Foxy borsa feed&apos;lerini, on-chain veriyi, türev pozisyonlamayı,
+              makro takvimi ve ML sinyallerini tek bir feature store&apos;da
+              birleştirir &mdash; sonra <strong>creator işlem paylaşırken
+              yanında durur</strong>: riski skorlar, tail event&apos;e karşı uyarır,
+              açık pozisyonlarda TP/SL&apos;i optimize eder.
+            </p>
+
+            <div className="pcards">
+              <div className="pcard wide">
+                <h4>Veri kumaşı — gerçek zamanlı + tarihsel, tek feature store&apos;da</h4>
+                <div className="sources">
+                  <span>OKX API</span>
+                  <span>Binance API</span>
+                  <span>Arkham</span>
+                  <span>Coinglass</span>
+                  <span>CoinGecko</span>
+                  <span>US 10Y · ETF · JP CPI</span>
+                </div>
+              </div>
+
+              <div className="pcard">
+                <h4>Creator-tarafı risk skoru</h4>
+                <p>
+                  Creator işlemi takipçilerine paylaşmadan önce Foxy riski
+                  hesaplar.{" "}
+                  <strong>&ldquo;Trump 4 saat sonra konuşacak &mdash;
+                  stop&apos;unu genişlet, size&apos;ı yarıla, ya da işlemi
+                  atla.&rdquo;</strong>{" "}
+                  Makro-bilinçli. Korelasyon-bilinçli. Geçen haftanın mumlarına
+                  değil, çapraz-varlık geçmişine eğitildi.
                 </p>
               </div>
 
-              <div className="rhs">
-                <div className="pcard">
-                  <h4>Data fabric</h4>
-                  <p style={{ marginBottom: 14 }}>
-                    Real-time and historical, blended into one feature store:
-                  </p>
-                  <div className="sources">
-                    <span>OKX API</span>
-                    <span>Binance API</span>
-                    <span>Arkham</span>
-                    <span>Coinglass</span>
-                    <span>CoinGecko</span>
-                    <span>US 10Y · ETFs · JP CPI</span>
-                  </div>
-                </div>
+              <div className="pcard">
+                <h4>Açık pozisyonlarda TP/SL optimizasyonu</h4>
+                <p>
+                  Canlı işlemlerde Foxy koşullar değiştikçe TP ve stop&apos;u
+                  yeniden hesaplar &mdash; creator&apos;a öneri sunar, onay
+                  verildiğinde wallet bağlantılı auto-trade rail&apos;ine push&apos;lar.
+                </p>
+              </div>
 
-                <div className="pcard">
-                  <h4>Creator-side risk score</h4>
-                  <p>
-                    Before a creator shares a trade with their buyers, Foxy
-                    computes a risk score. <strong>&ldquo;Trump speaks in 4 hours
-                    &mdash; widen your stop, halve your size, or skip the
-                    trade.&rdquo;</strong> Macro-aware. Correlation-aware. Trained
-                    on cross-asset history, not just last week&apos;s candles.
-                  </p>
-                </div>
-
-                <div className="pcard">
-                  <h4>TP / SL optimisation on open positions</h4>
-                  <p>
-                    For trades already live, Foxy keeps optimising take-profit
-                    and stop-loss as conditions change &mdash; surfacing
-                    adjustments to the creator and, with consent, pushing them
-                    into the wallet-connected auto-trade rail.
-                  </p>
-                </div>
-
-                <div className="pcard">
-                  <h4>What this would mean for an exchange partner</h4>
-                  <p>
-                    Better creator risk &rarr; lower buyer churn &rarr; longer
-                    auto-trade lifetime &rarr; <strong>more sustained on-exchange
-                    volume</strong>. Foxy is the difference between a viral
-                    creator cohort and a durable one.
-                  </p>
-                </div>
+              <div className="pcard wide">
+                <h4>Borsa partneri için ne anlama gelir?</h4>
+                <p>
+                  Daha iyi creator riski → daha düşük alıcı churn → daha uzun
+                  auto-trade ömrü →{" "}
+                  <strong>borsada daha sürdürülebilir hacim</strong>. Foxy, viral
+                  creator kohortu ile kalıcı creator kohortu arasındaki farktır.
+                </p>
               </div>
             </div>
           </div>
@@ -394,43 +354,44 @@ export default function OkxClosedSession() {
         <section>
           <div className="shell">
             <div className="sec-head">
-              <div>
-                <div className="sec-num">∎</div>
-                <h2 className="display">Where we&apos;d love<br />OKX&apos;s help.</h2>
-              </div>
-              <div className="eyebrow">Three concrete proposals &mdash; technical, commercial, distribution</div>
+              <div className="sec-num">∎ Öneri</div>
+              <h2 className="display">
+                OKX&apos;İN DESTEĞİNE<br />
+                İHTİYACIMIZ <span className="acid">OLAN ÜÇ NOKTA.</span>
+              </h2>
+              <div className="eyebrow">Üç somut öneri &mdash; teknik, ticari, dağıtım</div>
             </div>
 
             <div className="ask">
               <div className="ask-card">
                 <div className="num">01</div>
-                <h4>OKX Wallet auto-trade rail</h4>
+                <h4>OKX Cüzdan auto-trade altyapısı</h4>
                 <p>
-                  A supported integration path so BottomUP users can connect
-                  their OKX wallet once and let bought products execute on their
-                  account. This is the largest unlock &mdash; without it, Trader
-                  Marketplace is a content store; with it, it&apos;s a recurring
-                  volume engine.
+                  BottomUP kullanıcısı OKX cüzdanını bir kez bağlasın, aldığı
+                  ürünler hesabında otomatik çalışsın. En büyük unlock burada
+                  &mdash; bu olmadan Marketplace bir içerik mağazası; bu varsa
+                  sürekli hacim motoru.
                 </p>
               </div>
               <div className="ask-card">
                 <div className="num">02</div>
-                <h4>Referral attribution &amp; revenue share</h4>
+                <h4>Referral atıf + gelir paylaşımı</h4>
                 <p>
-                  BottomUP-referred users tagged at signup, with a clean reporting
-                  feed. <strong>70% of fee revenue to the creator, 30% on a shared
-                  BottomUP + exchange line.</strong> Communities that bring their
-                  own referral graph can opt into a monthly invoice model instead.
+                  BottomUP-referansıyla gelen kullanıcılar signup&apos;ta
+                  etiketlensin, temiz bir raporlama feed&apos;i olsun.{" "}
+                  <strong>Fee gelirinin %70&apos;i creator&apos;a, %30 BottomUP
+                  + borsa hattı paylaşımında.</strong> Kendi referral graph&apos;ını
+                  getiren topluluklar aylık invoice modeline geçebilir.
                 </p>
               </div>
               <div className="ask-card">
                 <div className="num">03</div>
-                <h4>Co-marketing into OKX Global geos</h4>
+                <h4>OKX Global coğrafyasına co-marketing</h4>
                 <p>
-                  Turkey&apos;s creator pipeline is real &mdash; the audience is
-                  in every OKX Global market. A joint launch (push, in-app,
-                  social, PR) plugs Turkish algo and AI-agent makers directly
-                  into LATAM, MENA, SEA and CIS user bases on day one.
+                  Türkiye&apos;nin creator pipeline&apos;ı gerçek &mdash; kitle
+                  her OKX Global pazarında var. Ortak launch (push, in-app,
+                  sosyal, PR) Türk algo ve AI ajan üreticilerini LATAM, MENA,
+                  GDA ve BDT kullanıcı tabanlarına gün bir&apos;de bağlar.
                 </p>
               </div>
             </div>
@@ -442,17 +403,20 @@ export default function OkxClosedSession() {
           <div className="shell">
             <div className="cta-strip">
               <div>
-                <h3>If today went well: a 30-creator<br />pilot in six weeks.</h3>
+                <h3>
+                  BUGÜN İYİ GİDERSE:<br />
+                  6 HAFTADA 30 CREATOR&apos;LIK PİLOT.
+                </h3>
                 <p>
-                  We&apos;re proposing a pilot with the top 30 Turkish traders
-                  already on BottomUP &mdash; wallet rail live, referral
-                  attribution on. Measurable in weekly volume, not vanity
-                  metrics. Anything less than that, we&apos;d still love to keep
-                  the conversation going.
+                  BottomUP&apos;ta zaten olan Türkiye&apos;nin top 30
+                  trader&apos;ı ile pilot öneriyoruz &mdash; cüzdan rail&apos;i
+                  canlı, referral atıf açık. Vanity metric değil, haftalık
+                  hacimde ölçülebilir. Bunun altı bir senaryoda da konuşmaya
+                  devam etmeyi çok isteriz.
                 </p>
               </div>
               <div className="row">
-                <span className="pill solid">Let&apos;s scope the pilot</span>
+                <span className="pill solid">Pilotu konuşalım</span>
                 <span className="pill">deniz@bottomup.app</span>
               </div>
             </div>
@@ -461,8 +425,8 @@ export default function OkxClosedSession() {
 
         <footer className="foot">
           <div className="shell foot-row">
-            <span>© BottomUP · Closed session, hosted at OKX HQ</span>
-            <span>This page is unindexed &middot; do not redistribute</span>
+            <span>© BottomUP · OKX merkezinde kapalı oturum</span>
+            <span>Bu sayfa indexli değil &middot; paylaşmayın</span>
             <span>{stamp}</span>
           </div>
         </footer>

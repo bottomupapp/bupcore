@@ -1,21 +1,22 @@
 /* OKX × BottomUP closed-session deck — scoped under `.okx-deck` so the
    brutalist palette and base resets don't leak into the rest of Studio.
-   Tone borrowed from analyst/v2 but compressed for a single-page pitch. */
+   Tone borrowed from analyst/v2 but compressed for a single-page pitch
+   designed to be projected/read in a room (so body text contrasts hard
+   against the canvas and copy density is kept low). */
 
 .okx-deck {
   --bg:       #0A0A0A;
-  --bg-2:     #111111;
-  --bg-3:     #181818;
-  --ink:      #F5F5F0;
-  --ink-2:    #B8B8B0;
-  --ink-3:    #6E6E68;
-  --ink-4:    #3A3A36;
-  --line:     #1F1F1F;
-  --line-2:   #262626;
-  --acid:     #FF6B1A;       /* BottomUP orange */
+  --bg-2:     #131313;
+  --bg-3:     #1B1B1B;
+  --ink:      #FAFAF6;       /* primary white — headlines, big numbers */
+  --ink-2:    #ECECE6;       /* body copy — was #B8B8B0, lifted for readability */
+  --ink-3:    #B5B5AE;       /* labels / sub captions — was #6E6E68, lifted */
+  --ink-4:    #5A5A55;
+  --line:     #262626;
+  --line-2:   #333333;
+  --acid:     #FF6B1A;
   --acid-deep:#E04F00;
   --acid-soft:rgba(255,107,26,.10);
-  --okx:      #FFFFFF;       /* OKX is monochrome; partner accent is white */
   --pos:      #1FC16B;
   --pos-soft: rgba(31,193,107,.10);
   --neg:      #FF5577;
@@ -43,9 +44,9 @@
   content: "";
   position: fixed; inset: 0;
   pointer-events: none; z-index: 100;
-  background-image: repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px);
+  background-image: repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0 1px, transparent 1px 3px);
   mix-blend-mode: overlay;
-  opacity: .6;
+  opacity: .5;
 }
 .okx-deck::after {
   content: "";
@@ -77,20 +78,21 @@
   display: inline-flex; align-items: center; gap: 12px;
 }
 .okx-deck .brand .bup-mark {
-  width: 28px; height: 28px;
+  width: 30px; height: 30px;
   object-fit: contain;
   display: block;
 }
 .okx-deck .brand .bup-word {
-  height: 16px;
+  height: 17px;
   width: auto;
   display: block;
   opacity: .98;
 }
 .okx-deck .host-stamp {
   display: inline-flex; align-items: center; gap: 14px;
-  font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
-  color: var(--ink-3);
+  font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--ink-2);
+  font-weight: 600;
 }
 .okx-deck .host-stamp .label {
   display: inline-flex; align-items: center; gap: 8px;
@@ -104,12 +106,12 @@
   font-weight: 900;
   letter-spacing: -.05em;
   color: var(--ink);
-  font-size: 18px;
+  font-size: 19px;
   line-height: 1;
   text-transform: none;
 }
 .okx-deck .host-stamp .dot {
-  display: inline-block; width: 6px; height: 6px; background: var(--acid);
+  display: inline-block; width: 7px; height: 7px; background: var(--acid);
 }
 
 /* Typography helpers */
@@ -122,186 +124,205 @@
 }
 .okx-deck .eyebrow {
   font-family: var(--font-mono);
-  font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
-  color: var(--ink-3); font-weight: 600;
+  font-size: 13px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--ink-2); font-weight: 700;
 }
 .okx-deck .acid { color: var(--acid); }
 .okx-deck .ink-2 { color: var(--ink-2); }
-.okx-deck .ink-3 { color: var(--ink-3); }
 
 /* Sections */
 .okx-deck section {
-  padding: clamp(56px, 9vw, 112px) 0;
+  padding: clamp(64px, 9vw, 120px) 0;
   border-bottom: 1px solid var(--line);
 }
-.okx-deck section.hero { padding-top: clamp(72px, 11vw, 144px); }
+.okx-deck section.hero { padding-top: clamp(80px, 11vw, 144px); }
 
 /* Hero */
 .okx-deck .hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 320px;
+  grid-template-columns: minmax(0, 1fr) 340px;
   gap: clamp(32px, 5vw, 64px);
   align-items: end;
 }
 .okx-deck .hero-headline {
   font-size: clamp(56px, 11vw, 140px);
-  margin: 24px 0 28px;
+  margin: 24px 0 32px;
 }
 .okx-deck .hero-sub {
   max-width: 56ch;
-  font-size: clamp(15px, 1.4vw, 18px);
+  font-size: clamp(17px, 1.5vw, 21px);
   line-height: 1.55;
   color: var(--ink-2);
 }
 .okx-deck .hero-meta {
   border: 1px solid var(--line-2);
   background: var(--bg-2);
-  padding: 24px;
-  display: grid; gap: 18px;
+  padding: 26px;
+  display: grid; gap: 20px;
 }
 .okx-deck .meta-row {
-  display: grid; grid-template-columns: 96px 1fr;
+  display: grid; grid-template-columns: 110px 1fr;
   align-items: baseline;
   gap: 14px;
 }
 .okx-deck .meta-row .k {
-  font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
-  color: var(--ink-3);
+  font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--ink-3); font-weight: 600;
 }
 .okx-deck .meta-row .v {
-  font-size: 13px; color: var(--ink);
+  font-size: 15px; color: var(--ink); line-height: 1.4;
 }
 
-/* Section heading */
+/* Section heading — number on top, headline + eyebrow stacked rather than
+   side-by-side, so long eyebrows never collide with display headlines. */
 .okx-deck .sec-head {
-  display: grid; grid-template-columns: 1fr auto;
-  align-items: end; gap: 16px;
-  margin-bottom: 56px;
+  display: flex; flex-direction: column;
+  gap: 10px;
+  margin-bottom: 48px;
 }
 .okx-deck .sec-head h2 {
-  font-size: clamp(36px, 5.5vw, 64px);
-  margin: 8px 0 0;
+  font-size: clamp(40px, 6vw, 72px);
+  margin: 0;
 }
 .okx-deck .sec-num {
   font-family: var(--font-mono);
-  font-size: 12px; letter-spacing: .22em; text-transform: uppercase;
-  color: var(--ink-3);
+  font-size: 13px; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--ink-3); font-weight: 600;
+  margin-bottom: 4px;
+}
+.okx-deck .sec-head .eyebrow {
+  margin-top: 6px;
+  color: var(--ink-2);
 }
 
-/* Stat strip */
+/* Stat strip — 4-col, big numbers, generous padding, bright body */
 .okx-deck .stat-strip {
   display: grid; grid-template-columns: repeat(4, 1fr);
   border: 1px solid var(--line-2);
   background: var(--bg-2);
 }
 .okx-deck .stat-strip > div {
-  padding: 24px 28px;
+  padding: 28px 30px;
   border-right: 1px solid var(--line-2);
 }
 .okx-deck .stat-strip > div:last-child { border-right: 0; }
 .okx-deck .stat-strip .k {
-  font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
-  color: var(--ink-3); margin-bottom: 10px;
+  font-size: 12px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--ink-3); margin-bottom: 14px; font-weight: 600;
 }
 .okx-deck .stat-strip .v {
   font-family: var(--font-display);
-  font-weight: 900; font-size: clamp(28px, 3.4vw, 44px);
-  letter-spacing: -.02em;
+  font-weight: 900; font-size: clamp(32px, 3.6vw, 48px);
+  letter-spacing: -.025em;
+  color: var(--ink);
+  line-height: 1;
 }
 .okx-deck .stat-strip .sub {
-  font-size: 11px; color: var(--ink-3); margin-top: 6px;
+  font-size: 13px; color: var(--ink-2); margin-top: 12px;
+  line-height: 1.55;
 }
 
-/* Product block */
-.okx-deck .product {
+/* Section big-headline + supporting paragraph */
+.okx-deck .section-head {
+  margin-bottom: 40px;
+}
+.okx-deck .section-head h2 {
+  font-size: clamp(36px, 5.5vw, 60px);
+  margin: 12px 0 0;
+}
+.okx-deck .section-bridge {
+  margin-top: 32px;
+  max-width: 78ch;
+  font-size: clamp(15px, 1.3vw, 17px);
+  line-height: 1.65;
+  color: var(--ink-2);
+}
+
+/* Product section — full-width sec-head, then a "lead" sentence, then a
+   2-column responsive grid of cards. No more 220px LHS that could clip
+   long display headlines. */
+.okx-deck .lead {
+  font-size: clamp(19px, 1.7vw, 24px);
+  line-height: 1.45;
+  color: var(--ink);
+  max-width: 64ch;
+  margin: 8px 0 44px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+.okx-deck .pcards {
   display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: clamp(28px, 5vw, 64px);
-  padding-top: clamp(64px, 8vw, 96px);
-  border-top: 1px dashed var(--line-2);
-  margin-top: clamp(48px, 6vw, 80px);
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
 }
-.okx-deck .product:first-child { border-top: 0; padding-top: 0; margin-top: 0; }
-.okx-deck .product .lhs .tag {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 6px 10px;
-  border: 1px solid var(--acid);
-  color: var(--acid);
-  font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
-  font-weight: 700;
-  margin-bottom: 16px;
-}
-.okx-deck .product .lhs h3 {
-  font-family: var(--font-display); font-weight: 900;
-  font-size: clamp(40px, 5vw, 64px);
-  letter-spacing: -.04em;
-  line-height: .9;
-  text-transform: uppercase;
-  margin: 0;
-}
-.okx-deck .product .lhs .one-liner {
-  margin-top: 18px;
-  font-size: 13px; color: var(--ink-2); line-height: 1.6;
-}
-
-.okx-deck .product .rhs { display: grid; gap: 18px; }
+.okx-deck .pcards.three { grid-template-columns: repeat(3, 1fr); }
 .okx-deck .pcard {
   border: 1px solid var(--line-2);
   background: var(--bg-2);
-  padding: 22px 24px;
+  padding: 26px 28px;
 }
 .okx-deck .pcard h4 {
-  font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+  font-size: 13px; letter-spacing: .2em; text-transform: uppercase;
   font-weight: 700; color: var(--acid);
-  margin: 0 0 10px;
+  margin: 0 0 14px;
 }
 .okx-deck .pcard p {
-  font-size: 14px; color: var(--ink-2); line-height: 1.6;
+  font-size: 16px; color: var(--ink-2); line-height: 1.6;
   margin: 0;
 }
 .okx-deck .pcard strong { color: var(--ink); font-weight: 600; }
 
-/* Split rev card */
+/* Wide pcard variant — spans the 2-col grid and emphasises the
+   headline (used for the 70/30 split + wallet auto-trade callouts). */
+.okx-deck .pcard.wide {
+  grid-column: 1 / -1;
+}
+
+/* 70/30 split — visual partition, white + acid */
 .okx-deck .split {
   display: grid; grid-template-columns: 1fr 1fr;
   border: 1px solid var(--acid);
-  background: var(--acid-soft);
+  background: linear-gradient(90deg, rgba(255,107,26,.10), rgba(255,107,26,.04));
 }
 .okx-deck .split > div {
-  padding: 20px 24px;
+  padding: 24px 28px;
 }
 .okx-deck .split > div:first-child {
   border-right: 1px solid rgba(255,107,26,.35);
 }
 .okx-deck .split .k {
-  font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
-  color: var(--acid); font-weight: 700; margin-bottom: 8px;
+  font-size: 12px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--acid); font-weight: 700; margin-bottom: 10px;
 }
 .okx-deck .split .v {
   font-family: var(--font-display); font-weight: 900;
-  font-size: clamp(28px, 3vw, 40px); letter-spacing: -.02em;
-  line-height: 1;
+  font-size: clamp(40px, 4.5vw, 56px); letter-spacing: -.03em;
+  line-height: 1; color: var(--ink);
 }
 .okx-deck .split .sub {
-  font-size: 11px; color: var(--ink-2); margin-top: 6px;
+  font-size: 13px; color: var(--ink-2); margin-top: 10px;
+  line-height: 1.5;
 }
 
-/* Funnel diagram (Foxy / data sources) */
+/* Foxy data fabric chips */
 .okx-deck .sources {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
+  margin-top: 14px;
 }
 .okx-deck .sources span {
   border: 1px solid var(--line-2);
   background: var(--bg-3);
-  padding: 10px 12px;
-  font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--ink-2);
+  padding: 12px 14px;
+  font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink);
   text-align: center;
+  font-weight: 600;
 }
 
-/* Why-now / ask */
+/* Proposal cards */
 .okx-deck .ask {
   display: grid; grid-template-columns: repeat(3, 1fr);
   gap: 16px;
@@ -309,52 +330,55 @@
 .okx-deck .ask-card {
   border: 1px solid var(--line-2);
   background: var(--bg-2);
-  padding: 28px;
+  padding: 32px;
 }
 .okx-deck .ask-card .num {
   font-family: var(--font-display); font-weight: 900;
-  font-size: 56px; line-height: 1; color: var(--acid);
+  font-size: 64px; line-height: 1; color: var(--acid);
   letter-spacing: -.04em;
 }
 .okx-deck .ask-card h4 {
-  font-size: 16px; margin: 14px 0 8px; color: var(--ink);
-  font-weight: 700;
+  font-size: 19px; margin: 16px 0 12px; color: var(--ink);
+  font-weight: 700; line-height: 1.25;
 }
 .okx-deck .ask-card p {
-  font-size: 13px; color: var(--ink-2); line-height: 1.6; margin: 0;
+  font-size: 15px; color: var(--ink-2); line-height: 1.6; margin: 0;
 }
 
-/* CTA strip */
+/* CTA */
 .okx-deck .cta-strip {
   border: 1px solid var(--acid);
-  padding: 36px clamp(24px, 4vw, 48px);
+  padding: 40px clamp(28px, 4vw, 52px);
   display: grid;
   grid-template-columns: 1fr auto;
-  align-items: center; gap: 28px;
+  align-items: center; gap: 32px;
   background:
-    linear-gradient(90deg, rgba(255,107,26,.16) 0%, rgba(255,107,26,0) 60%),
+    linear-gradient(90deg, rgba(255,107,26,.18) 0%, rgba(255,107,26,0) 60%),
     var(--bg-2);
 }
 .okx-deck .cta-strip h3 {
   font-family: var(--font-display); font-weight: 900;
-  font-size: clamp(24px, 3vw, 36px); letter-spacing: -.03em;
-  text-transform: uppercase; line-height: .95;
-  margin: 0 0 10px;
+  font-size: clamp(26px, 3.2vw, 40px); letter-spacing: -.03em;
+  text-transform: uppercase; line-height: .98;
+  margin: 0 0 14px;
+  color: var(--ink);
 }
 .okx-deck .cta-strip p {
-  margin: 0; font-size: 13px; color: var(--ink-2); max-width: 56ch;
+  margin: 0; font-size: 15px; color: var(--ink-2); max-width: 58ch;
+  line-height: 1.55;
 }
 .okx-deck .cta-strip .row {
   display: flex; gap: 12px; flex-wrap: wrap;
 }
 .okx-deck .pill {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 14px 22px;
+  padding: 15px 24px;
   border: 1px solid var(--line-2);
   font-family: var(--font-mono);
-  font-size: 12px; font-weight: 700;
+  font-size: 13px; font-weight: 700;
   letter-spacing: .14em; text-transform: uppercase;
   white-space: nowrap;
+  color: var(--ink);
 }
 .okx-deck .pill.solid {
   background: var(--acid); color: var(--bg); border-color: var(--acid);
@@ -362,13 +386,14 @@
 
 /* Footer */
 .okx-deck footer.foot {
-  padding: 32px 0 48px;
+  padding: 36px 0 56px;
 }
 .okx-deck .foot-row {
   display: flex; justify-content: space-between; align-items: center;
   gap: 16px; flex-wrap: wrap;
-  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
   color: var(--ink-3);
+  font-weight: 600;
 }
 
 /* Responsive */
@@ -378,12 +403,14 @@
   .okx-deck .stat-strip > div:nth-child(2) { border-right: 0; }
   .okx-deck .stat-strip > div:nth-child(1),
   .okx-deck .stat-strip > div:nth-child(2) { border-bottom: 1px solid var(--line-2); }
-  .okx-deck .product { grid-template-columns: 1fr; gap: 28px; }
+  .okx-deck .pcards { grid-template-columns: 1fr; }
+  .okx-deck .pcards.three { grid-template-columns: 1fr; }
   .okx-deck .ask { grid-template-columns: 1fr; }
   .okx-deck .cta-strip { grid-template-columns: 1fr; }
   .okx-deck .host-stamp { gap: 10px; }
   .okx-deck .host-stamp .label:last-child,
   .okx-deck .host-stamp .sep:last-of-type { display: none; }
+  .okx-deck .meta-row { grid-template-columns: 100px 1fr; }
 }
 @media (max-width: 560px) {
   .okx-deck .stat-strip { grid-template-columns: 1fr; }
@@ -392,10 +419,11 @@
   .okx-deck .split { grid-template-columns: 1fr; }
   .okx-deck .split > div:first-child { border-right: 0; border-bottom: 1px solid rgba(255,107,26,.35); }
   .okx-deck .sources { grid-template-columns: 1fr 1fr; }
-  .okx-deck .sec-head { grid-template-columns: 1fr; }
   /* Drop everything in the host stamp except the OKX label so the bar
      fits 360-400px viewports without wrapping. */
   .okx-deck .host-stamp .label:first-child,
   .okx-deck .host-stamp .sep { display: none; }
   .okx-deck .brand .bup-word { display: none; }
+  .okx-deck .meta-row { grid-template-columns: 1fr; gap: 4px; }
+  .okx-deck .hero-headline { font-size: clamp(48px, 13vw, 80px); }
 }
