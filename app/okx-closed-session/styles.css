@@ -154,6 +154,32 @@
   line-height: 1.55;
   color: var(--ink-2);
 }
+.okx-deck .hero-tag {
+  margin-top: 8px;
+  padding: 22px 28px;
+  border: 1px solid var(--acid);
+  background: linear-gradient(90deg, rgba(255,107,26,.12), rgba(255,107,26,0));
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.okx-deck .hero-tag .lbl {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  font-weight: 700;
+}
+.okx-deck .hero-tag .val {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 3vw, 40px);
+  letter-spacing: -.025em;
+  line-height: 1;
+  color: var(--acid);
+}
 .okx-deck .hero-meta {
   border: 1px solid var(--line-2);
   background: var(--bg-2);
