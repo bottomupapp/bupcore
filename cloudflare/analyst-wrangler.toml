@@ -3,11 +3,21 @@ main = "analyst-worker.js"
 compatibility_date = "2026-05-01"
 
 # Routes: bottomup.app/{analyst,okx-closed-session}* → this Worker.
-# `_next` / `__nextjs` are handled by the worker's PROXY_PREFIXES list
-# and need their own routes too (added in Cloudflare UI or below).
+# www.bottomup.app/okx-closed-session* is also routed here so the
+# pitch page resolves whether the user types the apex or www host.
+# The worker 301s www requests to the apex so /_next/* assets resolve
+# under the host that owns those routes.
+# (www.bottomup.app/analyst* is intentionally NOT here — it already
+# 308s to trade.bupcore.ai/analyst via a separate redirect rule.)
+# /_next/* and /__nextjs/* MUST be wrangler-managed routes too;
+# otherwise the next deploy will wipe them and the page renders
+# unstyled (HTML 200, CSS/JS 522 against the dummy AAAA fallback).
 routes = [
   { pattern = "bottomup.app/analyst*", zone_name = "bottomup.app" },
-  { pattern = "bottomup.app/okx-closed-session*", zone_name = "bottomup.app" }
+  { pattern = "bottomup.app/okx-closed-session*", zone_name = "bottomup.app" },
+  { pattern = "www.bottomup.app/okx-closed-session*", zone_name = "bottomup.app" },
+  { pattern = "bottomup.app/_next/*", zone_name = "bottomup.app" },
+  { pattern = "bottomup.app/__nextjs/*", zone_name = "bottomup.app" }
 ]
 
 # Set STUDIO_ORIGIN via:
