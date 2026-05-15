@@ -74,28 +74,42 @@
   gap: 16px;
 }
 .okx-deck .brand {
-  display: inline-flex; align-items: center; gap: 14px;
-  font-family: var(--font-display);
-  font-weight: 900;
-  letter-spacing: -.02em;
-  text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 12px;
 }
-.okx-deck .brand .x { color: var(--ink-3); font-weight: 700; padding: 0 2px; }
-.okx-deck .brand .okx-mark {
-  display: inline-flex; align-items: center; justify-content: center;
+.okx-deck .brand .bup-mark {
   width: 28px; height: 28px;
-  border: 1px solid var(--ink);
-  font-family: var(--font-display);
-  font-size: 13px;
-  letter-spacing: 0;
+  object-fit: contain;
+  display: block;
 }
-.okx-deck .stamp {
+.okx-deck .brand .bup-word {
+  height: 16px;
+  width: auto;
+  display: block;
+  opacity: .98;
+}
+.okx-deck .host-stamp {
+  display: inline-flex; align-items: center; gap: 14px;
   font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
   color: var(--ink-3);
 }
-.okx-deck .stamp .dot {
+.okx-deck .host-stamp .label {
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.okx-deck .host-stamp .sep {
+  width: 1px; height: 14px; background: var(--line-2);
+  display: inline-block;
+}
+.okx-deck .host-stamp .okx-word {
+  font-family: var(--font-display);
+  font-weight: 900;
+  letter-spacing: -.05em;
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1;
+  text-transform: none;
+}
+.okx-deck .host-stamp .dot {
   display: inline-block; width: 6px; height: 6px; background: var(--acid);
-  margin-right: 8px; vertical-align: 1px;
 }
 
 /* Typography helpers */
@@ -367,6 +381,9 @@
   .okx-deck .product { grid-template-columns: 1fr; gap: 28px; }
   .okx-deck .ask { grid-template-columns: 1fr; }
   .okx-deck .cta-strip { grid-template-columns: 1fr; }
+  .okx-deck .host-stamp { gap: 10px; }
+  .okx-deck .host-stamp .label:last-child,
+  .okx-deck .host-stamp .sep:last-of-type { display: none; }
 }
 @media (max-width: 560px) {
   .okx-deck .stat-strip { grid-template-columns: 1fr; }
@@ -376,5 +393,9 @@
   .okx-deck .split > div:first-child { border-right: 0; border-bottom: 1px solid rgba(255,107,26,.35); }
   .okx-deck .sources { grid-template-columns: 1fr 1fr; }
   .okx-deck .sec-head { grid-template-columns: 1fr; }
-  .okx-deck .stamp .clock { display: none; }
+  /* Drop everything in the host stamp except the OKX label so the bar
+     fits 360-400px viewports without wrapping. */
+  .okx-deck .host-stamp .label:first-child,
+  .okx-deck .host-stamp .sep { display: none; }
+  .okx-deck .brand .bup-word { display: none; }
 }
