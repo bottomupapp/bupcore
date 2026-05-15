@@ -37,49 +37,20 @@ export default function OkxClosedSession() {
         {/* HERO */}
         <section className="hero">
           <div className="shell">
-            <div className="hero-grid">
-              <div>
-                <div className="eyebrow">Kapalı ürün oturumu · OKX merkezinde</div>
-                <h1 className="display hero-headline">
-                  AKILLI PARANIN<br />
-                  APP STORE&apos;U,<br />
-                  <span className="acid">OKX İLE BÜYÜYECEK.</span>
-                </h1>
-                <p className="hero-sub">
-                  BottomUP, trader&apos;lar için bir creator economy. Bugün
-                  üç ürünümüzü gösteriyoruz — <strong>Trader Marketplace</strong>,{" "}
-                  <strong>Social+</strong> ve <strong>Foxy</strong> — ve
-                  Türkiye&apos;nin en iyi trader&apos;larını, algo
-                  geliştiricilerini ve AI ajan üreticilerini OKX Global&apos;ın
-                  kitlesine bağlayacak entegrasyon önerimizi paylaşacağız.
-                </p>
-              </div>
-
-              <aside className="hero-meta">
-                <div className="meta-row">
-                  <span className="k">Oturum</span>
-                  <span className="v">BottomUP ürün sunumu, kapalı kapı</span>
-                </div>
-                <div className="meta-row">
-                  <span className="k">Ev sahibi</span>
-                  <span className="v">OKX, merkez ofiste</span>
-                </div>
-                <div className="meta-row">
-                  <span className="k">Sunan</span>
-                  <span className="v">BottomUP ekibi</span>
-                </div>
-                <div className="meta-row">
-                  <span className="k">Bugün canlı</span>
-                  <span className="v">
-                    <span className="acid">bottomup.app/analyst</span> · v2.2.1 store&apos;larda
-                  </span>
-                </div>
-                <div className="meta-row">
-                  <span className="k">Yığın</span>
-                  <span className="v">Mobile (iOS+Android), Studio web, Foxy ML core</span>
-                </div>
-              </aside>
-            </div>
+            <div className="eyebrow">Kapalı ürün oturumu · OKX merkezinde</div>
+            <h1 className="display hero-headline">
+              AKILLI PARANIN<br />
+              APP STORE&apos;U,<br />
+              <span className="acid">OKX İLE BÜYÜYECEK.</span>
+            </h1>
+            <p className="hero-sub">
+              BottomUP, trader&apos;lar için bir creator economy. Bugün üç
+              ürünümüzü gösteriyoruz — <strong>Trader Marketplace</strong>,{" "}
+              <strong>Social+</strong> ve <strong>Foxy</strong> — ve
+              Türkiye&apos;nin en iyi trader&apos;larını, algo geliştiricilerini
+              ve AI ajan üreticilerini OKX Global&apos;ın kitlesine bağlayacak
+              entegrasyon önerimizi paylaşacağız.
+            </p>
           </div>
         </section>
 
