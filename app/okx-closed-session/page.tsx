@@ -5,11 +5,7 @@ const BUP_WORDMARK =
   "https://www.bottomup.app/_next/image?url=%2Flogos%2Flogotype-color-light.png&w=256&q=75";
 
 export default function OkxClosedSession() {
-  const stamp = new Date().toLocaleDateString("tr-TR", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
+  const stamp = "Kasım 2027";
 
   return (
     <>
@@ -43,14 +39,10 @@ export default function OkxClosedSession() {
               APP STORE&apos;U,<br />
               <span className="acid">OKX İLE BÜYÜYECEK.</span>
             </h1>
-            <p className="hero-sub">
-              BottomUP, trader&apos;lar için bir creator economy. Bugün üç
-              ürünümüzü gösteriyoruz — <strong>Trader Marketplace</strong>,{" "}
-              <strong>Social+</strong> ve <strong>Foxy</strong> — ve
-              Türkiye&apos;nin en iyi trader&apos;larını, algo geliştiricilerini
-              ve AI ajan üreticilerini OKX Global&apos;ın kitlesine bağlayacak
-              entegrasyon önerimizi paylaşacağız.
-            </p>
+            <div className="hero-tag">
+              <span className="lbl">Seri A yatırım turu hedefi</span>
+              <span className="val">$14M yıllık ciro</span>
+            </div>
           </div>
         </section>
 
