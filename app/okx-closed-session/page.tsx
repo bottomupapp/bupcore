@@ -82,38 +82,92 @@ export default function OkxClosedSession() {
           </div>
         </section>
 
+        {/* TODAY'S OKX FOOTPRINT — real numbers from BottomUP's OKX affiliate dashboard */}
         <section>
           <div className="shell">
-            <div className="eyebrow">Why we built BottomUP &middot; the one-strip story</div>
+            <div className="eyebrow">TODAY ON OKX · PROOF THE PIPE WORKS</div>
             <h2
               className="display"
               style={{ fontSize: "clamp(28px, 4vw, 44px)", margin: "10px 0 36px" }}
             >
-              Turkey ships traders.<br />
-              We turn them into a product line.
+              $1.56B ROUTED.<br />
+              $118K BACK TO US.<br />
+              <span className="acid">THE RELATIONSHIP ALREADY EARNS.</span>
             </h2>
             <div className="stat-strip">
               <div>
-                <div className="k">Local creator pool</div>
-                <div className="v">8K+</div>
-                <div className="sub">Turkish traders, algo &amp; AI builders mapped on BottomUP</div>
+                <div className="k">Trading volume</div>
+                <div className="v">$1.56B</div>
+                <div className="sub">All-time USDT routed onto OKX through BottomUP referrals</div>
               </div>
               <div>
-                <div className="k">Mobile install base</div>
-                <div className="v">v2.2.1</div>
-                <div className="sub">iOS + Play, live across 10 locales</div>
+                <div className="k">Commission paid back</div>
+                <div className="v">$118K</div>
+                <div className="sub">$118,282.8 USDT — all-time commission OKX has paid BottomUP</div>
               </div>
               <div>
-                <div className="k">Proposed split</div>
-                <div className="v">70 / 30</div>
-                <div className="sub">creator share &middot; platform line (BottomUP + exchange partner)</div>
+                <div className="k">Deposits originated</div>
+                <div className="v">$3.74M</div>
+                <div className="sub">USDT onboarded onto OKX through BottomUP signups</div>
               </div>
               <div>
-                <div className="k">Time to wire</div>
-                <div className="v">≤ 6 wk</div>
-                <div className="sub">wallet auto-trade + referral attribution, end-to-end</div>
+                <div className="k">Effective yield</div>
+                <div className="v">0.76 bps</div>
+                <div className="sub">Commission per $1 routed — 7.6% of OKX&apos;s 10 bps standard taker fee</div>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* SERIES A PROJECTION — $14M ARR target, $8M from exchange line */}
+        <section>
+          <div className="shell">
+            <div className="eyebrow">SERIES A TARGET · $14M ARR</div>
+            <h2
+              className="display"
+              style={{ fontSize: "clamp(28px, 4vw, 44px)", margin: "10px 0 36px" }}
+            >
+              $8M OF $14M COMES<br />
+              <span className="acid">THROUGH THIS ROOM.</span>
+            </h2>
+            <div className="stat-strip">
+              <div>
+                <div className="k">Series A ARR target</div>
+                <div className="v">$14M</div>
+                <div className="sub">~$6M from marketplace + Social+ + Foxy &middot; $8M from exchange line</div>
+              </div>
+              <div>
+                <div className="k">From the exchange line</div>
+                <div className="v">$8M</div>
+                <div className="sub">Annual commission BottomUP needs to earn from OKX-referred volume</div>
+              </div>
+              <div>
+                <div className="k">Annual volume needed</div>
+                <div className="v">~$105B</div>
+                <div className="sub">USDT, at today&apos;s 0.76 bps yield &mdash; 67&times; our cumulative footprint</div>
+              </div>
+              <div>
+                <div className="k">Monthly run rate</div>
+                <div className="v">~$8.8B</div>
+                <div className="sub">USDT/month by pilot end &mdash; a structured yield bump (to ~3 bps) drops this to ~$2.2B/mo</div>
+              </div>
+            </div>
+            <p
+              style={{
+                marginTop: 28,
+                maxWidth: "78ch",
+                fontSize: 13,
+                lineHeight: 1.65,
+                color: "var(--ink-2)",
+              }}
+            >
+              The math is straightforward at the current 0.76 bps yield: $8M annual
+              commission / 0.0076% ≈ $105B annual volume. The structural lever in
+              our proposal (referral attribution + a clean rev-share on OKX&apos;s
+              standard fee, ~3 bps net to BottomUP) cuts the required volume by ~4&times;
+              to roughly $26B/year &mdash; achievable inside Series A horizon if the
+              wallet + referral rails ship in six weeks.
+            </p>
           </div>
         </section>
 
