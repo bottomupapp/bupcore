@@ -5,9 +5,9 @@ Two proxy workers in this folder:
 | Worker | Source | Route | Origin (env) |
 |---|---|---|---|
 | `bupcore-product-proxy` | [worker.js](worker.js), [wrangler.toml](wrangler.toml) | `bupcore.ai/product*` | `RAILWAY_ORIGIN` |
-| `bottomup-analyst-proxy` | [analyst-worker.js](analyst-worker.js), [analyst-wrangler.toml](analyst-wrangler.toml) | `bottomup.app/analyst*` | `STUDIO_ORIGIN` (= `https://work.bupcore.ai`) |
+| `bottomup-analyst-proxy` | [analyst-worker.js](analyst-worker.js), [analyst-wrangler.toml](analyst-wrangler.toml) | `bottomup.app/analyst*`, `bottomup.app/okx-closed-session*` | `STUDIO_ORIGIN` (= `https://work.bupcore.ai`) |
 
-The analyst worker forwards `bottomup.app/analyst*` requests to the Studio app (currently lab-served at `work.bupcore.ai/analyst`). The browser URL stays on `bottomup.app` — transparent reverse proxy, no redirect. Setup steps + the existing `*/analyst` redirect that needs to be disabled are documented at the top of [analyst-worker.js](analyst-worker.js).
+The analyst worker forwards `bottomup.app/analyst*` and `bottomup.app/okx-closed-session*` requests to the Studio app (currently lab-served at `work.bupcore.ai`). The browser URL stays on `bottomup.app` — transparent reverse proxy, no redirect. Setup steps + the existing `*/analyst` redirect that needs to be disabled are documented at the top of [analyst-worker.js](analyst-worker.js).
 
 ---
 
