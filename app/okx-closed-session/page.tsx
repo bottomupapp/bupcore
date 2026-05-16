@@ -539,7 +539,7 @@ export default function OkxClosedSession() {
               <div>
                 <div className="k">Toplam retail</div>
                 <div className="v">500K</div>
-                <div className="sub">$25 blended ARPU · $12,5M + $1M B2B = $13,5M</div>
+                <div className="sub">Kullanıcı · $25 blended ARPU · $12,5M retail ciro</div>
               </div>
             </div>
             <p className="section-bridge">
