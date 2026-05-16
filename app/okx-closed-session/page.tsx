@@ -461,7 +461,7 @@ export default function OkxClosedSession() {
               </div>
             </div>
 
-            <h3 className="subhead">$13.5M&apos;ın hesabı</h3>
+            <h3 className="subhead">$13.5M nereden geliyor</h3>
             <div className="stat-strip">
               <div>
                 <div className="k">Toplam 2027 ciro</div>
@@ -469,36 +469,65 @@ export default function OkxClosedSession() {
                 <div className="sub">Seri A yatırım turu eşiği</div>
               </div>
               <div>
-                <div className="k">Borsa hattından</div>
+                <div className="k">Borsa hattı</div>
                 <div className="v">$8M</div>
-                <div className="sub">OKX referans hacminden net komisyon</div>
+                <div className="sub">OKX referans hacmi komisyonu (detay aşağıda)</div>
               </div>
               <div>
-                <div className="k">Gereken yıllık hacim</div>
+                <div className="k">Kredi + reklam</div>
+                <div className="v">$4,5M</div>
+                <div className="sub">Uygulama içi kredi sistemi (kullanıcı marketplace&apos;te harcıyor) + reklam envanteri</div>
+              </div>
+              <div>
+                <div className="k">B2B anlaşmalar</div>
+                <div className="v">$1M</div>
+                <div className="sub">Banka, hedge fon, faktöring, brokerage, varlık yönetimi</div>
+              </div>
+            </div>
+
+            <h3 className="subhead">$8M borsa hattı için gereken hacim</h3>
+            <div className="stat-strip">
+              <div>
+                <div className="k">Net oran</div>
+                <div className="v">$140 / $1M</div>
+                <div className="sub">BottomUP&apos;a düşen — kickback sonrası</div>
+              </div>
+              <div>
+                <div className="k">Yıllık hacim</div>
                 <div className="v">~$57B</div>
-                <div className="sub">USDT/yıl &middot; $140/$1M net oranda</div>
+                <div className="sub">USDT/yıl &middot; $8M ciroya karşılık</div>
               </div>
               <div>
                 <div className="k">Aylık koşu hızı</div>
                 <div className="v">~$4,8B</div>
-                <div className="sub">USDT/ay pilot sonunda &mdash; kümülatif ayak izimizin ~37 katı</div>
+                <div className="sub">USDT/ay pilot sonunda</div>
+              </div>
+              <div>
+                <div className="k">Kümülatif ayak izimize ölçek</div>
+                <div className="v">~37×</div>
+                <div className="sub">Mevcut $1,56B&apos;dan yıllık $57B&apos;a</div>
               </div>
             </div>
+
             <p className="section-bridge">
-              OKX ile iki ayrı ödeme kanalı işliyor.{" "}
-              <strong>Birincisi</strong>: kaldıraç işlem hacmindeki komisyon
-              iadesi. OKX&apos;in $1M hacme topladığı $100 komisyonun yarısını
-              ($50) bize veriyor; bunun %20&apos;sini ($10){" "}
-              <strong>işlemi yapan kullanıcıya iade</strong> ediyoruz, kalan
-              $40 bize.{" "}
-              <strong>İkincisi</strong>: hacim bonusu &mdash; her $1M&apos;a
-              $100 ek ödeme, kickback yok. Toplam BottomUP&apos;a düşen:{" "}
+              <strong>Borsa hattı detayı:</strong> OKX ile iki ayrı ödeme
+              kanalı işliyor. Birincisi kaldıraç işlem hacmindeki komisyon
+              iadesi &mdash; OKX&apos;in $1M&apos;a topladığı $100 komisyonun
+              yarısı ($50) bize, %20&apos;sini ($10){" "}
+              <strong>işlemi yapan kullanıcıya iade ediyoruz</strong>, kalan
+              $40 bizde. İkincisi hacim bonusu &mdash; her $1M&apos;a $100 ek,
+              kickback yok. Toplam BottomUP&apos;a net:{" "}
               <strong>$140 / $1M, yani hacmin %0,014&apos;ü</strong>.
-              $8M&apos;lık yıllık borsa-hattı geliri için ~$57B yıllık hacim
-              gerekiyor &mdash; ayda ~$4,8B. Kümülatif $1,56B ayak izimizden
-              ~37&times; ölçek. Kalan $5,5M ciro Trader Marketplace
-              satışlarından, Social+ reklam envanterinden ve Foxy&apos;nin
-              B2B sözleşmelerinden geliyor.
+            </p>
+            <p className="section-bridge">
+              <strong>Diğer hatlar:</strong> $4,5M&apos;lık kredi sistemi
+              BottomUP üyeliği için yeni geliyor &mdash; kullanıcı kredi
+              alıyor, marketplace&apos;teki ürünlerde harcıyor. Yanında
+              uygulama içi reklam envanteri (öne çıkarma, push, banner,
+              topluluk spotu) creator&apos;lara ve B2B müşterilere satılıyor.
+              $1M B2B anlaşmalardan geliyor: bankalar, hedge fonlar, faktöring
+              şirketleri, brokerage ve varlık yönetimi şirketleri Foxy +
+              BottomUP altyapısını kontrat üzerinden alıyor.
             </p>
 
             <h3 className="subhead">OKX&apos;in desteğine ihtiyacımız olan üç nokta</h3>
