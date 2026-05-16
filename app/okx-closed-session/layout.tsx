@@ -19,7 +19,7 @@ const archivo = Archivo({
 export const metadata: Metadata = {
   title: "BottomUP × OKX · Kapalı Oturum",
   description:
-    "BottomUP ürün sunumu, OKX merkezinde kapalı oturum. Üç ürün: Trader Marketplace, Social+, Foxy. Türkiye'nin trader'ları, on-chain auto-trade, AI risk denetimi.",
+    "BottomUP ürün sunumu — kapalı oturum. Üç ürün: Trader Marketplace, Social+, Foxy. Creator economy for traders, on-chain auto-trade, AI risk asistanı.",
   robots: { index: false, follow: false },
 };
 
