@@ -33,7 +33,7 @@ export default function OkxClosedSession() {
         {/* OPENER 1 */}
         <section className="opener">
           <div className="shell">
-            <div className="eyebrow">Kapalı oturum · OKX merkezinde</div>
+            <div className="eyebrow">Kapalı oturum</div>
             <h1 className="opener-display">
               Kasım 2027<br />
               <span className="opener-tail">geldiğinde…</span>
@@ -282,7 +282,7 @@ export default function OkxClosedSession() {
             <div className="sec-head">
               <div className="sec-num">03 / Ürün · Social+</div>
               <h2 className="display">
-                Social<span className="acid">+</span>
+                SOCIAL<span className="acid">+</span>
               </h2>
               <div className="eyebrow">Trader ve takipçilerinin asıl evi</div>
             </div>
