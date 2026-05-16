@@ -530,6 +530,43 @@ export default function OkxClosedSession() {
               BottomUP altyapısını kontrat üzerinden alıyor.
             </p>
 
+            <h3 className="subhead">16 aylık plan &mdash; bölgesel hedef ve unit economics</h3>
+            <div className="stat-strip">
+              <div>
+                <div className="k">APAC · Ölçek</div>
+                <div className="v">260K</div>
+                <div className="sub">Kullanıcı · ARPU ~$17,5/yıl · $4,55M ciro</div>
+              </div>
+              <div>
+                <div className="k">LATAM · Etkileşim</div>
+                <div className="v">160K</div>
+                <div className="sub">Kullanıcı · ARPU ~$26/yıl · $4,16M ciro</div>
+              </div>
+              <div>
+                <div className="k">MENA · Yüksek değer</div>
+                <div className="v">80K</div>
+                <div className="sub">Kullanıcı · ARPU ~$47/yıl · $3,76M ciro</div>
+              </div>
+              <div>
+                <div className="k">Toplam retail</div>
+                <div className="v">500K</div>
+                <div className="sub">$25 blended ARPU · $12,5M + $1M B2B = $13,5M</div>
+              </div>
+            </div>
+            <p className="section-bridge">
+              <strong>$4M büyüme bütçesi 16 aya yayılır</strong> (aylık
+              ~$250K). Aylık ortalama 31.300 yeni kullanıcı edinim &mdash;
+              APAC&apos;a 16,3K, LATAM&apos;a 10K, MENA&apos;ya 5K. Retail
+              ARPU iki katmandan beslenir: kullanıcı başı yıllık{" "}
+              <strong>$16 borsa komisyonu</strong> (OKX işlem hacmiyle
+              orantılı) + <strong>$9 kredi ve reklam</strong> = $25 blended
+              retail ARPU. MENA&apos;nın yüksek değerli müşteri segmenti
+              ($47/yıl) APAC&apos;ın yalın ölçek segmentinin ($17,5/yıl)
+              karşısında blended&apos;ı dengeliyor. Kullanıcı başı OKX işlem
+              hacmi: <strong>~$114K/yıl</strong> (~$9,5K/ay) &mdash; aktif
+              trader segmenti için makul taban.
+            </p>
+
             <h3 className="subhead">OKX&apos;in desteğine ihtiyacımız olan üç nokta</h3>
             <div className="ask">
               <div className="ask-card">
