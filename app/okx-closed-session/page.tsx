@@ -606,30 +606,6 @@ export default function OkxClosedSession() {
           </div>
         </section>
 
-        {/* CTA */}
-        <section style={{ borderBottom: 0 }}>
-          <div className="shell">
-            <div className="cta-strip">
-              <div>
-                <h3>
-                  Bugün iyi giderse:<br />
-                  6 hafta içinde 30 creator&apos;lık pilot.
-                </h3>
-                <p>
-                  BottomUP&apos;ta zaten olan ilk 30 creator ile pilot
-                  başlatıyoruz: cüzdan altyapısı canlı, referans takibi açık.
-                  Süslü grafik değil, haftalık hacim üzerinden ölçülebilir bir
-                  test.
-                </p>
-              </div>
-              <div className="row">
-                <span className="pill solid">Pilotu konuşalım</span>
-                <span className="pill">deniz@bottomup.app</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
         <footer className="foot">
           <div className="shell foot-row">
             <span>© BottomUP · Kapalı oturum</span>
