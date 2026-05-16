@@ -404,7 +404,7 @@ export default function OkxClosedSession() {
               <div>
                 <div className="k">BottomUP&apos;a net oran</div>
                 <div className="v">$500 / $1M</div>
-                <div className="sub">%0,05 net (5 baz puan). OKX $600/$1M ödüyor — $50/$100K ana komisyon + $100/$1M bonus. Ana komisyonun %20&apos;si ($100/$1M) referansla gelen kullanıcıya iade.</div>
+                <div className="sub">Hacmin %0,05&apos;i. OKX brüt $600/$1M ödüyor — $50/$100K ana komisyon + $100/$1M bonus. Ana komisyonun %20&apos;si ($100/$1M) referansla gelen kullanıcıya iade.</div>
               </div>
             </div>
 
@@ -488,13 +488,14 @@ export default function OkxClosedSession() {
               Bugün OKX bize her $1M hacme <strong>$600 brüt</strong> ödüyor:
               $50/$100K ana komisyon ($500/$1M) artı $100/$1M ek bonus. Ana
               komisyonun %20&apos;sini ($100/$1M){" "}
-              <strong>referansla gelen kullanıcıya iade</strong> ediyoruz &mdash;
-              kullanıcı için süreklilik kazandıran bir kickback. Bize net düşen:{" "}
-              <strong>$500/$1M, yani %0,05 (5 baz puan)</strong>. $8M&apos;lık
-              yıllık borsa-hattı geliri için ~$16B yıllık hacim &mdash; ayda
-              ~$1,3B. Kümülatif $1,56B ayak izimizin 10 katı. Kalan $5,5M ciro
-              Trader Marketplace satışlarından, Social+ reklam envanterinden ve
-              Foxy&apos;nin B2B sözleşmelerinden geliyor.
+              <strong>referansla gelen kullanıcıya iade</strong> ediyoruz
+              &mdash; kullanıcı için süreklilik kazandıran bir kickback. Bize
+              net düşen: <strong>$500/$1M, yani hacmin %0,05&apos;i</strong>.
+              $8M&apos;lık yıllık borsa-hattı geliri için ~$16B yıllık hacim
+              &mdash; ayda ~$1,3B. Kümülatif $1,56B ayak izimizin 10 katı.
+              Kalan $5,5M ciro Trader Marketplace satışlarından, Social+
+              reklam envanterinden ve Foxy&apos;nin B2B sözleşmelerinden
+              geliyor.
             </p>
 
             <h3 className="subhead">OKX&apos;in desteğine ihtiyacımız olan üç nokta</h3>
