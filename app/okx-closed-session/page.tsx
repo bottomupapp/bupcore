@@ -403,8 +403,8 @@ export default function OkxClosedSession() {
               </div>
               <div>
                 <div className="k">BottomUP&apos;a net oran</div>
-                <div className="v">$500 / $1M</div>
-                <div className="sub">Hacmin %0,05&apos;i. OKX brüt $600/$1M ödüyor — $50/$100K ana komisyon + $100/$1M bonus. Ana komisyonun %20&apos;si ($100/$1M) referansla gelen kullanıcıya iade.</div>
+                <div className="v">$140 / $1M</div>
+                <div className="sub">Hacmin %0,014&apos;ü. İki kanal: (1) kaldıraç işlem komisyon iadesinin yarısı $50 — %20&apos;si ($10) kullanıcıya iade, kalan $40 bize; (2) $100/$1M hacim bonusu. Net: $40 + $100 = $140/$1M.</div>
               </div>
             </div>
 
@@ -475,27 +475,30 @@ export default function OkxClosedSession() {
               </div>
               <div>
                 <div className="k">Gereken yıllık hacim</div>
-                <div className="v">~$16B</div>
-                <div className="sub">USDT/yıl &middot; $500/$1M net oranda</div>
+                <div className="v">~$57B</div>
+                <div className="sub">USDT/yıl &middot; $140/$1M net oranda</div>
               </div>
               <div>
                 <div className="k">Aylık koşu hızı</div>
-                <div className="v">~$1.3B</div>
-                <div className="sub">USDT/ay pilot sonunda &mdash; kümülatif ayak izimizin 10 katı</div>
+                <div className="v">~$4,8B</div>
+                <div className="sub">USDT/ay pilot sonunda &mdash; kümülatif ayak izimizin ~37 katı</div>
               </div>
             </div>
             <p className="section-bridge">
-              Bugün OKX bize her $1M hacme <strong>$600 brüt</strong> ödüyor:
-              $50/$100K ana komisyon ($500/$1M) artı $100/$1M ek bonus. Ana
-              komisyonun %20&apos;sini ($100/$1M){" "}
-              <strong>referansla gelen kullanıcıya iade</strong> ediyoruz
-              &mdash; kullanıcı için süreklilik kazandıran bir kickback. Bize
-              net düşen: <strong>$500/$1M, yani hacmin %0,05&apos;i</strong>.
-              $8M&apos;lık yıllık borsa-hattı geliri için ~$16B yıllık hacim
-              &mdash; ayda ~$1,3B. Kümülatif $1,56B ayak izimizin 10 katı.
-              Kalan $5,5M ciro Trader Marketplace satışlarından, Social+
-              reklam envanterinden ve Foxy&apos;nin B2B sözleşmelerinden
-              geliyor.
+              OKX ile iki ayrı ödeme kanalı işliyor.{" "}
+              <strong>Birincisi</strong>: kaldıraç işlem hacmindeki komisyon
+              iadesi. OKX&apos;in $1M hacme topladığı $100 komisyonun yarısını
+              ($50) bize veriyor; bunun %20&apos;sini ($10){" "}
+              <strong>işlemi yapan kullanıcıya iade</strong> ediyoruz, kalan
+              $40 bize.{" "}
+              <strong>İkincisi</strong>: hacim bonusu &mdash; her $1M&apos;a
+              $100 ek ödeme, kickback yok. Toplam BottomUP&apos;a düşen:{" "}
+              <strong>$140 / $1M, yani hacmin %0,014&apos;ü</strong>.
+              $8M&apos;lık yıllık borsa-hattı geliri için ~$57B yıllık hacim
+              gerekiyor &mdash; ayda ~$4,8B. Kümülatif $1,56B ayak izimizden
+              ~37&times; ölçek. Kalan $5,5M ciro Trader Marketplace
+              satışlarından, Social+ reklam envanterinden ve Foxy&apos;nin
+              B2B sözleşmelerinden geliyor.
             </p>
 
             <h3 className="subhead">OKX&apos;in desteğine ihtiyacımız olan üç nokta</h3>
