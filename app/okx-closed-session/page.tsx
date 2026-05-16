@@ -519,18 +519,7 @@ export default function OkxClosedSession() {
               kickback yok. Toplam BottomUP&apos;a net:{" "}
               <strong>$140 / $1M, yani hacmin %0,014&apos;ü</strong>.
             </p>
-            <p className="section-bridge">
-              <strong>Diğer hatlar:</strong> $4,5M&apos;lık kredi sistemi
-              BottomUP üyeliği için yeni geliyor &mdash; kullanıcı kredi
-              alıyor, marketplace&apos;teki ürünlerde harcıyor. Yanında
-              uygulama içi reklam envanteri (öne çıkarma, push, banner,
-              topluluk spotu) creator&apos;lara ve B2B müşterilere satılıyor.
-              $1M B2B anlaşmalardan geliyor: bankalar, hedge fonlar, faktöring
-              şirketleri, brokerage ve varlık yönetimi şirketleri Foxy +
-              BottomUP altyapısını kontrat üzerinden alıyor.
-            </p>
-
-            <h3 className="subhead">16 aylık plan &mdash; bölgesel hedef ve unit economics</h3>
+            <h3 className="subhead">Büyüme planı &mdash; 16 ay, bölgesel hedef, unit economics</h3>
             <div className="stat-strip">
               <div>
                 <div className="k">APAC · Ölçek</div>
