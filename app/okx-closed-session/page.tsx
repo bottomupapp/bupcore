@@ -402,9 +402,9 @@ export default function OkxClosedSession() {
                 <div className="sub">BottomUP üzerinden OKX&apos;e yatırılan USDT</div>
               </div>
               <div>
-                <div className="k">Bugünkü oran</div>
-                <div className="v">$100 / $1M</div>
-                <div className="sub">1 bp &mdash; OKX&apos;in 10 bps taker fee&apos;sinin %10&apos;u</div>
+                <div className="k">BottomUP&apos;a net oran</div>
+                <div className="v">$500 / $1M</div>
+                <div className="sub">%0,05 net (5 baz puan). OKX $600/$1M ödüyor — $50/$100K ana komisyon + $100/$1M bonus. Ana komisyonun %20&apos;si ($100/$1M) referansla gelen kullanıcıya iade.</div>
               </div>
             </div>
 
@@ -471,29 +471,30 @@ export default function OkxClosedSession() {
               <div>
                 <div className="k">Borsa hattından</div>
                 <div className="v">$8M</div>
-                <div className="sub">OKX referans hacminden komisyon</div>
+                <div className="sub">OKX referans hacminden net komisyon</div>
               </div>
               <div>
-                <div className="k">Bugünkü oranda gereken hacim</div>
-                <div className="v">~$80B</div>
-                <div className="sub">USDT/yıl &middot; 1 bp &middot; ~$6.7B/ay</div>
+                <div className="k">Gereken yıllık hacim</div>
+                <div className="v">~$16B</div>
+                <div className="sub">USDT/yıl &middot; $500/$1M net oranda</div>
               </div>
               <div>
-                <div className="k">3 bps oranında gereken hacim</div>
-                <div className="v">~$27B</div>
-                <div className="sub">USDT/yıl &middot; %30 pay &middot; ~$2.2B/ay</div>
+                <div className="k">Aylık koşu hızı</div>
+                <div className="v">~$1.3B</div>
+                <div className="sub">USDT/ay pilot sonunda &mdash; kümülatif ayak izimizin 10 katı</div>
               </div>
             </div>
             <p className="section-bridge">
-              Bugünkü 1 bp oranda (OKX&apos;in 10 bps taker fee&apos;sinin
-              yaklaşık %10&apos;u) $8M&apos;lık borsa geliri için yıllık ~$80B
-              hacim gerekiyor &mdash; ayda ~$6.7B. Önerimiz şu: referans takibi
-              + standart oranlı pay (BottomUP&apos;a net ~3 bps, yani %30 pay,
-              bu ölçekteki affiliate programlarının tipik aralığı). Bu
-              değişiklikle gereken hacim üç kat düşüyor: yılda ~$27B, ayda
-              ~$2.2B. Kalan $5.5M ciro Trader Marketplace satışlarından,
-              Social+ reklam envanterinden ve Foxy&apos;nin B2B
-              sözleşmelerinden geliyor.
+              Bugün OKX bize her $1M hacme <strong>$600 brüt</strong> ödüyor:
+              $50/$100K ana komisyon ($500/$1M) artı $100/$1M ek bonus. Ana
+              komisyonun %20&apos;sini ($100/$1M){" "}
+              <strong>referansla gelen kullanıcıya iade</strong> ediyoruz &mdash;
+              kullanıcı için süreklilik kazandıran bir kickback. Bize net düşen:{" "}
+              <strong>$500/$1M, yani %0,05 (5 baz puan)</strong>. $8M&apos;lık
+              yıllık borsa-hattı geliri için ~$16B yıllık hacim &mdash; ayda
+              ~$1,3B. Kümülatif $1,56B ayak izimizin 10 katı. Kalan $5,5M ciro
+              Trader Marketplace satışlarından, Social+ reklam envanterinden ve
+              Foxy&apos;nin B2B sözleşmelerinden geliyor.
             </p>
 
             <h3 className="subhead">OKX&apos;in desteğine ihtiyacımız olan üç nokta</h3>
@@ -509,11 +510,12 @@ export default function OkxClosedSession() {
               </div>
               <div className="ask-card">
                 <div className="num">02</div>
-                <h4>Referans takibi + gelir paylaşımı</h4>
+                <h4>Net referans takibi + tier görünürlüğü</h4>
                 <p>
                   BottomUP referansıyla gelen kullanıcılar kayıt sırasında
-                  etiketlensin, net bir raporlama akışı olsun. BottomUP ile
-                  borsa arasında %30 paylaşım.
+                  temiz etiketlensin, net bir raporlama akışı olsun. Hacim
+                  büyüdükçe üst tier&apos;a geçişin yol haritası açık
+                  yazılsın.
                 </p>
               </div>
               <div className="ask-card">
