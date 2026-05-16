@@ -632,7 +632,7 @@ export default function OkxClosedSession() {
 
         <footer className="foot">
           <div className="shell foot-row">
-            <span>© BottomUP · OKX merkezinde kapalı oturum</span>
+            <span>© BottomUP · Kapalı oturum</span>
             <span>Bu sayfa arama motorlarına kapalı &middot; paylaşmayın</span>
             <span>{stamp}</span>
           </div>
