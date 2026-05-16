@@ -546,7 +546,8 @@ export default function OkxClosedSession() {
               <strong>$4M büyüme bütçesi 16 aya yayılır</strong> (aylık
               ~$250K). Aylık ortalama 31.300 yeni kullanıcı edinim &mdash;
               APAC&apos;a 16,3K, LATAM&apos;a 10K, MENA&apos;ya 5K. Retail
-              ARPU iki katmandan beslenir: kullanıcı başı yıllık{" "}
+              ARPU <span className="ink-2" style={{ fontStyle: "italic" }}>(Average Revenue Per User &mdash; kullanıcı başına yıllık ortalama ciro)</span>{" "}
+              iki katmandan beslenir: kullanıcı başı yıllık{" "}
               <strong>$16 borsa komisyonu</strong> (OKX işlem hacmiyle
               orantılı) + <strong>$9 kredi ve reklam</strong> = $25 blended
               retail ARPU. MENA&apos;nın yüksek değerli müşteri segmenti
