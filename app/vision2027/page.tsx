@@ -17,12 +17,10 @@ export default function Vision2027() {
           </div>
           <div className="host-stamp">
             <span className="label">
-              <span className="dot" /> Closed session
+              <span className="dot" /> Vision 2027
             </span>
             <span className="sep" />
-            <span className="label">
-              Hosted by <span className="okx-word">OKX</span>
-            </span>
+            <span className="label">Series A brief</span>
             <span className="sep" />
             <span className="label">{stamp}</span>
           </div>
@@ -33,7 +31,7 @@ export default function Vision2027() {
         {/* OPENER 1 */}
         <section className="opener">
           <div className="shell">
-            <div className="eyebrow">Closed session</div>
+            <div className="eyebrow">Series A brief</div>
             <h1 className="opener-display">
               When November 2027<br />
               <span className="opener-tail">arrives…</span>
@@ -44,7 +42,7 @@ export default function Vision2027() {
         {/* OPENER 2 */}
         <section className="opener">
           <div className="shell">
-            <div className="eyebrow">Our 2027 total revenue target</div>
+            <div className="eyebrow">Our 2027 annual revenue target</div>
             <h1 className="opener-display acid">$13.5M</h1>
             <p className="opener-sub">
               Annual revenue &middot; Series A round milestone
@@ -99,9 +97,9 @@ export default function Vision2027() {
               <div className="segment-card">
                 <h4>Active retail trader</h4>
                 <p>
-                  Already on OKX with their own setup. Gets an additional
-                  edge through Foxy and the creator community on top of their
-                  existing toolkit.
+                  Already on an exchange with their own setup. Gets an
+                  additional edge through Foxy and the creator community on
+                  top of their existing toolkit.
                 </p>
               </div>
               <div className="segment-card">
@@ -270,7 +268,7 @@ export default function Vision2027() {
               <div className="pcard">
                 <h4>Wallet → auto-trade</h4>
                 <p>
-                  The user connects their OKX wallet once; products they
+                  The user connects their exchange wallet once; products they
                   bought run automatically in their account.{" "}
                   <strong>Of the volume driven by our referral, 70% goes to
                   the creator, 30% to the platform.</strong> Not a one-shot
@@ -324,8 +322,8 @@ export default function Vision2027() {
                   Messages, posts, captions &mdash; all translated by AI on
                   the fly. The creator writes in their own language, the
                   follower reads in theirs.{" "}
-                  <strong>Every market OKX Global covers, reachable from a
-                  single keyboard.</strong>
+                  <strong>Every global market, reachable from a single
+                  keyboard.</strong>
                 </p>
               </div>
             </div>
@@ -353,11 +351,11 @@ export default function Vision2027() {
               <div className="pcard wide">
                 <h4>One data layer &mdash; live + historical</h4>
                 <div className="sources">
-                  <span>OKX API</span>
-                  <span>Binance API</span>
+                  <span>Exchange APIs</span>
                   <span>Arkham</span>
                   <span>Coinglass</span>
                   <span>CoinGecko</span>
+                  <span>Macro feeds</span>
                   <span>US 10Y · ETF · JP CPI</span>
                 </div>
               </div>
@@ -366,7 +364,7 @@ export default function Vision2027() {
                 <h4>Risk score for the creator</h4>
                 <p>
                   Before a creator publishes a trade, Foxy scores its risk.{" "}
-                  <strong>&ldquo;Trump speaks in four hours. Widen your stop,
+                  <strong>&ldquo;Macro event in four hours. Widen your stop,
                   halve your size, or skip this one.&rdquo;</strong>{" "}
                   Macro- and correlation-aware. Trained on cross-asset
                   history, not just last week&apos;s candles.
@@ -399,17 +397,17 @@ export default function Vision2027() {
               <div>
                 <div className="k">Trading volume</div>
                 <div className="v">$1.56B</div>
-                <div className="sub">All-time USDT routed onto OKX via BottomUP referrals</div>
+                <div className="sub">All-time USDT routed onto our exchange partner via BottomUP referrals</div>
               </div>
               <div>
                 <div className="k">Commission paid back</div>
                 <div className="v">$118K</div>
-                <div className="sub">$118,282.8 USDT &mdash; OKX&apos;s total payment to us</div>
+                <div className="sub">$118,282.8 USDT &mdash; total commission received to date</div>
               </div>
               <div>
                 <div className="k">Deposits originated</div>
                 <div className="v">$3.74M</div>
-                <div className="sub">USDT deposited onto OKX through BottomUP signups</div>
+                <div className="sub">USDT deposited onto the exchange through BottomUP signups</div>
               </div>
               <div>
                 <div className="k">Our net rate</div>
@@ -425,14 +423,15 @@ export default function Vision2027() {
                 <h4>Regional visibility</h4>
                 <p>
                   Local trader partnerships across APAC, LATAM and MENA;
-                  joint PR with OKX; regional media and event deals.
+                  regional media buys, podcast circuits, on-the-ground
+                  conference presence.
                 </p>
               </div>
               <div className="funnel-card">
                 <span className="stage">A · Acquisition</span>
                 <h4>Wallet-first signup</h4>
                 <p>
-                  OKX wallet connect in one tap. Audience leverage from
+                  Exchange wallet connect in one tap. Audience leverage from
                   creators, triple referral graph, regional brand
                   ambassadors.
                 </p>
@@ -482,7 +481,7 @@ export default function Vision2027() {
               <div>
                 <div className="k">Exchange line</div>
                 <div className="v">$8M</div>
-                <div className="sub">Commission from OKX referral volume (detailed below)</div>
+                <div className="sub">Commission from exchange referral volume (detailed below)</div>
               </div>
               <div>
                 <div className="k">Credits + ads</div>
@@ -522,12 +521,13 @@ export default function Vision2027() {
 
             <p className="section-bridge">
               <strong>Exchange-line detail:</strong> two separate payment
-              channels with OKX. The first is the leverage-trading commission
-              rebate &mdash; OKX collects $100 per $1M of leverage volume and
-              hands us half ($50), of which we rebate 20% ($10) to the user
-              who placed the trade, keeping $40. The second is a volume
-              bonus &mdash; an extra $100 per $1M, no kickback. Net to
-              BottomUP: <strong>$140 / $1M, i.e. 0.014% of volume</strong>.
+              channels with the exchange partner. The first is the
+              leverage-trading commission rebate &mdash; the exchange
+              collects $100 per $1M of leverage volume and hands us half
+              ($50), of which we rebate 20% ($10) to the user who placed the
+              trade, keeping $40. The second is a volume bonus &mdash; an
+              extra $100 per $1M, no kickback. Net to BottomUP:{" "}
+              <strong>$140 / $1M, i.e. 0.014% of volume</strong>.
             </p>
 
             <h3 className="subhead">Growth plan &mdash; 16 months, regional targets, unit economics</h3>
@@ -559,42 +559,43 @@ export default function Vision2027() {
               to APAC, 10K to LATAM, 5K to MENA. Retail ARPU{" "}
               <span className="ink-2" style={{ fontStyle: "italic" }}>(Average Revenue Per User &mdash; mean annual revenue per user)</span>{" "}
               stacks two layers: <strong>$16 exchange commission per user
-              per year</strong> (in line with OKX trading volume) +{" "}
+              per year</strong> (proportional to trading volume) +{" "}
               <strong>$9 credits and ads</strong> = $25 blended retail ARPU.
               MENA&apos;s high-value segment ($47/year) balances APAC&apos;s
               leaner scale segment ($17.5/year), keeping the blend healthy.
-              Per-user OKX trading volume: <strong>~$114K/year</strong>{" "}
-              (~$9.5K/month) &mdash; a reasonable floor for the active-trader
-              segment.
+              Per-user trading volume on the exchange:{" "}
+              <strong>~$114K/year</strong> (~$9.5K/month) &mdash; a
+              reasonable floor for the active-trader segment.
             </p>
 
-            <h3 className="subhead">Three things we&apos;d love OKX&apos;s support on</h3>
+            <h3 className="subhead">Three priorities the Series A unlocks</h3>
             <div className="ask">
               <div className="ask-card">
                 <div className="num">01</div>
-                <h4>OKX Wallet auto-trade rail</h4>
+                <h4>Exchange wallet auto-trade rail</h4>
                 <p>
-                  Let the user connect their OKX wallet once and have the
-                  products they bought run automatically inside their
-                  account. This is the unlock for the whole model.
+                  Engineering and integration work to let the user connect
+                  their exchange wallet once and have purchased products run
+                  automatically in their account. This is the unlock for the
+                  recurring-volume model.
                 </p>
               </div>
               <div className="ask-card">
                 <div className="num">02</div>
-                <h4>Clean referral attribution + tier visibility</h4>
+                <h4>Referral attribution + tier infrastructure</h4>
                 <p>
-                  Users coming in via the BottomUP referral get tagged
-                  cleanly at signup, with a clean reporting feed. As volume
-                  scales, the path into the next tier should be spelled out.
+                  Clean attribution from signup through tier advancement: a
+                  reporting layer the team and the exchange partner share.
+                  Required for revenue-share math to operate at scale.
                 </p>
               </div>
               <div className="ask-card">
                 <div className="num">03</div>
-                <h4>APAC + LATAM + MENA joint go-to-market</h4>
+                <h4>APAC + LATAM + MENA go-to-market</h4>
                 <p>
-                  A joint launch across the three regions where OKX Global
-                  runs strong: push, in-app, social, regional press. Creators
-                  show up in those markets on day one.
+                  Three-region rollout: push, in-app, social, regional press.
+                  Brand ambassador and local creator-seeding budgets.
+                  Creators show up in those markets on day one.
                 </p>
               </div>
             </div>
@@ -673,16 +674,16 @@ export default function Vision2027() {
             <p className="section-bridge">
               This commitment is what makes BottomUP indispensable. As long
               as the user is up every month, they have no reason to empty
-              their account &mdash; volume keeps cycling through OKX. The
-              difference between a viral creator cohort and a durable one
-              lives in this guarantee.
+              their account &mdash; volume keeps cycling through the
+              exchange. The difference between a viral creator cohort and a
+              durable one lives in this guarantee.
             </p>
           </div>
         </section>
 
         <footer className="foot">
           <div className="shell foot-row">
-            <span>© BottomUP · Closed session</span>
+            <span>© BottomUP · Vision 2027</span>
             <span>This page is unindexed &middot; do not share</span>
             <span>{stamp}</span>
           </div>
