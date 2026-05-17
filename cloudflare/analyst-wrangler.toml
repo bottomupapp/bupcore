@@ -16,6 +16,8 @@ routes = [
   { pattern = "bottomup.app/analyst*", zone_name = "bottomup.app" },
   { pattern = "bottomup.app/okx-closed-session*", zone_name = "bottomup.app" },
   { pattern = "www.bottomup.app/okx-closed-session*", zone_name = "bottomup.app" },
+  { pattern = "bottomup.app/vision2027*", zone_name = "bottomup.app" },
+  { pattern = "www.bottomup.app/vision2027*", zone_name = "bottomup.app" },
   { pattern = "bottomup.app/_next/*", zone_name = "bottomup.app" },
   { pattern = "bottomup.app/__nextjs/*", zone_name = "bottomup.app" }
 ]

@@ -17,9 +17,11 @@
  *        bottomup.app/analyst*
  *        bottomup.app/okx-closed-session*
  *        www.bottomup.app/okx-closed-session*    ← worker 301s → apex
+ *        bottomup.app/vision2027*
+ *        www.bottomup.app/vision2027*            ← worker 301s → apex
  *        bottomup.app/_next/*
  *        bottomup.app/__nextjs/*
- *      Keep all five in wrangler.toml — a deploy that omits them
+ *      Keep all of them in wrangler.toml — a deploy that omits them
  *      WILL silently drop the routes and the page renders unstyled.
  *   4. Apex DNS: bottomup.app currently has no A/AAAA at @, so the
  *      route would never match. Add a *proxied* dummy AAAA at @:
@@ -42,6 +44,7 @@
 const PROXY_PREFIXES = [
   "/analyst",
   "/okx-closed-session",
+  "/vision2027",
   "/_next",
   "/__nextjs",
 ];
