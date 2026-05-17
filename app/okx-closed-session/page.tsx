@@ -12,7 +12,6 @@ export default function OkxClosedSession() {
       <header className="topbar">
         <div className="shell topbar-inner">
           <div className="brand">
-            <img className="bup-mark" src={BUP_LOGOMARK} alt="BottomUP" />
             <img className="bup-word" src={BUP_WORDMARK} alt="BottomUP" />
           </div>
           <div className="host-stamp">
