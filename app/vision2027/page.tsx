@@ -567,37 +567,6 @@ export default function Vision2027() {
               reasonable floor for the active-trader segment.
             </p>
 
-            <h3 className="subhead">Three priorities the Series A unlocks</h3>
-            <div className="ask">
-              <div className="ask-card">
-                <div className="num">01</div>
-                <h4>Exchange wallet auto-trade rail</h4>
-                <p>
-                  Engineering and integration work to let the user connect
-                  their exchange wallet once and have purchased products run
-                  automatically in their account. This is the unlock for the
-                  recurring-volume model.
-                </p>
-              </div>
-              <div className="ask-card">
-                <div className="num">02</div>
-                <h4>Referral attribution + tier infrastructure</h4>
-                <p>
-                  Clean attribution from signup through tier advancement: a
-                  reporting layer the team and the exchange partner share.
-                  Required for revenue-share math to operate at scale.
-                </p>
-              </div>
-              <div className="ask-card">
-                <div className="num">03</div>
-                <h4>APAC + LATAM + MENA go-to-market</h4>
-                <p>
-                  Three-region rollout: push, in-app, social, regional press.
-                  Brand ambassador and local creator-seeding budgets.
-                  Creators show up in those markets on day one.
-                </p>
-              </div>
-            </div>
           </div>
         </section>
 
@@ -643,40 +612,6 @@ export default function Vision2027() {
               </div>
             </div>
 
-            <h3 className="subhead">How we protect the floor</h3>
-            <div className="pcards three">
-              <div className="pcard">
-                <h4>Foxy filter</h4>
-                <p>
-                  Foxy monitors creator/product performance 24/7. Anything
-                  that dips under the threshold drops out of the listing;
-                  new users can&apos;t buy into it.
-                </p>
-              </div>
-              <div className="pcard">
-                <h4>Performance pool</h4>
-                <p>
-                  Any downside is covered from a BottomUP performance pool.
-                  The user doesn&apos;t carry the underperformance risk.
-                </p>
-              </div>
-              <div className="pcard">
-                <h4>Refund &amp; swap</h4>
-                <p>
-                  If a product&apos;s annual average drops below 5%, the
-                  user takes a full refund or swaps into a different
-                  product.
-                </p>
-              </div>
-            </div>
-
-            <p className="section-bridge">
-              This commitment is what makes BottomUP indispensable. As long
-              as the user is up every month, they have no reason to empty
-              their account &mdash; volume keeps cycling through the
-              exchange. The difference between a viral creator cohort and a
-              durable one lives in this guarantee.
-            </p>
           </div>
         </section>
 
