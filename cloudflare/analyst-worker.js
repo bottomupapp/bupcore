@@ -21,8 +21,10 @@
  *        www.bottomup.app/vision2027*            ← worker 301s → apex
  *        bottomup.app/_next/*
  *        bottomup.app/__nextjs/*
+ *        bottomup.app/*                          ← apex catch-all, 301s → www
  *      Keep all of them in wrangler.toml — a deploy that omits them
- *      WILL silently drop the routes and the page renders unstyled.
+ *      WILL silently drop the routes and the page renders unstyled
+ *      (or, for the catch-all, the apex returns 522).
  *   4. Apex DNS: bottomup.app currently has no A/AAAA at @, so the
  *      route would never match. Add a *proxied* dummy AAAA at @:
  *        Type: AAAA, Name: @, Content: 100::, Proxy: orange cloud.

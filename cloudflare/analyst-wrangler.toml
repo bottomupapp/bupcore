@@ -19,7 +19,15 @@ routes = [
   { pattern = "bottomup.app/vision2027*", zone_name = "bottomup.app" },
   { pattern = "www.bottomup.app/vision2027*", zone_name = "bottomup.app" },
   { pattern = "bottomup.app/_next/*", zone_name = "bottomup.app" },
-  { pattern = "bottomup.app/__nextjs/*", zone_name = "bottomup.app" }
+  { pattern = "bottomup.app/__nextjs/*", zone_name = "bottomup.app" },
+  # Catch-all so the apex (bottomup.app/, /pricing, /…) reaches the
+  # Worker and gets 301'd to www.bottomup.app. Without this, requests
+  # land on the proxied dummy AAAA 100:: target and Cloudflare serves
+  # 522 because the host is unreachable. The Worker's PROXY_PREFIXES
+  # check still routes /analyst, /okx-closed-session, /vision2027,
+  # /_next, /__nextjs to Studio — the more-specific routes above win
+  # for those paths.
+  { pattern = "bottomup.app/*", zone_name = "bottomup.app" }
 ]
 
 # Set STUDIO_ORIGIN via:
