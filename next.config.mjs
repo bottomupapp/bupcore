@@ -13,6 +13,18 @@ const nextConfig = {
   // Mark it as a server external so Next leaves it for Node's native
   // require at runtime.
   serverExternalPackages: ["@resvg/resvg-js"],
+  // The analyst terminal lives at the singular `/analyst/[name]`. Links
+  // shared in the wild (and people typing by habit) use the plural
+  // `/analysts/...`, which has no route and 404s. Keep those links alive.
+  async redirects() {
+    return [
+      {
+        source: "/analysts/:name",
+        destination: "/analyst/:name",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
