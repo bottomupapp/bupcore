@@ -76,6 +76,54 @@ export default function InvestorBrief() {
           </div>
         </section>
 
+        {/* CONTEXT — macro backdrop */}
+        <section>
+          <div className="shell">
+            <div className="sec-head">
+              <div className="sec-num">Context · Macro backdrop</div>
+              <h2 className="display">Posted into a falling market.</h2>
+              <div className="eyebrow">Bitcoin nearly halved this year &mdash; these numbers were earned against the tape</div>
+            </div>
+
+            <p className="lead">
+              Bitcoin fell from a <strong>~$123K high to ~$62K</strong> this
+              year. Open conflict between the US and Iran, Fed policy
+              uncertainty and a charged political calendar pulled capital out
+              of risk. <strong>Every number in this brief was posted into
+              that &mdash; not a bull run.</strong>
+            </p>
+
+            <div className="stat-strip">
+              <div>
+                <div className="k">BTC drawdown</div>
+                <div className="v">~−49%</div>
+                <div className="sub">From the ~$123K cycle high to $62,309 &mdash; Bitcoin nearly halved this year.</div>
+              </div>
+              <div>
+                <div className="k">Market regime</div>
+                <div className="v">Risk-off</div>
+                <div className="sub">Broad crypto selloff; capital rotating out of risk assets across the board.</div>
+              </div>
+              <div>
+                <div className="k">Macro overhang</div>
+                <div className="v">US · Iran</div>
+                <div className="sub">Open US&ndash;Iran conflict, Fed policy uncertainty and a charged political calendar.</div>
+              </div>
+              <div>
+                <div className="k">Our quarter</div>
+                <div className="v">+11.9%</div>
+                <div className="sub">Revenue still grew QoQ into the drawdown &mdash; the engine doesn&apos;t need a bull market.</div>
+              </div>
+            </div>
+
+            <p className="section-bridge">
+              <strong>The point:</strong> this traction was built in the worst
+              tape in years. When the cycle turns, the same funnel compounds on
+              a market finally working with us &mdash; not against us.
+            </p>
+          </div>
+        </section>
+
         {/* 01 / TRACTION */}
         <section>
           <div className="shell">
