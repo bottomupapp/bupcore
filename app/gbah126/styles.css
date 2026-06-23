@@ -177,6 +177,23 @@
 }
 .okx-deck .duo .rowline .amt.acid { color: var(--acid); }
 
+/* BTC drawdown chart — hand-drawn SVG candlesticks */
+.okx-deck .btc-chart {
+  border: 1px solid var(--line-2);
+  background: var(--bg-2);
+  padding: 22px 22px 16px;
+  margin: 4px 0 28px;
+}
+.okx-deck .btc-chart svg { width: 100%; height: auto; display: block; }
+.okx-deck .btc-chart .chart-cap {
+  display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  margin-top: 16px;
+  font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-3); font-weight: 600;
+}
+.okx-deck .btc-chart .chart-cap b { color: var(--ink-2); font-weight: 700; }
+.okx-deck .btc-chart .chart-cap .neg { color: var(--neg); }
+
 /* App screenshot gallery — real product, phone-framed */
 .okx-deck .appshots {
   display: grid;
