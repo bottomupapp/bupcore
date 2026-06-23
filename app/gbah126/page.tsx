@@ -93,6 +93,60 @@ export default function InvestorBrief() {
               that &mdash; not a bull run.</strong>
             </p>
 
+            <div className="btc-chart">
+              {(() => {
+                // [open, high, low, close] in $K — the year's path: ~40K → ~123K → ~62K
+                const C = [
+                  [39, 45, 38, 44], [44, 45, 40, 41], [41, 48, 40, 47],
+                  [47, 48, 43, 43], [43, 46, 42, 45], [45, 46, 41, 42],
+                  [42, 45, 40, 44], [44, 45, 40, 42], [42, 49, 41, 48],
+                  [48, 72, 47, 70], [70, 96, 69, 95], [95, 97, 86, 88],
+                  [88, 101, 87, 100], [100, 101, 81, 83], [83, 92, 78, 90],
+                  [90, 101, 89, 100], [100, 110, 99, 108], [108, 118, 107, 113],
+                  [113, 123, 112, 112], [112, 125, 110, 110], [110, 112, 89, 90],
+                  [90, 91, 76, 78], [78, 82, 67, 70], [70, 77, 68, 75],
+                  [75, 82, 67, 68], [68, 76, 60, 62.3],
+                ];
+                const W = 1000, H = 380, padT = 18, padB = 30, padL = 8, padR = 88;
+                const PMAX = 132, PMIN = 30;
+                const y = (p: number) => padT + ((PMAX - p) / (PMAX - PMIN)) * (H - padT - padB);
+                const slot = (W - padL - padR) / C.length;
+                const bw = Math.min(16, slot * 0.55);
+                const GREEN = "#1FC16B", RED = "#FF5577", ACID = "#FF6B1A";
+                return (
+                  <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Bitcoin price this year, from a ~$123K high to ~$62K">
+                    {[40, 60, 80, 100, 120].map((p) => (
+                      <g key={p}>
+                        <line x1={padL} x2={W - padR} y1={y(p)} y2={y(p)} stroke="#262626" strokeWidth="1" />
+                        <text x={W - padR + 10} y={y(p) + 4} fill="#B5B5AE" fontSize="13" fontFamily="monospace">{p}K</text>
+                      </g>
+                    ))}
+                    {C.map(([o, h, l, c], i) => {
+                      const cx = padL + i * slot + slot / 2;
+                      const up = c >= o;
+                      const col = up ? GREEN : RED;
+                      const top = y(Math.max(o, c));
+                      const hgt = Math.max(2, Math.abs(y(o) - y(c)));
+                      return (
+                        <g key={i}>
+                          <line x1={cx} x2={cx} y1={y(h)} y2={y(l)} stroke={col} strokeWidth="1.6" />
+                          <rect x={cx - bw / 2} y={top} width={bw} height={hgt} fill={col} />
+                        </g>
+                      );
+                    })}
+                    {/* current price marker */}
+                    <line x1={padL} x2={W - padR} y1={y(62.3)} y2={y(62.3)} stroke={ACID} strokeWidth="1.5" strokeDasharray="5 5" />
+                    <rect x={W - padR} y={y(62.3) - 13} width={padR} height="26" fill={ACID} />
+                    <text x={W - padR + 9} y={y(62.3) + 5} fill="#0A0A0A" fontSize="14" fontWeight="700" fontFamily="monospace">62,309</text>
+                  </svg>
+                );
+              })()}
+              <div className="chart-cap">
+                <span>BTC / USDT · weekly · this year</span>
+                <span>High <b>~$123K</b> → now <b>$62,309</b> <span className="neg">(~−49%)</span></span>
+              </div>
+            </div>
+
             <div className="stat-strip">
               <div>
                 <div className="k">BTC drawdown</div>
