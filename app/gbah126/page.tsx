@@ -40,16 +40,6 @@ export default function InvestorBrief() {
                   verified human traders, algorithmic strategies and AI
                   agents &mdash; all secured by a real-time AI risk engine.
                 </p>
-                <div className="hero-tag">
-                  <div>
-                    <div className="lbl">2027 ARR target</div>
-                    <div className="val">$13.5M</div>
-                  </div>
-                  <div>
-                    <div className="lbl">Raising</div>
-                    <div className="val">$5M Seed</div>
-                  </div>
-                </div>
               </div>
 
               <div className="hero-meta">
