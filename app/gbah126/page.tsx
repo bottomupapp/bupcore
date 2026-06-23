@@ -218,6 +218,80 @@ export default function InvestorBrief() {
           </div>
         </section>
 
+        {/* CONTEXT — 2026 tailwinds */}
+        <section>
+          <div className="shell">
+            <div className="sec-head">
+              <div className="sec-num">Context · 2026 tailwinds</div>
+              <h2 className="display">The market is moving onto our rails.</h2>
+              <div className="eyebrow">TradFi, tokenized equities, gold &amp; silver, pre-IPO and a 24/7 CME &mdash; the structural shift of 2026</div>
+            </div>
+
+            <p className="lead">
+              The same year BTC fell, the bigger shift accelerated: stocks,
+              gold, silver and pre-IPO names moved onto crypto rails, and CME
+              took institutional crypto futures to 24/7.{" "}
+              <strong>The market BottomUP runs on is expanding from crypto to
+              everything.</strong>
+            </p>
+
+            <div className="persona-grid">
+              <div className="segment-card">
+                <h4>Nasdaq stocks, on-chain</h4>
+                <p>
+                  Tokenized equities crossed <strong>$25B+</strong> in
+                  transaction volume on xStocks since June 2025; 100+ US
+                  stocks (Apple, Tesla, Nvidia) trade as tokens &mdash;{" "}
+                  <strong>$4.3B</strong> on-chain last month, +140% YTD.
+                </p>
+              </div>
+              <div className="segment-card">
+                <h4>Gold &amp; silver, tokenized</h4>
+                <p>
+                  Tokenized-gold spot volume hit <strong>$90.7B in Q1
+                  2026</strong> &mdash; more than all of 2025. Gold and silver
+                  are the #1 and #2 traded real-world assets on-chain.
+                </p>
+              </div>
+              <div className="segment-card">
+                <h4>Pre-IPO, before the bell</h4>
+                <p>
+                  Pre-IPO perps for <strong>SpaceX, OpenAI and
+                  Anthropic</strong> went live on Coinbase and OKX &mdash;
+                  on-chain price discovery before the listing (SpaceX debuted
+                  on Nasdaq in June).
+                </p>
+              </div>
+              <div className="segment-card">
+                <h4>CME goes 24/7</h4>
+                <p>
+                  CME is taking institutional crypto{" "}
+                  <strong>futures &amp; options to round-the-clock</strong>{" "}
+                  trading from early 2026; SOL and XRP options are already
+                  live.
+                </p>
+              </div>
+              <div className="segment-card">
+                <h4>RWAs at scale</h4>
+                <p>
+                  On-chain real-world assets grew from <strong>~$6B to
+                  $31B+</strong> in ~18 months &mdash; driven by institutions
+                  and regulatory clarity, not speculation.
+                </p>
+              </div>
+              <div className="segment-card">
+                <h4>What it means for us</h4>
+                <p>
+                  Every one of these lands on the rails we already run.
+                  Copy-trade, the marketplace and Foxy become the access and
+                  risk layer for a multi-asset, always-on market &mdash; Social+
+                  already runs spot, futures, equities, FX and macro.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* 01 / TRACTION */}
         <section>
           <div className="shell">
