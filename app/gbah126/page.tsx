@@ -147,6 +147,46 @@ export default function InvestorBrief() {
               </div>
             </div>
 
+            <div className="proof">
+              <div className="proof-say">
+                <h4>A falling market is still a market.</h4>
+                <p>
+                  While BTC bled, community shorts printed. This NEAR short
+                  &mdash; entered at $2.317, marked at $2.003 &mdash; ran{" "}
+                  <strong>+1355% ROE</strong> at 100× as the tape dropped.
+                  Down markets aren&apos;t dead time for our users; they&apos;re
+                  the other side of the trade.
+                </p>
+              </div>
+
+              <div className="tradecard">
+                <div className="tc-head">
+                  <span className="who">@yigitalagozoglu</span>
+                  <span className="tag">Market sell</span>
+                  <span className="time">14:47</span>
+                </div>
+                <div className="tc-pair">
+                  <span className="sym">NEAR / USDT</span>
+                  <span className="roe">+1355%<i>ROE</i></span>
+                </div>
+                <div className="tc-badges">
+                  <span className="short">Short</span>
+                  <span className="active">Active</span>
+                  <span className="lev">100×</span>
+                </div>
+                <div className="tc-rows">
+                  <div className="tc-row"><span>Entry</span><b>$2.317</b></div>
+                  <div className="tc-row"><span>Current</span><b>$2.003</b></div>
+                  <div className="tc-row"><span>Take profit</span><b>$1.794</b></div>
+                  <div className="tc-row"><span>Stop</span><b>$2.279</b></div>
+                  <div className="tc-row"><span>Risk : reward</span><b>2.1</b></div>
+                  <div className="tc-row"><span>Account risk</span><b>1.00%</b></div>
+                  <div className="tc-row"><span>Stop distance</span><b>9.7%</b></div>
+                </div>
+                <div className="tc-foot">DYOR &mdash; not financial advice</div>
+              </div>
+            </div>
+
             <div className="stat-strip">
               <div>
                 <div className="k">BTC drawdown</div>
