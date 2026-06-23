@@ -64,18 +64,6 @@ export default function InvestorBrief() {
           </div>
         </section>
 
-        {/* OPENER — traction punch */}
-        <section className="opener">
-          <div className="shell">
-            <div className="eyebrow">Cumulative traction · launch July 2023 → today</div>
-            <h1 className="opener-display acid">$1.59B</h1>
-            <p className="opener-sub">
-              Trading volume already routed onto our exchange partner &mdash;
-              before a single dollar of Series A.
-            </p>
-          </div>
-        </section>
-
         {/* CONTEXT — macro backdrop */}
         <section>
           <div className="shell">
