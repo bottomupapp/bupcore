@@ -334,6 +334,62 @@ export default function InvestorBrief() {
           </div>
         </section>
 
+        {/* PRODUCT GALLERY — real app */}
+        <section>
+          <div className="shell">
+            <div className="sec-head">
+              <div className="sec-num">Product · Live</div>
+              <h2 className="display">The app, shipping today.</h2>
+              <div className="eyebrow">Not a mockup &mdash; screenshots from the live BottomUP app</div>
+            </div>
+
+            <div className="appshots">
+              <div className="shot">
+                <img src="/gbah126/app/foxy.png" alt="Bup.AI Foxy — ETH analysis" />
+                <div className="cap">
+                  <div className="lbl">Bup.AI · Foxy</div>
+                  <p>On-demand AI trade analysis &mdash; verdict, support/resistance levels, RSI and MACD read.</p>
+                </div>
+              </div>
+              <div className="shot">
+                <img src="/gbah126/app/markets.png" alt="Live market dashboard" />
+                <div className="cap">
+                  <div className="lbl">Live markets</div>
+                  <p>Open interest, liquidations, Fear &amp; Greed, altcoin season, BTC dominance and charts in one view.</p>
+                </div>
+              </div>
+              <div className="shot">
+                <img src="/gbah126/app/portfolio.png" alt="Portfolio and copy-trading" />
+                <div className="cap">
+                  <div className="lbl">Portfolio + copy</div>
+                  <p>Total and copy balance, live setups with entry, current price and estimated ROE.</p>
+                </div>
+              </div>
+              <div className="shot">
+                <img src="/gbah126/app/community.png" alt="Social+ community channels" />
+                <div className="cap">
+                  <div className="lbl">Social+ chat</div>
+                  <p>Topic channels &mdash; setups, community ideas, market analysis, gem hunting, FX, indices.</p>
+                </div>
+              </div>
+              <div className="shot">
+                <img src="/gbah126/app/calendar.png" alt="Economic calendar" />
+                <div className="cap">
+                  <div className="lbl">Economic calendar</div>
+                  <p>Macro events color-coded by impact, with live actual / consensus / previous prints.</p>
+                </div>
+              </div>
+              <div className="shot">
+                <img src="/gbah126/app/news.png" alt="News feed" />
+                <div className="cap">
+                  <div className="lbl">News feed</div>
+                  <p>Curated multi-source crypto headlines, surfaced in real time next to the markets.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* 06 / PRODUCT — Trader Marketplace */}
         <section>
           <div className="shell">
