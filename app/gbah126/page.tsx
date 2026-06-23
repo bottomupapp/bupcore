@@ -845,114 +845,11 @@ export default function InvestorBrief() {
           </div>
         </section>
 
-        {/* 11 / GO-TO-MARKET */}
+        {/* 11 / GROWTH */}
         <section>
           <div className="shell">
             <div className="sec-head">
-              <div className="sec-num">11 / Go-to-market</div>
-              <h2 className="display">Grown without an ad budget.</h2>
-              <div className="eyebrow">Organic-first, trust-led &mdash; and only systematic from here</div>
-            </div>
-
-            <p className="lead">
-              A live app on iOS and Android, grown through the product and
-              word of mouth &mdash; not a media budget.{" "}
-              <strong>Verified, transparent performance is the engine</strong>{" "}
-              &mdash; it&apos;s what brings people in and keeps them. The next
-              phase turns that organic momentum into a repeatable brand and
-              community engine.
-            </p>
-
-            <h3 className="subhead">One funnel, five pillars</h3>
-            <div className="persona-grid">
-              <div className="segment-card">
-                <h4>01 · Awareness</h4>
-                <p>Grow reach for an app that&apos;s already live.</p>
-              </div>
-              <div className="segment-card">
-                <h4>02 · Interest</h4>
-                <p>Answer the only question that matters: &ldquo;what does this mean for me?&rdquo;</p>
-              </div>
-              <div className="segment-card">
-                <h4>03 · Trust</h4>
-                <p>Prove the transparency claim with real, on-exchange data.</p>
-              </div>
-              <div className="segment-card">
-                <h4>04 · Community</h4>
-                <p>Turn an audience into connected people.</p>
-              </div>
-              <div className="segment-card">
-                <h4>05 · Belief</h4>
-                <p>Turn the community into early believers.</p>
-              </div>
-            </div>
-
-            <h3 className="subhead">The moat &mdash; what rivals structurally can&apos;t copy</h3>
-            <div className="persona-grid">
-              <div className="segment-card">
-                <h4>Verified, on-exchange performance</h4>
-                <p>Everyone else sells fake gurus and &ldquo;mentor&rdquo; funnels.</p>
-              </div>
-              <div className="segment-card">
-                <h4>A marketplace of traders, algos &amp; AI agents</h4>
-                <p>Everyone else sells screenshot trading and paid signals.</p>
-              </div>
-              <div className="segment-card">
-                <h4>Wins, losses and fees, in the open</h4>
-                <p>Everyone else ships editable, unprovable track records.</p>
-              </div>
-              <div className="segment-card">
-                <h4>Protected by Foxy AI, not luck</h4>
-                <p>Everyone else runs walled-garden, closed circles.</p>
-              </div>
-            </div>
-
-            <h3 className="subhead">Four assets that compound</h3>
-            <div className="persona-grid">
-              <div className="segment-card">
-                <h4>Foxy</h4>
-                <p>One recognizable AI identity &mdash; the in-app guardian that protects traders and the brand&apos;s social face.</p>
-              </div>
-              <div className="segment-card">
-                <h4>Founder&apos;s touch</h4>
-                <p>Real, unscripted founder presence in a feed where most content is AI-made.</p>
-              </div>
-              <div className="segment-card">
-                <h4>Trader communities</h4>
-                <p>Traders bring their existing paid groups across &mdash; organic, low-cost reach.</p>
-              </div>
-              <div className="segment-card">
-                <h4>Transparency proof</h4>
-                <p>Real performance &mdash; wins and losses &mdash; that exchanges and copy apps can&apos;t publish.</p>
-              </div>
-            </div>
-
-            <h3 className="subhead">Sequenced &mdash; no ad burn until the organic engine proves itself</h3>
-            <div className="funnel-grid">
-              <div className="funnel-card">
-                <span className="stage">Now</span>
-                <h4>Organic engine</h4>
-                <p>Foxy, founder content, proof drops and community &mdash; no paid media.</p>
-              </div>
-              <div className="funnel-card">
-                <span className="stage">Next</span>
-                <h4>Buy interest, not attention</h4>
-                <p>Product Hunt + PR at a moment of momentum, plus an early-supporter program for believers.</p>
-              </div>
-              <div className="funnel-card">
-                <span className="stage">Then</span>
-                <h4>Go public</h4>
-                <p>When funded, a small paid test &mdash; MENA and LatAm &mdash; to learn channels and CAC, not to chase reach.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 12 / GROWTH */}
-        <section>
-          <div className="shell">
-            <div className="sec-head">
-              <div className="sec-num">12 / Growth</div>
+              <div className="sec-num">11 / Growth</div>
               <h2 className="display">From today to $13.5M.</h2>
               <div className="eyebrow">APAC · LATAM · MENA — a ~36× scale-up across 16 months</div>
             </div>
@@ -1050,7 +947,7 @@ export default function InvestorBrief() {
         <section>
           <div className="shell">
             <div className="sec-head">
-              <div className="sec-num">13 / Retention</div>
+              <div className="sec-num">12 / Retention</div>
               <h2 className="display">
                 5% / month → <span className="acid">79.6% / year.</span>
               </h2>
@@ -1094,7 +991,7 @@ export default function InvestorBrief() {
         <section>
           <div className="shell">
             <div className="sec-head">
-              <div className="sec-num">14 / The Round</div>
+              <div className="sec-num">13 / The Round</div>
               <h2 className="display">The Seed round.</h2>
               <div className="eyebrow">$5M to capitalise the 16-month, three-region scale-up</div>
             </div>
