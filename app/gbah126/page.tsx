@@ -862,29 +862,6 @@ export default function InvestorBrief() {
           </div>
         </section>
 
-        {/* CTA */}
-        <section>
-          <div className="shell">
-            <div className="cta-strip">
-              <div>
-                <h3>The full thesis lives at Vision 2027.</h3>
-                <p>
-                  Personas, creator economy, the AAARRR growth engine and the
-                  retention math &mdash; the long-form companion to this brief.
-                </p>
-              </div>
-              <div className="row">
-                <a className="pill solid" href="https://bottomup.app/vision2027">
-                  bottomup.app/vision2027
-                </a>
-                <a className="pill" href="mailto:deniz@bottomup.app">
-                  deniz@bottomup.app
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-
         <footer className="foot">
           <div className="shell foot-row">
             <span>© BottomUP · Investor Brief</span>
