@@ -19,6 +19,8 @@
  *        www.bottomup.app/okx-closed-session*    ← worker 301s → apex
  *        bottomup.app/vision2027*
  *        www.bottomup.app/vision2027*            ← worker 301s → apex
+ *        bottomup.app/gbah126*
+ *        www.bottomup.app/gbah126*               ← worker 301s → apex
  *        bottomup.app/_next/*
  *        bottomup.app/__nextjs/*
  *      Keep all of them in wrangler.toml — a deploy that omits them
@@ -45,6 +47,7 @@ const PROXY_PREFIXES = [
   "/analyst",
   "/okx-closed-session",
   "/vision2027",
+  "/gbah126",
   "/_next",
   "/__nextjs",
 ];
