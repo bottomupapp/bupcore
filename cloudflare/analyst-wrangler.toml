@@ -21,7 +21,13 @@ routes = [
   { pattern = "bottomup.app/gbah126*", zone_name = "bottomup.app" },
   { pattern = "www.bottomup.app/gbah126*", zone_name = "bottomup.app" },
   { pattern = "bottomup.app/_next/*", zone_name = "bottomup.app" },
-  { pattern = "bottomup.app/__nextjs/*", zone_name = "bottomup.app" }
+  { pattern = "bottomup.app/__nextjs/*", zone_name = "bottomup.app" },
+  # Catch-all: every other apex path hits the Worker so it can 301 the
+  # unknown ones to www.bottomup.app (otherwise they 522 against the
+  # dummy proxied AAAA at @). This is live today but was added manually
+  # outside wrangler — declaring it here so `wrangler deploy` doesn't
+  # silently drop it and break apex fallback.
+  { pattern = "bottomup.app/*", zone_name = "bottomup.app" }
 ]
 
 # Set STUDIO_ORIGIN via:
