@@ -1,12 +1,4 @@
-/**
- * Server-side client for the Bottomup 3.0 backend's public REST surface.
- * Defaults to the Railway lab API so the page works out-of-the-box on a
- * fresh clone; set BOTTOMUP_API_BASE to swap (e.g. api.bottomup.app once
- * the endpoint promotes to the FastAPI prod cluster).
- */
-const BUP_API_BASE =
-  process.env.BOTTOMUP_API_BASE ??
-  "https://bottomupapi-production.up.railway.app";
+const BUP_API_BASE = "https://api.bottomup.app";
 
 export interface AnalystStats {
   win_rate: number | null;
