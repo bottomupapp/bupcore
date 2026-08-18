@@ -77,6 +77,10 @@ export function useAnalystLive(id: string): {
         setRows((prev) => {
           const next = new Map(prev);
           next.set(row.trader_id, row);
+          const n = row.name?.toLowerCase();
+          if (n) next.set(n, row);
+          const code = row.referral_code?.toLowerCase();
+          if (code) next.set(code, row);
           return next;
         });
         setLastUpdateAt(Date.now());

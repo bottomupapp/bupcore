@@ -6,30 +6,57 @@ import { LiveBadge } from "./live-table";
 import { fmtPct, fmtUsd } from "./format";
 import { tFor, type Locale } from "./i18n";
 
+export type LiveStripFallback = {
+  monthly_pnl: number | null;
+  monthly_roi: number | null;
+  monthly_win_rate: number | null;
+  pnl: number | null;
+};
+
+function pickLive(
+  rows: Map<string, Analyst>,
+  handle: string,
+  traderId?: string,
+): Analyst | undefined {
+  if (traderId) {
+    const byId = rows.get(traderId);
+    if (byId) return byId;
+  }
+  const byHandle = rows.get(handle);
+  if (byHandle) return byHandle;
+  for (const row of rows.values()) {
+    if (row.name?.toLowerCase() === handle) return row;
+    if (row.referral_code?.toLowerCase() === handle) return row;
+    if (traderId && row.trader_id === traderId) return row;
+  }
+  return undefined;
+}
+
 /**
- * Detail-page live strip. Subscribes to `analyst:<name>` and surfaces
- * the precomputed `trader_stats` fields (30D PNL + ROI + win rate +
- * all-time PNL). These are different from PerfMatrix — that block
- * recomputes from raw trades (heavier, daily-cron backed). This strip
- * is the one that actually moves between cron runs as fresh setups
- * close.
+ * Detail-page live strip. Prefers WS `trader_stats`; falls back to the
+ * SSR window so RECONNECTING never blanks the headline numbers.
  */
 export function LiveStrip({
   name,
   locale = "en",
+  traderId,
+  fallback,
 }: {
   name: string;
   locale?: Locale;
+  traderId?: string;
+  fallback?: LiveStripFallback;
 }) {
   const t = tFor(locale);
   const handle = (name ?? "").toLowerCase();
   const { rows, lastUpdateAt, connected } = useAnalystLive(handle);
-  const live = rows.get(handle) as Analyst | undefined;
+  const live = pickLive(rows, handle, traderId);
 
-  const monthlyPnl = live?.stats.monthly_pnl ?? null;
-  const monthlyRoi = live?.stats.monthly_roi ?? null;
-  const monthlyWr = live?.stats.monthly_win_rate ?? null;
-  const allPnl = live?.stats.pnl ?? null;
+  const monthlyPnl = live?.stats.monthly_pnl ?? fallback?.monthly_pnl ?? null;
+  const monthlyRoi = live?.stats.monthly_roi ?? fallback?.monthly_roi ?? null;
+  const monthlyWr =
+    live?.stats.monthly_win_rate ?? fallback?.monthly_win_rate ?? null;
+  const allPnl = live?.stats.pnl ?? fallback?.pnl ?? null;
 
   return (
     <section style={{ marginTop: 24 }}>

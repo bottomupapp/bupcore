@@ -128,7 +128,20 @@ export default async function AnalystDetailPage({
       <Hero detail={detail} locale={locale} />
 
       <main className="detail-main">
-        <LiveStrip name={name_} locale={locale} />
+        <LiveStrip
+          name={name_}
+          traderId={detail.trader.id}
+          locale={locale}
+          fallback={{
+            monthly_pnl: detail.stats.total_pnl,
+            monthly_roi: detail.stats.virtual_return_pct,
+            monthly_win_rate:
+              detail.stats.win_rate == null
+                ? null
+                : Math.round(detail.stats.win_rate * 100),
+            pnl: detail.all_time.total_pnl,
+          }}
+        />
         <PerfMatrix d30={detail.stats} all={detail.all_time} locale={locale} />
 
         <section style={{ marginTop: 32 }}>
