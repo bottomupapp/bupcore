@@ -1,6 +1,6 @@
 # Deploy ve lab → bottomup.app akışı
 
-Bu repo iki şeyi birlikte barındırır: girişli **Studio** aracı ve girişsiz **lab sayfaları** (`/analyst`, `/gbah126`, `/vision2027`, `/okx-closed-session`). Lab sayfaları önce `work.bupcore.ai` üzerinde denenir, beğenilince bir Cloudflare Worker route'u ile `bottomup.app` altında yayına alınır.
+Bu repo bottomup.app'in **lab sayfalarını** barındırır (`/analyst`, `/gbah126`, `/vision2027`, `/okx-closed-session`). Sayfalar önce `work.bupcore.ai` üzerinde denenir, beğenilince bir Cloudflare Worker route'u ile `bottomup.app` altında yayına alınır.
 
 ## Şu anki kurulum
 
@@ -9,12 +9,12 @@ Bu repo iki şeyi birlikte barındırır: girişli **Studio** aracı ve girişsi
 | Uygulama | Railway projesi `bupcore`, servis `bupcore-app` |
 | Kaynak | `bottomupapp/bupcore`, branch `main`. Push'ta otomatik deploy |
 | Build | `Dockerfile` (`railway.json`), healthcheck `/api/health` |
-| Domain | `work.bupcore.ai` (+ `bupcore-app-production.up.railway.app`) |
-| Veritabanı | Aynı projedeki Railway Postgres (sadece Studio verisi) |
-| Lab sayfalarının verisi | Production API: `bottomupapi-production.up.railway.app/public/*` |
+| Domain | `work.bupcore.ai` (+ `bupcore-app-production.up.railway.app`). Kök adres `www.bottomup.app`'e yönlenir |
+| Veri | `api.bottomup.app` public endpoint'leri + `bottomupws-production` websocket'i |
+| Veritabanı | Yok. Projedeki Postgres eski Studio'dan kalma, uygulama bağlanmıyor |
 | bottomup.app köprüsü | Cloudflare Worker `bottomup-analyst-proxy` ([`cloudflare/analyst-worker.js`](../cloudflare/analyst-worker.js), [`analyst-wrangler.toml`](../cloudflare/analyst-wrangler.toml)) |
 
-Railway'deki env değişkenleri: `AUTH_URL`, `NEXTAUTH_URL`, `AUTH_SECRET`, `AUTH_TRUST_HOST`, `DATABASE_URL`, `BUILD_DATABASE_URL`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`. Değerler sadece Railway'de tutulur, repoya yazılmaz.
+Uygulama hiçbir env değişkeni gerektirmez. Railway'de duran `AUTH_*`, `GOOGLE_*`, `ANTHROPIC_*`, `DATABASE_URL`, `BUILD_DATABASE_URL` eski Studio'dan kalma ve artık kullanılmıyor.
 
 ## Yeni lab sayfası ekleme
 
@@ -40,4 +40,4 @@ Route listesindeki hiçbir satırı silme: `wrangler deploy` dosyada olmayan rou
 
 ## Geçmiş
 
-İlk kurulum `bupcore.ai/product` altında, `keen-learning` Railway projesinde planlanmıştı (`bupcore-product-proxy` worker'ı, [`cloudflare/worker.js`](../cloudflare/worker.js)). Uygulama sonra kendi domain'ine (`work.bupcore.ai`) taşındı; o dönemin adım adım kurulum notları bu dosyayla değiştirildi.
+İlk kurulum `bupcore.ai/product` altında, `keen-learning` Railway projesinde planlanmıştı (`bupcore-product-proxy` worker'ı, [`cloudflare/worker.js`](../cloudflare/worker.js)). Uygulama sonra kendi domain'ine (`work.bupcore.ai`) taşındı; o dönemin adım adım kurulum notları bu dosyayla değiştirildi. Ekim 2026'da Studio aracı kaldırıldı, repo sadece lab sayfalarına indi.

@@ -1,14 +1,7 @@
 import { NextResponse } from "next/server";
-import { db } from "@/lib/db";
 
-export async function GET() {
-  try {
-    await db.$queryRaw`SELECT 1`;
-    return NextResponse.json({ ok: true });
-  } catch (e: any) {
-    return NextResponse.json(
-      { ok: false, error: String(e?.message ?? e) },
-      { status: 500 },
-    );
-  }
+// Railway healthcheck (railway.json → /api/health). The app no longer
+// owns a database, so liveness is just "the server answers".
+export function GET() {
+  return NextResponse.json({ ok: true });
 }
