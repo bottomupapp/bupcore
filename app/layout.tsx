@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Studio — Ekip Planlama & Ürün Düşünme",
-  description:
-    "Ideation, sprint planlama, epic + task, ses → PRD, Medium tarzı ürün makaleleri. Tek çatı altında.",
+  title: "BottomUP",
+  description: "The App Store of Smart Money.",
 };
 
 export default function RootLayout({

@@ -12,15 +12,15 @@ bottomup.app/_next*    ──CF Worker──▶  work.bupcore.ai/_next*         
 bottomup.app/*         ──CF Worker──▶  301 → www.bottomup.app/{path}
 ```
 
-- **`bottomup.app/analyst*`** ve **`/_next*`** → Cloudflare Worker `bottomup-analyst-proxy` → bu Studio app'i (`work.bupcore.ai`) reverse-proxy.
-- **Studio (Next.js)** → server component `app/analyst/page.tsx` ve `app/analyst/[name]/page.tsx`, `lib/bottomup-api.ts` üzerinden `BOTTOMUP_API_BASE` (default `https://bottomupapi-production.up.railway.app`) çağırır.
+- **`bottomup.app/analyst*`** ve **`/_next*`** → Cloudflare Worker `bottomup-analyst-proxy` → bu lab uygulamasını (`work.bupcore.ai`) reverse-proxy'ler.
+- **Lab uygulaması (Next.js)** → server component `app/analyst/page.tsx` ve `app/analyst/[name]/page.tsx`, `lib/bottomup-api.ts` üzerinden `https://api.bottomup.app` çağırır.
 - **Backend** (3.0 monorepo, `denizbottomup/bottomup` `main` branch) `apps/api/src/public/public.{controller,service}.ts` içinde:
   - `GET /public/analysts?limit=&order_by=` — trader directory (name, image, referral_code, stats)
   - `GET /public/trader/:name` — full detail (case-insensitive, referral_code dahil)
 
 ## Backend kontratı
 
-Studio sadece bu iki public endpoint'i çağırır. Her ikisi de **auth-free**.
+Uygulama sadece bu iki public endpoint'i çağırır. Her ikisi de **auth-free**.
 
 ### `GET /public/analysts?limit=20&order_by=monthly_pnl`
 
@@ -116,7 +116,7 @@ Sadece iki CTA destekleniyor; yeni CTA eklemeden önce bu kuralı sor:
 
 | Route | Davranış |
 |---|---|
-| `bottomup.app/analyst*` | `STUDIO_ORIGIN` (= `https://work.bupcore.ai`) origin'ine path/query'i koruyarak proxy. Studio sayfa render eder. |
+| `bottomup.app/analyst*` | `STUDIO_ORIGIN` (= `https://work.bupcore.ai`) origin'ine path/query'i koruyarak proxy. Lab uygulaması sayfayı render eder. |
 | `bottomup.app/_next*` | Aynı proxy. Next.js'in CSS/JS chunks ve `/_next/image?url=...` optimization endpoint'i için **şart** — yoksa sayfa unstyled gelir. |
 | `bottomup.app/*` (catch-all) | **301 → `https://www.bottomup.app{path}{query}`**. Apex'te dummy AAAA `100::` proxied olduğu için bu fallback olmasa root + diğer path'ler `522 origin error` döner. |
 
@@ -136,7 +136,7 @@ Mevcut başka worker route'lar (çakışma yok):
    # Backend (denizbottomup/bottomup repo'sundan):
    git push origin lab:main      # api'yi tetikler
    # Frontend (bu repo, bottomupapp/bupcore):
-   git push origin HEAD:main     # Studio'yu tetikler
+   git push origin HEAD:main     # work.bupcore.ai deploy'unu tetikler
    ```
 6. **Test**:
    - `https://bottomupapi-production.up.railway.app/public/<endpoint>` curl
@@ -155,7 +155,7 @@ Mevcut başka worker route'lar (çakışma yok):
 ## Cross-repo bağlantı
 
 Analyst sayfası **iki repo'ya bağımlı**:
-- Bu repo (`bottomupapp/bupcore`, Studio) — UI + CF worker
+- Bu repo (`bottomupapp/bupcore`, lab) — UI + CF worker
 - `denizbottomup/bottomup` `main` branch — backend public endpoint'leri
 
 Backend değişikliği isterken oradaki [`docs/RAILWAY.md`](https://github.com/denizbottomup/bottomup/blob/main/docs/RAILWAY.md) ve `apps/api/src/public/` klasörüne bak.

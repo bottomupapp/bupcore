@@ -1,5 +1,5 @@
 /**
- * Cloudflare Worker — proxies bottomup.app/analyst* to the Studio
+ * Cloudflare Worker — proxies bottomup.app/analyst* to the bupcore lab
  * Railway service that hosts the analyst directory (currently served
  * at work.bupcore.ai/analyst). The browser URL stays on bottomup.app —
  * this is a transparent reverse proxy, not a redirect.
@@ -34,9 +34,9 @@
  *      Worker routes and would 308 the request away.
  *
  * The same Worker can later swap STUDIO_ORIGIN to point at the prod
- * Studio domain once /analyst graduates out of the lab.
+ * domain once /analyst graduates out of the lab.
  */
-// Path prefixes this worker proxies to Studio. `/analyst` is the
+// Path prefixes this worker proxies to the lab app. `/analyst` is the
 // public analyst directory; `/okx-closed-session` is the unindexed
 // OKX partnership pitch deck. `/_next` is required so the Next.js
 // build's CSS, JS chunks and image-optimization endpoint resolve
@@ -69,7 +69,7 @@ export default {
       );
     }
 
-    // Anything not in the Studio surface gets bounced to the marketing
+    // Anything not in the lab surface gets bounced to the marketing
     // site at www.bottomup.app. Required because we added a dummy
     // proxied AAAA on the apex (so Worker routes can fire); without
     // this fallback the apex root and any other path would 522 against
