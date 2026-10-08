@@ -1,6 +1,7 @@
 # Studio — Ekip planlama & ürün düşünme aracı
 
 > **Lab sayfaları runbook'u (oku, sorun yaşamadan değiştir):**
+> - [`docs/DEPLOY.md`](docs/DEPLOY.md): Railway kurulumu, yeni lab sayfası ekleme ve sayfayı bottomup.app'e alma
 > - [`docs/ANALYST.md`](docs/ANALYST.md) — `bottomup.app/analyst` zinciri (CF Worker → Studio → 3.0 backend public endpoint'leri), CTA policy, deploy checklist
 > - [`docs/DESIGN.md`](docs/DESIGN.md) — analyst sayfaları için BottomUP marka rehberi (dark theme, Smart Money gradient, App Store/Play CTA)
 > - [`cloudflare/`](cloudflare/) — `bottomup.app/analyst*` ve `bupcore.ai/product` Worker'ları

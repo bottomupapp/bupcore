@@ -3,7 +3,6 @@
 ```
 studio/
 ├── README.md                       ← genel bakış + modül açıklamaları
-├── DEPLOY-RAILWAY.md               ← adım adım Railway rehberi
 ├── package.json
 ├── tsconfig.json
 ├── next.config.mjs                 ← bodySizeLimit 25mb (ses için)
