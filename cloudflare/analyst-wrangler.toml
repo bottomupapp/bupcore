@@ -2,34 +2,13 @@ name = "bottomup-analyst-proxy"
 main = "analyst-worker.js"
 compatibility_date = "2026-05-01"
 
-# Routes: bottomup.app/{analyst,okx-closed-session}* → this Worker.
-# www.bottomup.app/okx-closed-session* is also routed here so the
-# pitch page resolves whether the user types the apex or www host.
-# The worker 301s www requests to the apex so /_next/* assets resolve
-# under the host that owns those routes.
-# (www.bottomup.app/analyst* is intentionally NOT here — it already
-# 308s to trade.bupcore.ai/analyst via a separate redirect rule.)
-# /_next/* and /__nextjs/* MUST be wrangler-managed routes too;
-# otherwise the next deploy will wipe them and the page renders
-# unstyled (HTML 200, CSS/JS 522 against the dummy AAAA fallback).
+# bottomup.app (the bare name) answers only through this Worker, which 301s every path to
+# www.bottomup.app (the website, on Render). The lab-page routes (/analyst, /okx-closed-session,
+# /vision2027, /gbah126, /_next, /__nextjs and their www variants) were removed on 22 October 2026
+# when work.bupcore.ai was retired with Railway.
+# Never add a www.bottomup.app route here: the Worker would redirect www to itself.
+# `wrangler deploy` replaces the Worker's routes with this list, so the old www routes are
+# removed by the same deploy.
 routes = [
-  { pattern = "bottomup.app/analyst*", zone_name = "bottomup.app" },
-  { pattern = "bottomup.app/okx-closed-session*", zone_name = "bottomup.app" },
-  { pattern = "www.bottomup.app/okx-closed-session*", zone_name = "bottomup.app" },
-  { pattern = "bottomup.app/vision2027*", zone_name = "bottomup.app" },
-  { pattern = "www.bottomup.app/vision2027*", zone_name = "bottomup.app" },
-  { pattern = "bottomup.app/gbah126*", zone_name = "bottomup.app" },
-  { pattern = "www.bottomup.app/gbah126*", zone_name = "bottomup.app" },
-  { pattern = "bottomup.app/_next/*", zone_name = "bottomup.app" },
-  { pattern = "bottomup.app/__nextjs/*", zone_name = "bottomup.app" },
-  # Catch-all: every other apex path hits the Worker so it can 301 the
-  # unknown ones to www.bottomup.app (otherwise they 522 against the
-  # dummy proxied AAAA at @). This is live today but was added manually
-  # outside wrangler — declaring it here so `wrangler deploy` doesn't
-  # silently drop it and break apex fallback.
   { pattern = "bottomup.app/*", zone_name = "bottomup.app" }
 ]
-
-# Set STUDIO_ORIGIN via:
-#   npx wrangler secret put STUDIO_ORIGIN --config cloudflare/analyst-wrangler.toml
-# value: https://work.bupcore.ai
