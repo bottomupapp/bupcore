@@ -1,3 +1,5 @@
+> **Retired 22 October 2026.** work.bupcore.ai and the pages below were shut down with Railway after its 21 October security incident; bottomup.app/analyst now redirects to www.bottomup.app. Kept for history.
+
 # BottomUP Analyst — lab → prod taşıma + runbook
 
 `bottomup.app/analyst` ve `bottomup.app/analyst/{trader_name}` sayfaları. Trader directory + her trader için detay (KPI, equity curve, monthly bar, coins, recent trades) ve **prominent referans kodu**.

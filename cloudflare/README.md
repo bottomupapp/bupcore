@@ -5,9 +5,9 @@ Two proxy workers in this folder:
 | Worker | Source | Route | Origin (env) |
 |---|---|---|---|
 | `bupcore-product-proxy` | [worker.js](worker.js), [wrangler.toml](wrangler.toml) | `bupcore.ai/product*` | `RAILWAY_ORIGIN` |
-| `bottomup-analyst-proxy` | [analyst-worker.js](analyst-worker.js), [analyst-wrangler.toml](analyst-wrangler.toml) | `bottomup.app/analyst*`, `bottomup.app/okx-closed-session*` | `STUDIO_ORIGIN` (= `https://work.bupcore.ai`) |
+| `bottomup-analyst-proxy` | [analyst-worker.js](analyst-worker.js), [analyst-wrangler.toml](analyst-wrangler.toml) | `bottomup.app/*` | none |
 
-The analyst worker forwards `bottomup.app/analyst*` and `bottomup.app/okx-closed-session*` requests to the Studio app (currently lab-served at `work.bupcore.ai`). The browser URL stays on `bottomup.app` — transparent reverse proxy, no redirect. Setup steps + the existing `*/analyst` redirect that needs to be disabled are documented at the top of [analyst-worker.js](analyst-worker.js).
+The analyst worker answers the bare name bottomup.app and 301s every path to www.bottomup.app. The lab pages it used to proxy from `work.bupcore.ai` (/analyst, /okx-closed-session, /vision2027, /gbah126) were retired on 22 October 2026 with Railway.
 
 ---
 
