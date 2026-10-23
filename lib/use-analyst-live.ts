@@ -4,13 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import type { Analyst } from "./bottomup-api";
 
 /**
- * Public WS gateway URL. Override per-env via NEXT_PUBLIC_BOTTOMUP_WS_URL.
+ * Public WS gateway URL (the BottomUP ws on Render, core-ws.bottomup.app). Override per-env via NEXT_PUBLIC_BOTTOMUP_WS_URL.
  * The `analyst` channel is open to anonymous clients (no JWT) — gateway
  * permits it the same way it permits spot/futures/setup.
  */
 const WS_URL =
   process.env.NEXT_PUBLIC_BOTTOMUP_WS_URL ??
-  "wss://bottomupws-production.up.railway.app/";
+  "wss://core-ws.bottomup.app/";
 
 type Frame =
   | { channel: "analyst"; id: string; data: Analyst; ts: number }
