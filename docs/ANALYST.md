@@ -1,4 +1,4 @@
-> **Retired 22 October 2026.** work.bupcore.ai and the pages below were shut down with Railway after its 21 October security incident; bottomup.app/analyst now redirects to www.bottomup.app. Kept for history.
+> **Moved to Render, 23 October 2026.** bottomup.app/analyst, /vision2027, /gbah126 and /okx-closed-session are served by the Render service bupcore-app (bupcore-app.onrender.com) through the Cloudflare Worker bottomup-analyst-proxy (STUDIO_ORIGIN). Live updates come from the BottomUP ws on Render (wss://core-ws.bottomup.app/). Railway is no longer used.
 
 # BottomUP Analyst — lab → prod taşıma + runbook
 
